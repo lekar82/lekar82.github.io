@@ -208,7 +208,7 @@ Es un gráfico sencillo que nos puede dar en un sólo vistazo una idea de los te
 
 Antes de realizar el gráfico, tendremos que realizar una normalización y tokenización del texto. Los pasos que se han realizado son:
 
-* *Tokenizar*, este paso convierte una cadena de texto en una lista de palabras (tokens). Usaremos un tokenizador modificado que no solo tokeniza (mediante el uso de nltk.word_tokenize), sino que también remueve signos de puntuación. Como estamos tratando con tweets en español, es importante incluir ¿ y ¡ en la lista de signos a eliminar.  
+* *Tokenizar*, este paso convierte una cadena de texto en una lista de palabras (tokens). Usaremos un tokenizador modificado que no solo tokeniza (mediante el uso de nltk.word_tokenize), sino que también remueve signos de puntuación. Como estamos tratando con reviews en español, es importante incluir ¿ y ¡ en la lista de signos a eliminar.  
 * Convertir todas las palabras en minúsculas.
 * *Remover stopwords*. Se llama stopwords a las palabras que son muy frecuentes pero que no aportan gran valor sintáctico. Ejemplos de stopwords serían de, por, con …
 * *Stemming*. Stemming es el proceso por el cual transformamos cada palabra en su raiz. Por ejemplo las palabras maravilloso, maravilla o maravillarse comparten la misma raíz y se consideran la misma palabra tras el stemming.
