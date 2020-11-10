@@ -12,7 +12,7 @@ El objetivo de este post utilizar técnicas de procesamiento de lenguaje natural
 
 Para ello, usaremos un dataset de reviews de amazon.es proporcionado por Julio Soto, profesor del máster "MÁSTER EXPERTO BIG DATA & ANALYTICS" en Datahack. 
 
-Dicho dataset contiene dos columnas: 
+Dicho dataset contiene 700.000 registros y dos columnas: 
 * Número de estrellas dadas por un usuario a un determinado producto, siendo 5 estrellas la mejor valoración posible y 1 la peor.
 * Comentario sobre dicho producto; exactamente igual que en el ejercico de scraping.
 
@@ -57,8 +57,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics  import accuracy_score
 
-
-
 #from sklearn.utils import parallel_backend
 #parallel_backend('multiprocessing')
 
@@ -69,61 +67,16 @@ from sklearn.metrics  import accuracy_score
 * Importamos datos  
 * Recodificamos variables  
 
-
-
-```python
-'''zf = zipfile.ZipFile("amazon_es_reviews.csv.zip", "r")
-
-for info in zf.infolist():
-    print(info.filename)
-    print("  Comment: " + str(info.comment))
-    print("  Modified: " + str(datetime.datetime(*info.date_time)))
-    print("  System: " + str(info.create_system) + " (0=MS-DOS OS-2, 3=Unix)")
-    print("  ZIP version: " + str(info.create_version))
-    print("  Compressed: " + str(info.compress_size) + " bytes")
-    print("  Uncompressed: " + str(info.file_size) + " bytes")
-zf.close()'''
-```
-
-
-
-
-    'zf = zipfile.ZipFile("amazon_es_reviews.csv.zip", "r")\n\nfor info in zf.infolist():\n    print(info.filename)\n    print("  Comment: " + str(info.comment))\n    print("  Modified: " + str(datetime.datetime(*info.date_time)))\n    print("  System: " + str(info.create_system) + " (0=MS-DOS OS-2, 3=Unix)")\n    print("  ZIP version: " + str(info.create_version))\n    print("  Compressed: " + str(info.compress_size) + " bytes")\n    print("  Uncompressed: " + str(info.file_size) + " bytes")\nzf.close()'
-
-
-
-
-```python
-'''import zipfile
-
-zipfilename = "amazon_es_reviews.csv.zip"
-password = None
-
-# open and extract all files in the zip
-z = zipfile.ZipFile(zipfilename, "r")
-try:
-    z.extractall(pwd=password)
-except:
-    print('Error')
-    pass
-zf.close()'''
-```
-
-
-
-
-    'import zipfile\n\nzipfilename = "amazon_es_reviews.csv.zip"\npassword = None\n\n# open and extract all files in the zip\nz = zipfile.ZipFile(zipfilename, "r")\ntry:\n    z.extractall(pwd=password)\nexcept:\n    print(\'Error\')\n    pass\nzf.close()'
-
-
-
-
 ```python
 DF = pd.read_csv("amazon_es_reviews.csv", sep = ";").sample(n = 100000, random_state = 7) 
+DF.head(10)
+```
+```python
+DF.info()
 ```
 
-
+* Recodificamos variables  
 ```python
-# recodificamos valoraciones
 DF['puntuacion']  = np.where((DF['estrellas'] >=4.0), 1, 0)
 ```
 
