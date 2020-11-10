@@ -57,9 +57,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics  import accuracy_score
 
-#from sklearn.utils import parallel_backend
-#parallel_backend('multiprocessing')
-
 ```
 
 ## Lectura y preparación de los datos
