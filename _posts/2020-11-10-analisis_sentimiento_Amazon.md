@@ -309,7 +309,7 @@ plt.show()
 
 Al ser una técnica no supervisada, no es necesario dividir la muestra en test y train
 
-El output obtenido es : Sentiment(polarity=, subjectivity=)
+El output obtenido es : 
 
 * **Polarity** o polaridad es una medida que va de -1 a 1 y nos indica si el texto analizado es positivo (valores positivos) o negativo (valores negativos) 
 * **Subjectivity** o subjetividad nos da una idea de si el texto analizado es una opinion personal, emoción o juicio o hace referencia a información objetiva. Este valor va de 0 a 1, cuanto más cercano a 0 esté nuestro valor tanto más objetivo será el texto analizado.
