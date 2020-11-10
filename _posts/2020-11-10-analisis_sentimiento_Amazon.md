@@ -14,9 +14,9 @@ Para ello, usaremos un dataset de reviews de amazon.es proporcionado por Julio S
 
 Dicho dataset contiene 700.000 registros y dos columnas: 
 * Número de estrellas dadas por un usuario a un determinado producto, siendo 5 estrellas la mejor valoración posible y 1 la peor.
-* Comentario sobre dicho producto; exactamente igual que en el ejercico de scraping.
+* Comentario sobre dicho producto.
 
-Para facilitar el análisis, supondremos que la valoración es positiva si la valoración tiene 4 o más estrellas, y negativa si tiene menos de 4. 
+Para facilitar el análisis, supondremos que el comentario es positivo si la valoración tiene 4 o más estrellas, y negativo si tiene menos de 4. 
 
 
 ## Librerías necesarias:
