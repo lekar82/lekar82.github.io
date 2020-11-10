@@ -9,7 +9,7 @@ minimal_mistakes_skin    :  "contrast" #"default", "air", "aqua", "contrast", "d
 
 # Site Settings
 locale                   : "es-ES"
-logo                     : "/images/La-serie-de-Fibonacci-aplicada-a-la-computación.jpg"
+logo                     : "/assets/images/La-serie-de-Fibonacci.jpg"
 title                    : "Raquel del Val"
 title_separator          : "-"
 name                     : "Raquel del Val"
