@@ -214,7 +214,6 @@ Antes de realizar el gráfico, tendremos que realizar una normalización y token
 * *Stemming*. Stemming es el proceso por el cual transformamos cada palabra en su raiz. Por ejemplo las palabras maravilloso, maravilla o maravillarse comparten la misma raíz y se consideran la misma palabra tras el stemming.
 
 
-
 ```python
 spanish_stopwords = stopwords.words('spanish')
 stemmer = SnowballStemmer('spanish')
@@ -321,7 +320,7 @@ plt.show()
 ```
 
 
-![png](output_15_0.png)
+![png](/images/output_15_0.png)
 
 
 # Analisis de sentimiento con TextBlob
