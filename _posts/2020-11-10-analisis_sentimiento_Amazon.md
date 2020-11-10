@@ -56,7 +56,6 @@ from sklearn.preprocessing import StandardScaler
 
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics  import accuracy_score
-
 ```
 
 ## Lectura y preparación de los datos
@@ -68,14 +67,136 @@ from sklearn.metrics  import accuracy_score
 DF = pd.read_csv("amazon_es_reviews.csv", sep = ";").sample(n = 100000, random_state = 7) 
 DF.head(10)
 ```
-```python
-DF.info()
-```
 
-* Recodificamos variables  
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comentario</th>
+      <th>estrellas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>698609</th>
+      <td>Muy mal las instrucciones vienen en japonés !!...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2395</th>
+      <td>Cumple con la capacidad de 30 corbatas, el sis...</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>80885</th>
+      <td>La única pega es que llegó con un golpe en el ...</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>157275</th>
+      <td>Hola, no ha cumplido mis expectativas. He teni...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>154777</th>
+      <td>Estaba buscando una correa metálica para el So...</td>
+      <td>5.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+    <class 'pandas.core.frame.DataFrame'>
+    Int64Index: 100000 entries, 698609 to 637124
+    Data columns (total 2 columns):
+     #   Column      Non-Null Count   Dtype  
+    ---  ------      --------------   -----  
+     0   comentario  100000 non-null  object 
+     1   estrellas   100000 non-null  float64
+    dtypes: float64(1), object(1)
+    memory usage: 2.3+ MB
+    
+
+
 ```python
+# recodificamos valoraciones
 DF['puntuacion']  = np.where((DF['estrellas'] >=4.0), 1, 0)
 ```
+
+
+```python
+DF.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comentario</th>
+      <th>estrellas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>698609</th>
+      <td>Muy mal las instrucciones vienen en japonés !!...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2395</th>
+      <td>Cumple con la capacidad de 30 corbatas, el sis...</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>80885</th>
+      <td>La única pega es que llegó con un golpe en el ...</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>157275</th>
+      <td>Hola, no ha cumplido mis expectativas. He teni...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>154777</th>
+      <td>Estaba buscando una correa metálica para el So...</td>
+      <td>5.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
 ## WordMap
 
