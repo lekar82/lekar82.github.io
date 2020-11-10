@@ -142,9 +142,6 @@ DF['puntuacion']  = np.where((DF['estrellas'] >=4.0), 1, 0)
 DF.head()
 ```
 
-
-
-
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -165,6 +162,7 @@ DF.head()
       <th></th>
       <th>comentario</th>
       <th>estrellas</th>
+      <th>puntuacion</th>
     </tr>
   </thead>
   <tbody>
@@ -172,30 +170,36 @@ DF.head()
       <th>698609</th>
       <td>Muy mal las instrucciones vienen en japonés !!...</td>
       <td>1.0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>2395</th>
       <td>Cumple con la capacidad de 30 corbatas, el sis...</td>
       <td>4.0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>80885</th>
       <td>La única pega es que llegó con un golpe en el ...</td>
       <td>4.0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>157275</th>
       <td>Hola, no ha cumplido mis expectativas. He teni...</td>
       <td>1.0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>154777</th>
       <td>Estaba buscando una correa metálica para el So...</td>
       <td>5.0</td>
+      <td>1</td>
     </tr>
   </tbody>
 </table>
 </div>
+
 
 
 ## WordMap
