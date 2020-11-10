@@ -1,32 +1,25 @@
 # Análisis de sentimientos con reviews de productos de Amazon España
 
 ## Indice:
-* Introducción.  
-*   
+* Objectivo.  
+* Librerías necesarias  
+* Lectura y preparación de los datos
 
 
 ## Introducción: 
 
-El dataset que utilizarás en este ejercicio (que no es obligatorio entregar) lo he generado utilizando `Scrapy` y `BeautifulSoup` (dos bibliotecas de Python para hacer [Web Scraping](https://es.wikipedia.org/wiki/Web_scraping)), y contiene unas $700.000$ entradas de reviews de productos de amazon.es; contiene dos columnas: el número de estrellas dadas por un usuario a un determinado producto y el comentario sobre dicho producto; exactamente igual que en el ejercico de scraping.
+El objetivo de este post utilizar técnicas de procesamiento de lenguaje natural para  es hacer un análisis de sentimiento de productos de amazon.es.  
 
-Ahora, tu objetivo es utilizar técnicas de procesamiento de lenguaje natural para hacer un clasificador que sea capaz de distinguir (¡y predecir!) si un comentario es positivo o negativo.
+Para ello, usaremos un dataset de reviews de amazon.es proporcionado por Julio Soto, profesor del máster "MÁSTER EXPERTO BIG DATA & ANALYTICS" en Datahack. 
 
-Es un ejercicio MUY complicado, más que nada porque versa sobre técnicas que no hemos visto en clase. Así que si quieres resolverlo, te va a tocar estudiar y *buscar por tu cuenta*; exactamente igual que como sería en un puesto de trabajo. Dicho esto, daré un par de pistas:
+Dicho dataset contiene dos columnas: 
+* Número de estrellas dadas por un usuario a un determinado producto, siendo 5 estrellas la mejor valoración posible y 1 la peor.
+* Comentario sobre dicho producto; exactamente igual que en el ejercico de scraping.
 
-+ El número de estrellas que un usuario da a un producto es el indicador de si a dicho usuario le ha gustado el producto o no. Una persona que da 5 estrellas (el máximo) a un producto probablemente esté contenta con él, y el comentario será por tanto positivo; mientras que cuando una persona da 1 estrella a un producto es porque no está satisfecha... 
-+ Teniendo el número de estrellas podríamos resolver el problema como si fuera de regresión; pero vamos a establecer una regla para convertirlo en problema de clasificación: *si una review tiene 4 o más estrellas, se trata de una review positiva; y será negativa si tiene menos de 4 estrellas*. Así que probablemente te toque transformar el número de estrellas en otra variable que sea *comentario positivo/negativo*.
-
-Y... poco más. Lo más complicado será convertir el texto de cada review en algo que un clasificador pueda utilizar y entender (puesto que los modelos no entienden de palabras, sino de números). Aquí es donde te toca investigar las técnicas para hacerlo. El ejercicio se puede conseguir hacer, y obtener buenos resultados, utilizando únicamente Numpy, pandas y Scikit-Learn; pero siéntete libre de utilizar las bibliotecas que quieras.
-
-Ahora escribiré una serie de *keywords* que probablemente te ayuden a saber qué buscar:
-
-`bag of words, tokenizer, tf, idf, tf-idf, sklearn.feature_extraction, scipy.sparse, NLTK (opcional), stemmer, stop-words removal, bigrams, trigrams`
-
-No te desesperes si te encuentras muy perdido/a y no consigues sacar nada. Tras la fecha de entrega os daré un ejemplo de solución explicado con todo el detalle posible.
-
-¡Ánimo y buena suerte!
+Para facilitar el análisis, supondremos que la valoración es positiva si la valoración tiene 4 o más estrellas, y negativa si tiene menos de 4. 
 
 
+## Librerías necesarias:
 ```python
 import datetime
 import zipfile
@@ -71,7 +64,7 @@ from sklearn.metrics  import accuracy_score
 
 ```
 
-# Pasos previos:
+## Lectura y preparación de los datos
 
 * Importamos datos  
 * Recodificamos variables  
