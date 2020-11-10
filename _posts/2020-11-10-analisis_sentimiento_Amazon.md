@@ -280,24 +280,6 @@ DF['comentario_normalizado2'] = DF['comentario_normalizado'].apply(lambda x: ', 
 ```
 
 
-```python
-#from nltk.stem import LancasterStemmer
-#from nltk import wordpunct_tokenize
-#from nltk.corpus import stopwords
-#import nltk
-#from nltk.stem import PorterStemmer
-#from nltk.stem import SnowballStemmer
-
-#st = SnowballStemmer('spanish')
-
-#st = PorterStemmer()
-
-#DF['comentario_limpio4'] = DF['comentario_limpio2'].apply(lambda x: " ".join([st.stem(word) for word in x.split()]))
-#DF.head()
-
-#https://www.datacamp.com/community/tutorials/stemming-lemmatization-python
-```
-
 
 ```python
 words = " ".join(str(DF['comentario_normalizado']))
@@ -323,7 +305,7 @@ plt.show()
 ![png](/images/output_15_0.png)
 
 
-# Analisis de sentimiento con TextBlob
+## Analisis de sentimiento con TextBlob
 
 Al ser una técnica no supervisada, no es necesario dividir la muestra en test y train
 
@@ -385,7 +367,7 @@ plt.show()
 ```
 
 
-![png](output_22_0.png)
+![png](/images/output_22_0.png)
 
 
 
@@ -393,14 +375,11 @@ plt.show()
 accuracy_score(DF['puntuacion'], DF['polarity_buena_mala'])
 ```
 
+0.56934
 
 
 
-    0.56934
-
-
-
-# Modelos supervisados para el análisis de sentimiento
+## Modelos supervisados para el análisis de sentimiento
 
 Estamos ante un problema de clasificación finalmente. Realizaremos un pipeline en el que incluiremos, además de los hiperparámetros correspondientes a cada modelo, hiperarámetros para evaluar diferentes formas de formar nuetra tabla de features.
 
@@ -410,7 +389,7 @@ Por esta misma limitación, nos limitaremos a testear modelos que "consuman meno
 
 
 
-## Bag-of-words (BOW) method
+### Bag-of-words (BOW) method
 
 Para poder analizar los comentarios, tenemos que extraer y estructurar la información contenida en el texto. Para ello, usaremos la clase sklearn.feature_extraction.CountVectorizer.
 CountVectorizer convierte la columna de texto en una matriz en la que cada palabra es una columna cuyo valor es el número de veces que dicha palabra aparece en cada tweet.
@@ -444,7 +423,7 @@ DF_train, DF_test = train_test_split(DF,test_size=0.20, random_state=42)
 Mejor_modelo = {}
 ```
 
-## Regresión logística:
+### Regresión logística:
 
 
 ```python
@@ -544,7 +523,7 @@ print("Los mejores parámetros son %s con un score de %0.3f"
 Mejor_modelo['RegresionLogistica'] = gs_reglog.best_score_
 ```
 
-## KNN
+### KNN
 
 
 ```python
@@ -637,7 +616,7 @@ print("Los mejores parámetros son %s con un score de %0.3f"
 Mejor_modelo['KNN'] = gs_KNN.best_score_
 ```
 
-## Árbol de decisión
+### Árbol de decisión
 
 
 ```python
@@ -718,7 +697,7 @@ gs_ArbolDecison.fit(DF_train['comentario'], DF_train['puntuacion'])
 Mejor_modelo['ArbolDecison'] = gs_ArbolDecison.best_score_
 ```
 
-# Mejor modelo y validación
+## Mejor modelo y validación
 
 
 ```python
@@ -951,19 +930,13 @@ sn.heatmap(df_cm,annot=True,
 plt.show()
 ```
 
-
-![png](output_48_0.png)
-
-
+![png](/images/output_48_0.png)
 
 ```python
 from sklearn.metrics  import accuracy_score
 accuracy_score(DF_test['puntuacion'], DF_test['predicciones'])
 
 ```
-
-
-
 
     0.80715
 
