@@ -62,11 +62,14 @@ from sklearn.metrics  import accuracy_score
 * Importamos datos  
 * Recodificamos variables  
 
+El primer paso es, lógicamente, **importar** los datos con los que vamos a trabajar y hacer un pequeño análisis de los mismos. 
+
 ```python
 DF = pd.read_csv("amazon_es_reviews.csv", sep = ";").sample(n = 100000, random_state = 7) 
 DF.head(10)
 ```
-Como hemos comentado antes, disponemos dos dos variables, comentario (string) y estrellas (float)
+Como hemos comentado antes, disponemos dos dos variables, comentario (string) y estrellas (float).
+
 
     <class 'pandas.core.frame.DataFrame'>
     Int64Index: 100000 entries, 698609 to 637124
@@ -78,7 +81,7 @@ Como hemos comentado antes, disponemos dos dos variables, comentario (string) y 
     dtypes: float64(1), object(1)
     memory usage: 2.3+ MB
     
-
+Una vez tenemos nuestros datos disponibles, el siguiente paso será crear la variable *puntuación*, que valdrá 1 cuando el comentario es positivo (recibe 4 o más estrellas) o 0 si es negativo (recibe menos de 4 estrellas)
 
 ```python
 # recodificamos valoraciones
