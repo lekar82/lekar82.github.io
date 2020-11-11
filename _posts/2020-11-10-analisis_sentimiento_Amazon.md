@@ -4,9 +4,9 @@
 * Objectivo.  
 * Librerías necesarias  
 * Lectura y preparación de los datos
+* 
 
-
-## Introducción: 
+## Objetivo: 
 
 El objetivo de este post utilizar técnicas de procesamiento de lenguaje natural para  es hacer un análisis de sentimiento de productos de amazon.es.  
 
@@ -17,7 +17,6 @@ Dicho dataset contiene 700.000 registros y dos columnas:
 * Comentario sobre dicho producto.
 
 Para facilitar el análisis, supondremos que el comentario es positivo si la valoración tiene 4 o más estrellas, y negativo si tiene menos de 4. 
-
 
 ## Librerías necesarias:
 ```python
@@ -67,58 +66,7 @@ from sklearn.metrics  import accuracy_score
 DF = pd.read_csv("amazon_es_reviews.csv", sep = ";").sample(n = 100000, random_state = 7) 
 DF.head(10)
 ```
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>comentario</th>
-      <th>estrellas</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>698609</th>
-      <td>Muy mal las instrucciones vienen en japonés !!...</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2395</th>
-      <td>Cumple con la capacidad de 30 corbatas, el sis...</td>
-      <td>4.0</td>
-    </tr>
-    <tr>
-      <th>80885</th>
-      <td>La única pega es que llegó con un golpe en el ...</td>
-      <td>4.0</td>
-    </tr>
-    <tr>
-      <th>157275</th>
-      <td>Hola, no ha cumplido mis expectativas. He teni...</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>154777</th>
-      <td>Estaba buscando una correa metálica para el So...</td>
-      <td>5.0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+Como hemos comentado antes, disponemos dos dos variables, comentario (string) y estrellas (float)
 
     <class 'pandas.core.frame.DataFrame'>
     Int64Index: 100000 entries, 698609 to 637124
@@ -242,44 +190,9 @@ def stem_tokens(tokens, stemmer):
 DF['comentario_normalizado'] = DF['comentario'].apply(lambda x: tokenize(x))
 ```
 
-
 ```python
 DF['comentario_normalizado2'] = DF['comentario_normalizado'].apply(lambda x: ', '.join(x))
 ```
-
-
-```python
-#DF['comentario_limpio'] = DF['comentario'].str.lower()
-#DF['comentario_limpio'] = DF['comentario_limpio'].apply(lambda x: re.sub("[^a-zA-Z-áéíóúÁÉÍÓÚñÑ]", " ", x))
-#DF.head()
-```
-
-
-```python
-#DF['comentario_limpio2'] = DF['comentario_limpio'].apply(lambda x: [item for item in x if item not in stop])
-
-#DF['comentario_limpio2'] = DF['comentario_limpio'].apply(lambda x: ' '.join([word for word in x.split() if word not in (stop)]))
-#DF.head()
-
-```
-
-
-```python
-#nltk.download('wordnet') #problema, no está en español
-
-#w_tokenizer = nltk.tokenize.WhitespaceTokenizer()
-#lemmatizer = nltk.stem.WordNetLemmatizer()
-
-#def lemmatize_text(text):
-    #return [lemmatizer.lemmatize(text) for w in w_tokenizer.tokenize(text)]
-
-#DF['comentario_limpio3'] =  DF['comentario_limpio2'].apply(lemmatize_text)
-
-#DF.head()    
-    
-```
-
-
 
 ```python
 words = " ".join(str(DF['comentario_normalizado']))
