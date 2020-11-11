@@ -6,11 +6,6 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 minimal_mistakes_skin    :  "air" #"default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
----
----
-body {
-  font-family: '{{ site.fonts.primary }}',{{ site.fonts.secondary }},Arial,sans-serif;
-}
 
 # Site Settings
 locale                   : "es-ES"
