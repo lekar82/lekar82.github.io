@@ -1,3 +1,13 @@
+<style>
+div { 
+  font-family:"Arial";
+  font-size: 14px;
+  font-style: italic;
+  background-color:Tomato;
+}
+</style>
+
+
 # Análisis de sentimientos con reviews de productos de Amazon España
 
 ## Indice:
