@@ -10,7 +10,7 @@ div {
 
 ## Indice:
 <ul >
-<li>  Objectivo.  </li>
+<li>  Objetivo.  </li>
 <li>  Librerías necesarias. </li>  
 <li>  Lectura y preparación de los datos </li>  
 <li> WordMap  </li>  
