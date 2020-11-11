@@ -1,18 +1,19 @@
 # Análisis de sentimientos con reviews de productos de Amazon España
 
 ## Indice:
-<div style="font-size:12px"> * Objectivo.  </div>
-<div style="font-size:12px"> * Librerías necesarias. </div>  
-* Lectura y preparación de los datos
-* WordMap  
-* Modelo no supervisado: análisis de sentimiento con TextBlob  
-* Modelos supervisados:
-    * Bag-of-words (BOW) method.  
-    * Regresión logística.  
-    * KNN.  
-    * Árbol de decisión.  
- * Mejor modelo y validación.  
-</div>
+<ul style="font-size:20px">
+<li>  Objectivo.  </li>
+<li>  Librerías necesarias. </li>  
+<li>  Lectura y preparación de los datos </li>  
+<li> WordMap  </li>  
+<li> Modelo no supervisado: análisis de sentimiento con TextBlob  </li>  
+<li> Modelos supervisados:</li>  <ul>
+    <li> Bag-of-words (BOW) method.  </li>  
+    <li> Regresión logística.  </li>  
+    <li> KNN.  </li>  
+    <li> Árbol de decisión.  </li>  </ul>
+<li> Mejor modelo y validación.  </li>  
+</ul>
 ## Objetivo: 
 
 El objetivo de este post utilizar técnicas de procesamiento de lenguaje natural para  es hacer un análisis de sentimiento de productos de amazon.es.  
