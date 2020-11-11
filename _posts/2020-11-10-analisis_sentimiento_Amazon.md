@@ -4,7 +4,14 @@
 * Objectivo.  
 * Librerías necesarias  
 * Lectura y preparación de los datos
-* 
+* WordMap  
+* Modelo no supervisado: análisis de sentimiento con TextBlob  
+* Modelos supervisados:
+    * Bag-of-words (BOW) method.  
+    * Regresión logística.  
+    * KNN.  
+    * Árbol de decisión.  
+ * Mejor modelo y validación.  
 
 ## Objetivo: 
 
@@ -152,7 +159,6 @@ DF.head()
 </div>
 
 
-
 ## WordMap
 
 Es un gráfico sencillo que nos puede dar en un sólo vistazo una idea de los temas más relevantes de nuestros comentariosn. 
@@ -221,7 +227,7 @@ plt.show()
 ![png](/images/output_15_0.png)
 
 
-## Analisis de sentimiento con TextBlob
+## Modelo no supervisado: análisis de sentimiento con TextBlob
 
 Al ser una técnica no supervisada, no es necesario dividir la muestra en test y train
 
@@ -318,8 +324,6 @@ Modificaremos nuestro CountVectorizer para que aplique los siguientes pasos a ca
 * *Stemming*  
 
 
-
-
 ```python
 
 vectorizer = CountVectorizer(
@@ -329,17 +333,15 @@ vectorizer = CountVectorizer(
                 stop_words = spanish_stopwords)
 ```
 
-
 ```python
 DF_train, DF_test = train_test_split(DF,test_size=0.20, random_state=42)
 ```
-
 
 ```python
 Mejor_modelo = {}
 ```
 
-### Regresión logística:
+### Regresión logística
 
 
 ```python
