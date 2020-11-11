@@ -6,26 +6,15 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 minimal_mistakes_skin    :  "air" #"default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
-
-//== Colors
-//
-//## Gray and brand colors for use across Bootstrap.
-
-@gray-darker:            lighten(#000, 13.5%); // #222
-@gray-dark:              lighten(#000, 20%);   // #333
-@gray:                   lighten(#000, 33.5%); // #555
-@gray-light:             lighten(#000, 60%);   // #999
-@gray-lighter:           lighten(#000, 93.5%); // #eee
-
-@brand-primary:         #428bca;
-@brand-success:         #5cb85c;
-@brand-info:            #5bc0de;
-@brand-warning:         #f0ad4e;
-@brand-danger:          #d9534f;
+---
+---
+body {
+  font-family: '{{ site.fonts.primary }}',{{ site.fonts.secondary }},Arial,sans-serif;
+}
 
 # Site Settings
 locale                   : "es-ES"
-logo                     : "/assets/images/La-serie-de-Fibonacci.jpg"
+#logo                     : "/assets/images/La-serie-de-Fibonacci.jpg"
 title                    : "Raquel del Val"
 title_separator          : "-"
 name                     : "Raquel del Val"
@@ -33,7 +22,7 @@ description              : "Python Portfolio"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
-teaser                   :   "/assets/images/La-serie-de-Fibonacci.jpg" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
 comments:
