@@ -1,6 +1,6 @@
 ---
-title: "About"
-permalink: /about/
+title: "Sobre mí"
+permalink: /Sobre mí/
 header:
   image: "/images/zakim.jpg"
 ---
