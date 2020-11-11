@@ -1,7 +1,7 @@
 <style>
 div { 
-  font-family:"Arial";
-  font-size: 20px;
+  font-family:"Helvetica";
+  font-size: 18px;
   }
 </style>
 
