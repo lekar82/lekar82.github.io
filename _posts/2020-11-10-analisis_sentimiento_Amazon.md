@@ -2,7 +2,6 @@
 div { 
   font-family:"Arial";
   font-size: 20px;
-  font-style: italic;
   }
 </style>
 
