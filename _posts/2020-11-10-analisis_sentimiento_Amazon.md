@@ -1,7 +1,7 @@
 <style>
 div { 
   font-family:"Arial";
-  font-size: 10px;
+  font-size: 20px;
   font-style: italic;
   }
 </style>
@@ -10,7 +10,7 @@ div {
 # Análisis de sentimientos con reviews de productos de Amazon España
 
 ## Indice:
-<ul style="font-size:20px">
+<ul >
 <li>  Objectivo.  </li>
 <li>  Librerías necesarias. </li>  
 <li>  Lectura y preparación de los datos </li>  
@@ -24,7 +24,7 @@ div {
 <li> Mejor modelo y validación.  </li>  
 </ul>
 ## Objetivo: 
-<div style="font-size:20px">
+
 El objetivo de este post utilizar técnicas de procesamiento de lenguaje natural para  es hacer un análisis de sentimiento de productos de amazon.es.  
 
 Para ello, usaremos un dataset de reviews de amazon.es proporcionado por Julio Soto, profesor del máster "MÁSTER EXPERTO BIG DATA & ANALYTICS" en Datahack. 
@@ -36,7 +36,7 @@ Dicho dataset contiene 700.000 registros y dos columnas:
 </ul>
 Para facilitar el análisis, supondremos que el comentario es positivo si la valoración tiene 4 o más estrellas, y negativo si tiene menos de 4. 
 
-</div>
+
 ## Librerías necesarias:
 ```python
 import datetime
