@@ -1,7 +1,7 @@
 # Análisis de sentimientos con reviews de productos de Amazon España
 
 ## Indice:
-* Objectivo.  
+<div style="font-size:30px"> * Objectivo.  
 * Librerías necesarias  
 * Lectura y preparación de los datos
 * WordMap  
@@ -12,7 +12,7 @@
     * KNN.  
     * Árbol de decisión.  
  * Mejor modelo y validación.  
-
+</div>
 ## Objetivo: 
 
 El objetivo de este post utilizar técnicas de procesamiento de lenguaje natural para  es hacer un análisis de sentimiento de productos de amazon.es.  
