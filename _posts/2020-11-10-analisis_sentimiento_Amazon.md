@@ -1,10 +1,9 @@
 <style>
 div { 
   font-family:"Arial";
-  font-size: 14px;
+  font-size: 10px;
   font-style: italic;
-  background-color:Tomato;
-}
+  }
 </style>
 
 
