@@ -2,9 +2,9 @@
 title: "Sobre mí"
 permalink: /Sobre mí/
 header:
-  image: "/images/zakim.jpg"
+  image: "/images/fondo2.png"
 ---
 
-I'm a senior data scientist who excels at data wrangling, machine learning, exploratory analysis, and data visualizations.
+Economista de carrera, estadística de profesión. 
 
-Etc, etc, etc
+Continuará...
