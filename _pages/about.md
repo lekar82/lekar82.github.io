@@ -1,6 +1,6 @@
 ---
-title: "Sobre mí"
-permalink: /Sobre mí/
+title: "about"
+permalink: /about/
 header:
   image: "/images/fondo2.png"
 ---
