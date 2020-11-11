@@ -1,8 +1,8 @@
 # Análisis de sentimientos con reviews de productos de Amazon España
 
 ## Indice:
-<div style="font-size:30px"> * Objectivo.  
-* Librerías necesarias  
+<div style="font-size:12px"> * Objectivo.  </div>
+<div style="font-size:12px"> * Librerías necesarias. </div>  
 * Lectura y preparación de los datos
 * WordMap  
 * Modelo no supervisado: análisis de sentimiento con TextBlob  
