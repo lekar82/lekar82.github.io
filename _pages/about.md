@@ -1,6 +1,6 @@
 ---
 title: "Sobre mi"
-permalink: /Sobre mi/
+permalink: /about/
 header:
   image: "/images/fondo2.png"
 ---
