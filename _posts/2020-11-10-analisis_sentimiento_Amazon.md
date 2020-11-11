@@ -1,6 +1,6 @@
 <style>
 div { 
-  font-family:"Helvetica";
+  font-family:"Arial";
   font-size: 18px;
   }
 </style>
