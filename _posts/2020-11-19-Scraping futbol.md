@@ -13,7 +13,8 @@ div {
 <li>  Objetivo.  </li>
 <li>  Librerías necesarias. </li>  
 <li>  Código fuente de la página. </li>  
-<li>  Lectura y preparación de los datos </li>
+<li>  Extracción URLs de cada partido </li>
+<li> Información de una jornada </li>
 </ul>
 
 
@@ -63,7 +64,7 @@ import re
 
 ```
 
-## Lectura y preparación de los datos
+## Extracción URLs de cada partido
 
 Lo primero que tenemos que indicar es de que temporada queremos extraer los datos. Para este post hemos elegido 2014.
 
@@ -73,7 +74,6 @@ Como hemos comentado, no todas las temporadas tienen disponible el mismo número
 temporada = 2014
 
 numero_metricas = 0
-
 if temporada > 2017:
     numero_metricas = 16
 if temporada <= 2017 and temporada > 2015:
@@ -88,34 +88,56 @@ url = 'http://www.futbolfantasy.com/laliga/calendario/' + str(temporada)
 ourUrl = urllib.request.urlopen(url)
 soup = BeautifulSoup(ourUrl, 'html.parser')
 ```
--------------PENDIENTE A PARTIR DE AQUÍ------------------------
+
+La información de cada una de las jornadas está recogida en un url diferente, por lo que crearemos una lista en la que iremos guardando las urls de cada una de las jornadas. 
+
+Si miramos el código fuente de la página, las urls que buscamos están en bajo la etiquita <a> con el atributo 'href'. A su vez, esta etiqueta está bajo  la tiqueta de agrupación div con atributo class iguala 'jornada:
+
+![png](/images/futbol/Captura_link_a_jornada.PNG)
+
+En un primer intento, el código que se intentó usar para obtener la información era el siguiente:
 
 ```python
 lista_links_informacion = []
-#for link in soup.find_all('div', {'class': 'jornada'}):
-#    links = link.find('a')
-#    lista_links_informacion.append(links.get('href'))
+for link in soup.find_all('div', {'class': 'jornada'}):
+    links = link.find('a')
+    lista_links_informacion.append(links.get('href'))
     
-#len(lista_links_informacion)
+len(lista_links_informacion)
 ```
+89
 
+Pero de los 380 partidos que tiene una temporada completa únicamente detectó 89.
 
-```python
-#revisar los links, están bajo otra cosa
-```
-
+En un segundo intento, se intentó crear una lista en la que buscase todos los atributos href que comenzaran por "www.futbolfantasy.com/partidos/". 
 
 ```python
 lista = soup.find_all(attrs={'href': re.compile("www.futbolfantasy.com/partidos/")})
-print(len(lista))
-#lista = lista[0:380]
-#print(len(lista))
-
 ```
 
-    431
-    
+```python
+print(lista[0])
+```
 
+    <a class="partido terminado" data-tooltip="Valencia 1-0 Las Palmas" href="https://www.futbolfantasy.com/partidos/3944-valencia-las-palmas">
+    <div class="equipo local">
+    <img alt="Valencia" src="https://static.futbolfantasy.com/uploads/images/equipos/escudom/18.png"/>
+    </div>
+    <div class="info">
+    <div class="fase">
+    					Jornada 1
+    				</div>
+    <div class="resultado">
+    						1-0
+    					</div>
+    </div>
+    <div class="equipo visitante">
+    <img alt="Las Palmas" src="https://static.futbolfantasy.com/uploads/images/equipos/escudom/27.png"/>
+    </div>
+    <div class="clearfix"></div>
+    </a>
+
+Y luego crear una función para limpiar el resultado y quedarnos solo con los urls:
 
 ```python
 def extraer_links(x):
@@ -126,28 +148,62 @@ def extraer_links(x):
     return(found)
 ```
 
-
 ```python
-#lista_partidos = []
+lista_links_informacion = []
 for link in lista:
     text = str(link)
     #print(text)
     lista_links_informacion.append(extraer_links(text))
     
 ```
-
+Con este código extraeremos, además de los links de los partidos de la liga, links a otros partidos que se jugaban en la misma semana (amistosos, champions league...)
 
 ```python
-#lista_links_informacion
+print(len(lista_links_informacion))
+```
+431
+
+Si analizamos las urls que nos redireccionan a los partidos, tienen una estructura común : https://www.futbolfantasy.com/partidos/ + id partido + equipos enfrentados. Los ids de los partidos son consecutivos, el id más bajo se corresponde con el primer partido de la temporada. Usaremos es información para filtrar únicamente los partidos de liga. 
+ 
+Crearemos una lista con los ids, buscaremos el más bajo y luego filtraremos todas las urls cuyo id esté contenido entre en el id del primer partido y el id del primer partido + 379 (38jornadas x 10 partidos por jornada) 
+ 
+```python 
+ 
+lista_ids = []
+for id in lista_links_informacion:
+    codigo = int(re.sub("[^0-9]", "", id))
+    lista_ids.append(codigo) 
+
+primer_partido = min(lista_ids)
+ultimo_partido = min(lista_ids) + 379
+
 ```
 
+```python 
+lista_links_informacion_liga = []
+for i in lista_links_informacion:
+    codigo = int(re.sub("[^0-9]", "", i))
+    if int(codigo) <= ultimo_partido:
+        lista_links_informacion_liga.append(i)
+
+print(len(lista_links_informacion_liga))
+```
+380
+
+Ahora si tenemos filtradas correctamente nuestras 380 urls.
+
+## Información de una jornada
+
+Vamos a sacar la información correspondiente al primer url de la lista que hemos creado anteriormente. 
+
+**Conectamos con la URL:**
 
 ```python
-url2 = lista_links_informacion[0]
+url2 = lista_links_informacion_liga[0]
 ourUrl2 = urllib.request.urlopen(url2)
 soup2 = BeautifulSoup(ourUrl2, 'html.parser')
 ```
-
+--------------------------------------------------------------------------------------
 
 ```python
 for j in soup2.find_all('div', {'class':'arbitro'}):
