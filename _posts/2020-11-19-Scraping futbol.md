@@ -1,3 +1,22 @@
+<style>
+div { 
+  font-family:"Arial";
+  font-size: 18px;
+  }
+</style>
+
+
+# Web scraping datos de futbol con BeautifulSoup
+
+## Indice:
+<ul >
+<li>  Objetivo.  </li>
+<li>  Librerías necesarias. </li>  
+<li>  Código fuente de la página. </li>  
+<li>  Lectura y preparación de los datos </li>
+</ul>
+
+
 ## Objetivo
 
 El proposito de este post es extraer información de los resultados de la liga nacional de futbol española (Liga Santander) de la página http://www.futbolfantasy.com.
@@ -8,24 +27,39 @@ Visualmente, la página de la que queremos extraer los datos es la siguiten:
 
 Podemos ver como hay un scroll en la parte de arriba que nos servirá para ir moviendonos de una temporada a otra, y luego podemos ver diferentes cajas con enlaces a cada uno de los partidos. La idea es generar un código que sea capaz de, para una temporada dada, recorrer cada uno de los partidos e ir sacando la siguiente información:
 
-* Tiros_local  
-* Tiros_visitante  
-* arbitro  
-* equipo_local  
-* equipo_visitante  
-* fecha_jornada  
-* goles_local  
-* goles_visitante
-* link: esta variable la usaremos para un futuro post en el que sacaremos métricas a cerca de los jugadores que intervinieron en cada partido.
-* Jornada:  
-* dia_semana:
-* hora:  
-* año:
-* dia:
-* mes: 
+* Balones_robados_local
+* Balones_robados_visitante	Centros_local	
+* Centros_precisos_local	
+* Centros_precisos_visitante	
+* Centros_visitante	Córners_local	
+* Córners_visitante	Faltas_local	
+* Faltas_visitante	
+* Pases_interceptados_local	
+* Pases_interceptados_visitante	
+* Penaltis_local	
+* Penaltis_visitante	
+* Tarjetas_amarillas_local	* Tarjetas_amarillas_visitante	
+* Tarjetas_rojas_local	
+* Tarjetas_rojas_visitante	
+* Tiros_a_puerta_local	* Tiros_a_puerta_visitante	
+* Tiros_local	
+* Tiros_visitante	
+* arbitro	
+* equipo_local	
+* equipo_visitante	
+* fecha_jornada	
+* goles_local	
+* goles_visitante	
+* Jornada	
+* dia_semana	
+* hora	
+* anno	
+* dia	
+* mes
 
+*No todas las métricas están disponibles para todas las jornadas*
 
-## Librerias
+## Librerías necesarias
 
 ```python
 from bs4 import BeautifulSoup
@@ -35,6 +69,11 @@ import re
 
 ```
 
+## Lectura y preparación de los datos
+
+Lo primero que tenemos que indicar es de que temporada queremos extraer los datos. Para este post hemos elegido 2014.
+
+Como hemos comentado, no todas las temporadas tienen disponible el mismo número de métricas, por lo que incluiremos un loop en el que indicaremos al programa el número de métricas disponibles según la temporada que estemos analizando.
 
 ```python
 temporada = 2014
@@ -48,14 +87,14 @@ if temporada <= 2017 and temporada > 2015:
 else:
     numero_metricas = 11
 ```
-
+A continuación, realizaremos la conexión con nuestra página para poder comenzar a buscar los datos deseados:
 
 ```python
 url = 'http://www.futbolfantasy.com/laliga/calendario/' + str(temporada)
 ourUrl = urllib.request.urlopen(url)
 soup = BeautifulSoup(ourUrl, 'html.parser')
 ```
-
+-------------PENDIENTE A PARTIR DE AQUÍ------------------------
 
 ```python
 lista_links_informacion = []
