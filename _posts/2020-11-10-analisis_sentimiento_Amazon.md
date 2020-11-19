@@ -240,13 +240,18 @@ plt.show()
 
 ## Modelo no supervisado: análisis de sentimiento con TextBlob
 
-Al ser una técnica no supervisada, no es necesario dividir la muestra en test y train
+TextBlob es una librería de procesamiento del texto para Python que permite realizar tareas de Procesamiento del Lenguaje Natural tales como análisis morfológico, extracción de entidades, análisis de opinión, traducción automática, etc.
 
-El output obtenido es : 
+En este caso, utilizaremos la librería para hacer una análisis de opinión de nuestra colección de reviews. El output obtenido será: 
 
 * **Polarity** o polaridad es una medida que va de -1 a 1 y nos indica si el texto analizado es positivo (valores positivos) o negativo (valores negativos) 
 * **Subjectivity** o subjetividad nos da una idea de si el texto analizado es una opinion personal, emoción o juicio o hace referencia a información objetiva. Este valor va de 0 a 1, cuanto más cercano a 0 esté nuestro valor tanto más objetivo será el texto analizado.
 
+Al ser una técnica no supervisada, no es necesario dividir la muestra en test y train, por lo que tendremos que buscar un método alternativo para evaluar la eficacia del algoritmo. Para ello, necesitamos definir cuales de nuestros comentarios son positivos y cuales son negativos. Supondremos que cuando la variable puntuación vale 0 el comentarario es negativo y cuando vale 1 es positivo.
+
+**Algortimo**
+
+Definitmos dos funciones que nos calculen las variables polaridad y subjetividad de las que hablamos antes y se la aplicamos a nuestro texto ya normalizado:
 
 ```python
 def sentiment_calc(text):
@@ -259,7 +264,6 @@ DF['sentimental_analysis'] = DF['comentario_normalizado2'].apply(sentiment_calc)
 
 ```
 
-
 ```python
 def polarity_calc(text):
     try:
@@ -271,15 +275,17 @@ DF['polarity'] = DF['comentario_normalizado2'].apply(polarity_calc)
 
 ```
 
-Para analizar la capacidad de predicción de este algoritmo necesitamos saber cuales de nuestros comentarios son positivos y cuales son negativos. Supondremos que cuando la variable puntuación vale 0 el comentarario es negativo y cuando vale 1 es positivo.
+**Evaluación**
 
+La polaridad es la variable que nos indica si un comentario es positivo o negativo. Para simplificar, si el valor de la polaridad diremos que el comentario analizado es positivo y en el resto de los casos supondremos que es un valor negativo.
 
 ```python
 DF['polarity_buena_mala'] = [1 if x > 0 else 0 for x in DF['polarity']]
 ```
 
-Tras calcular la matriz de confusión y la accuracy de esté approach vemos que los resultados no son buenos
+Una vez tenemos clasificadas nuestras reviews, comparamos los resultados con las puntuaciones reales de los usuarios. Realizamos una matriz de confusión y calculamos la accuracy.
 
+*matriz de confusión:*
 
 ```python
 cnf_matrix_textblob  = confusion_matrix(DF['polarity_buena_mala'], DF['puntuacion'])
@@ -303,14 +309,14 @@ plt.show()
 ![png](/images/output_22_0.png)
 
 
-
+*Accuracy:*
 ```python
 accuracy_score(DF['puntuacion'], DF['polarity_buena_mala'])
 ```
 
 0.56934
 
-
+Obtenemos una puntuación para el modelo de 0.57, los resultados de esta técnica no son buenos.
 
 ## Modelos supervisados para el análisis de sentimiento
 
@@ -325,9 +331,8 @@ Por esta misma limitación, nos limitaremos a testear modelos que "consuman meno
 ### Bag-of-words (BOW) method
 
 Para poder analizar los comentarios, tenemos que extraer y estructurar la información contenida en el texto. Para ello, usaremos la clase sklearn.feature_extraction.CountVectorizer.
-CountVectorizer convierte la columna de texto en una matriz en la que cada palabra es una columna cuyo valor es el número de veces que dicha palabra aparece en cada tweet.
+CountVectorizer convierte la columna de texto en una matriz en la que cada palabra es una columna cuyo valor es el número de veces que dicha palabra aparece en cada review. De esta forma podemos trabajar con estos vectores en vez de con texto plano.
 
-De esta forma podemos trabajar con estos vectores en vez de con texto plano.
 Modificaremos nuestro CountVectorizer para que aplique los siguientes pasos a cada comentario: 
 * *Tokenizar*  
 * *Convertir todas las palabras en minúsculas.*
@@ -336,24 +341,27 @@ Modificaremos nuestro CountVectorizer para que aplique los siguientes pasos a ca
 
 
 ```python
-
 vectorizer = CountVectorizer(
                 analyzer = 'word',
                 tokenizer = tokenize, # función creada para el wordmap
                 lowercase = True,
                 stop_words = spanish_stopwords)
 ```
+Una vez tenemos nuestras variables listas, el siguiente paso será dividir nuestra muestra en train y test. Usaremos nuestra muestra train para entrenar el modelo y luego testearemos los resultados con la muestra de test:
 
 ```python
 DF_train, DF_test = train_test_split(DF,test_size=0.20, random_state=42)
 ```
-
+Además, vamos a crear un diccionario en el que iremos guardando los mejores resultados para cada uno de los algoritmos testeados:
 ```python
 Mejor_modelo = {}
 ```
 
 ### Regresión logística
 
+El primer modelo que vamos a probar es una regresión logistica. En vez de usar los parámetros que por defecto tiene el método, aplicaremos GridSearchCV para seleccionar los parámetros que nos den un mejor resultado. La accuracy para cada uno de los parámetros testeados se medirá mediante la curva ROC(*roc_auc*).
+
+**Algoritmo**
 
 ```python
 pipeline_reglog = Pipeline([    
@@ -378,75 +386,16 @@ gs_reglog = GridSearchCV(pipeline_reglog,
 gs_reglog.fit(DF_train['comentario'], DF_train['puntuacion'])
 ```
 
-    Fitting 10 folds for each of 4 candidates, totalling 40 fits
-    
-
-    [Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
-    [Parallel(n_jobs=-1)]: Done  24 tasks      | elapsed: 37.6min
-    [Parallel(n_jobs=-1)]: Done  40 out of  40 | elapsed: 60.8min finished
-    C:\Users\rdelval\Anaconda3\lib\site-packages\sklearn\feature_extraction\text.py:385: UserWarning: Your stop_words may be inconsistent with your preprocessing. Tokenizing the stop words generated tokens ['algun', 'com', 'contr', 'cuand', 'desd', 'dond', 'durant', 'eram', 'estab', 'estais', 'estam', 'estan', 'estand', 'estaran', 'estaras', 'esteis', 'estem', 'esten', 'estes', 'estuv', 'fuer', 'fues', 'fuim', 'fuist', 'hab', 'habr', 'habran', 'habras', 'hast', 'hem', 'hub', 'mas', 'mia', 'mias', 'mio', 'mios', 'much', 'nad', 'nosotr', 'nuestr', 'par', 'per', 'poc', 'porqu', 'qui', 'seais', 'seam', 'sent', 'ser', 'seran', 'seras', 'si', 'sient', 'sint', 'sobr', 'som', 'suy', 'tambien', 'tant', 'ten', 'tendr', 'tendran', 'tendras', 'teng', 'tien', 'tod', 'tuv', 'tuy', 'vosotr', 'vuestr'] not in stop_words.
-      'stop_words.' % sorted(inconsistent))
-    C:\Users\rdelval\Anaconda3\lib\site-packages\sklearn\linear_model\_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
-    STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-    
-    Increase the number of iterations (max_iter) or scale the data as shown in:
-        https://scikit-learn.org/stable/modules/preprocessing.html
-    Please also refer to the documentation for alternative solver options:
-        https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-      extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
-    
-
-
-
-
-    GridSearchCV(cv=10, error_score=nan,
-                 estimator=Pipeline(memory=None,
-                                    steps=[('vect',
-                                            CountVectorizer(analyzer='word',
-                                                            binary=False,
-                                                            decode_error='strict',
-                                                            dtype=<class 'numpy.int64'>,
-                                                            encoding='utf-8',
-                                                            input='content',
-                                                            lowercase=True,
-                                                            max_df=1.0,
-                                                            max_features=None,
-                                                            min_df=1,
-                                                            ngram_range=(1, 1),
-                                                            preprocessor=None,
-                                                            stop_words=['de', 'la',
-                                                                        'que', 'el',
-                                                                        'en', 'y',
-                                                                        'a', 'los',
-                                                                        '...
-                                                               l1_ratio=None,
-                                                               max_iter=100,
-                                                               multi_class='auto',
-                                                               n_jobs=None,
-                                                               penalty='l2',
-                                                               random_state=None,
-                                                               solver='lbfgs',
-                                                               tol=0.0001,
-                                                               verbose=0,
-                                                               warm_start=False))],
-                                    verbose=False),
-                 iid='deprecated', n_jobs=-1,
-                 param_grid={'vect__max_features': (500, 2000),
-                             'vect__ngram_range': ((1, 1), (1, 2))},
-                 pre_dispatch='2*n_jobs', refit=True, return_train_score=False,
-                 scoring='roc_auc', verbose=3)
-
-
-
+**Resultados:**
 
 ```python
 print("Los mejores parámetros son %s con un score de %0.3f"
       % (gs_reglog.best_params_,gs_reglog.best_score_))
 ```
 
-    Los mejores parámetros son {'vect__max_features': 2000, 'vect__ngram_range': (1, 2)} con un score de 0.878
-    
+Los mejores parámetros son {'vect__max_features': 2000, 'vect__ngram_range': (1, 2)} con un score de 0.878
 
+Gardamos el resultado en nuestro diccionario
 
 ```python
 Mejor_modelo['RegresionLogistica'] = gs_reglog.best_score_
@@ -454,7 +403,9 @@ Mejor_modelo['RegresionLogistica'] = gs_reglog.best_score_
 
 ### KNN
 
+El siguiente algoritmo que vamos a probar es  k-nearest neighbors (KNN)
 
+**Algoritmo:**
 ```python
 pipeline_KNN = Pipeline([
     ('vect', vectorizer),  
@@ -478,68 +429,16 @@ gs_KNN = GridSearchCV(pipeline_KNN,
 gs_KNN.fit(DF_train['comentario'], DF_train['puntuacion'])
 ```
 
-    [Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
-    
 
-    Fitting 10 folds for each of 28 candidates, totalling 280 fits
-    
-
-    [Parallel(n_jobs=-1)]: Done  42 tasks      | elapsed: 70.5min
-    [Parallel(n_jobs=-1)]: Done 192 tasks      | elapsed: 659.6min
-    [Parallel(n_jobs=-1)]: Done 280 out of 280 | elapsed: 806.6min finished
-    C:\Users\rdelval\Anaconda3\lib\site-packages\sklearn\feature_extraction\text.py:385: UserWarning: Your stop_words may be inconsistent with your preprocessing. Tokenizing the stop words generated tokens ['algun', 'com', 'contr', 'cuand', 'desd', 'dond', 'durant', 'eram', 'estab', 'estais', 'estam', 'estan', 'estand', 'estaran', 'estaras', 'esteis', 'estem', 'esten', 'estes', 'estuv', 'fuer', 'fues', 'fuim', 'fuist', 'hab', 'habr', 'habran', 'habras', 'hast', 'hem', 'hub', 'mas', 'mia', 'mias', 'mio', 'mios', 'much', 'nad', 'nosotr', 'nuestr', 'par', 'per', 'poc', 'porqu', 'qui', 'seais', 'seam', 'sent', 'ser', 'seran', 'seras', 'si', 'sient', 'sint', 'sobr', 'som', 'suy', 'tambien', 'tant', 'ten', 'tendr', 'tendran', 'tendras', 'teng', 'tien', 'tod', 'tuv', 'tuy', 'vosotr', 'vuestr'] not in stop_words.
-      'stop_words.' % sorted(inconsistent))
-    
-
-
-
-
-    GridSearchCV(cv=10, error_score=nan,
-                 estimator=Pipeline(memory=None,
-                                    steps=[('vect',
-                                            CountVectorizer(analyzer='word',
-                                                            binary=False,
-                                                            decode_error='strict',
-                                                            dtype=<class 'numpy.int64'>,
-                                                            encoding='utf-8',
-                                                            input='content',
-                                                            lowercase=True,
-                                                            max_df=1.0,
-                                                            max_features=None,
-                                                            min_df=1,
-                                                            ngram_range=(1, 1),
-                                                            preprocessor=None,
-                                                            stop_words=['de', 'la',
-                                                                        'que', 'el',
-                                                                        'en', 'y',
-                                                                        'a', 'los',
-                                                                        '...
-                                            KNeighborsClassifier(algorithm='auto',
-                                                                 leaf_size=30,
-                                                                 metric='minkowski',
-                                                                 metric_params=None,
-                                                                 n_jobs=None,
-                                                                 n_neighbors=5, p=2,
-                                                                 weights='uniform'))],
-                                    verbose=False),
-                 iid='deprecated', n_jobs=-1,
-                 param_grid={'KNN__n_neighbors': [1, 3, 5, 7, 11, 13, 15],
-                             'vect__max_features': (500, 2000),
-                             'vect__ngram_range': ((1, 1), (1, 2))},
-                 pre_dispatch='2*n_jobs', refit=True, return_train_score=False,
-                 scoring='roc_auc', verbose=1)
-
-
-
-
+**Resultados:**
 ```python
 print("Los mejores parámetros son %s con un score de %0.3f"
       % (gs_KNN.best_params_,gs_KNN.best_score_))
 ```
 
-    Los mejores parámetros son {'KNN__n_neighbors': 15, 'vect__max_features': 500, 'vect__ngram_range': (1, 2)} con un score de 0.742
+Los mejores parámetros son {'KNN__n_neighbors': 15, 'vect__max_features': 500, 'vect__ngram_range': (1, 2)} con un score de 0.742
     
-
+Guardamos los resultados en nuestro diccionario:
 
 ```python
 Mejor_modelo['KNN'] = gs_KNN.best_score_
@@ -571,56 +470,7 @@ gs_ArbolDecison = GridSearchCV(pipeline_ArbolDecison,
 
 gs_ArbolDecison.fit(DF_train['comentario'], DF_train['puntuacion'])
 ```
-
-    Fitting 10 folds for each of 24 candidates, totalling 240 fits
-    
-
-    [Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
-    [Parallel(n_jobs=-1)]: Done  42 tasks      | elapsed: 67.4min
-    [Parallel(n_jobs=-1)]: Done 192 tasks      | elapsed: 296.4min
-    [Parallel(n_jobs=-1)]: Done 240 out of 240 | elapsed: 370.2min finished
-    C:\Users\rdelval\Anaconda3\lib\site-packages\sklearn\feature_extraction\text.py:385: UserWarning: Your stop_words may be inconsistent with your preprocessing. Tokenizing the stop words generated tokens ['algun', 'com', 'contr', 'cuand', 'desd', 'dond', 'durant', 'eram', 'estab', 'estais', 'estam', 'estan', 'estand', 'estaran', 'estaras', 'esteis', 'estem', 'esten', 'estes', 'estuv', 'fuer', 'fues', 'fuim', 'fuist', 'hab', 'habr', 'habran', 'habras', 'hast', 'hem', 'hub', 'mas', 'mia', 'mias', 'mio', 'mios', 'much', 'nad', 'nosotr', 'nuestr', 'par', 'per', 'poc', 'porqu', 'qui', 'seais', 'seam', 'sent', 'ser', 'seran', 'seras', 'si', 'sient', 'sint', 'sobr', 'som', 'suy', 'tambien', 'tant', 'ten', 'tendr', 'tendran', 'tendras', 'teng', 'tien', 'tod', 'tuv', 'tuy', 'vosotr', 'vuestr'] not in stop_words.
-      'stop_words.' % sorted(inconsistent))
-    
-
-
-
-
-    GridSearchCV(cv=10, error_score=nan,
-                 estimator=Pipeline(memory=None,
-                                    steps=[('vect',
-                                            CountVectorizer(analyzer='word',
-                                                            binary=False,
-                                                            decode_error='strict',
-                                                            dtype=<class 'numpy.int64'>,
-                                                            encoding='utf-8',
-                                                            input='content',
-                                                            lowercase=True,
-                                                            max_df=1.0,
-                                                            max_features=None,
-                                                            min_df=1,
-                                                            ngram_range=(1, 1),
-                                                            preprocessor=None,
-                                                            stop_words=['de', 'la',
-                                                                        'que', 'el',
-                                                                        'en', 'y',
-                                                                        'a', 'los',
-                                                                        '...
-                                                                   min_samples_split=2,
-                                                                   min_weight_fraction_leaf=0.0,
-                                                                   presort='deprecated',
-                                                                   random_state=None,
-                                                                   splitter='best'))],
-                                    verbose=False),
-                 iid='deprecated', n_jobs=-1,
-                 param_grid={'ArbolDecison__max_depth': array([3, 4, 5, 6, 7, 8]),
-                             'vect__max_features': (500, 2000),
-                             'vect__ngram_range': ((1, 1), (1, 2))},
-                 pre_dispatch='2*n_jobs', refit=True, return_train_score=False,
-                 scoring='roc_auc', verbose=1)
-
-
-
+**Resultado:**
 
 ```python
 Mejor_modelo['ArbolDecison'] = gs_ArbolDecison.best_score_
@@ -628,6 +478,7 @@ Mejor_modelo['ArbolDecison'] = gs_ArbolDecison.best_score_
 
 ## Mejor modelo y validación
 
+Dados los datos, el modelo que nos ha dado mejor resultado has sido la regresión logistica con un AUC igual a 0.88:
 
 ```python
 import operator
@@ -641,206 +492,31 @@ for modelo in enumerate(Modelos_orden):
     ArbolDecison  tiene un AUC igual a  0.7338
     
 
-
 ```python
 mejor_modelo = gs_reglog.best_estimator_
 
 ```
-
-
-```python
-mejor_modelo
-```
-
-
-
-
-    Pipeline(memory=None,
-             steps=[('vect',
-                     CountVectorizer(analyzer='word', binary=False,
-                                     decode_error='strict',
-                                     dtype=<class 'numpy.int64'>, encoding='utf-8',
-                                     input='content', lowercase=True, max_df=1.0,
-                                     max_features=2000, min_df=1,
-                                     ngram_range=(1, 2), preprocessor=None,
-                                     stop_words=['de', 'la', 'que', 'el', 'en', 'y',
-                                                 'a', 'los', 'del', 'se', 'las',
-                                                 'por', 'un', 'para', 'con', 'no',...
-                                     token_pattern='(?u)\\b\\w\\w+\\b',
-                                     tokenizer=<function tokenize at 0x000001D02871FB70>,
-                                     vocabulary=None)),
-                    ('reglog',
-                     LogisticRegression(C=1.0, class_weight=None, dual=False,
-                                        fit_intercept=True, intercept_scaling=1,
-                                        l1_ratio=None, max_iter=100,
-                                        multi_class='auto', n_jobs=None,
-                                        penalty='l2', random_state=None,
-                                        solver='lbfgs', tol=0.0001, verbose=0,
-                                        warm_start=False))],
-             verbose=False)
-
-
-
-
-```python
-DF_train.head()
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>comentario</th>
-      <th>estrellas</th>
-      <th>puntuacion</th>
-      <th>comentario_normalizado</th>
-      <th>comentario_normalizado2</th>
-      <th>sentimental_analysis</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>427463</th>
-      <td>Decepcionado por este artículo, en la descripc...</td>
-      <td>1.0</td>
-      <td>0</td>
-      <td>[decepcion, por, este, articul, en, la, descri...</td>
-      <td>decepcion, por, este, articul, en, la, descrip...</td>
-      <td>(0.0, 0.0)</td>
-    </tr>
-    <tr>
-      <th>349346</th>
-      <td>El tamaño es correcto, para llevar dos platos,...</td>
-      <td>2.0</td>
-      <td>0</td>
-      <td>[el, tamañ, es, correct, par, llev, dos, plat,...</td>
-      <td>el, tamañ, es, correct, par, llev, dos, plat, ...</td>
-      <td>(-0.25, 0.25)</td>
-    </tr>
-    <tr>
-      <th>342403</th>
-      <td>He recibido esta bolsa y me gusta, de verdad. ...</td>
-      <td>5.0</td>
-      <td>1</td>
-      <td>[he, recib, esta, bols, y, me, gust, de, verd,...</td>
-      <td>he, recib, esta, bols, y, me, gust, de, verd, ...</td>
-      <td>(0.5, 1.0)</td>
-    </tr>
-    <tr>
-      <th>46925</th>
-      <td>A mi no me dio problemas, si es cierto que dur...</td>
-      <td>4.0</td>
-      <td>1</td>
-      <td>[a, mi, no, me, dio, problem, si, es, ciert, q...</td>
-      <td>a, mi, no, me, dio, problem, si, es, ciert, qu...</td>
-      <td>(0.0, 0.0)</td>
-    </tr>
-    <tr>
-      <th>312325</th>
-      <td>Compre 2 tarjetas para mi reflex y la velocida...</td>
-      <td>2.0</td>
-      <td>0</td>
-      <td>[compr, tarjet, par, mi, reflex, y, la, veloc,...</td>
-      <td>compr, tarjet, par, mi, reflex, y, la, veloc, ...</td>
-      <td>(0.2, 0.2)</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
+Una vez tenemos seleccionado nuestro modelo, usamos la muestra de train para entrenarlo:
 
 ```python
 mejor_modelo.fit(DF_train['comentario'], DF_train['puntuacion'])
 ```
 
-    C:\Users\rdelval\Anaconda3\lib\site-packages\sklearn\linear_model\_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
-    STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-    
-    Increase the number of iterations (max_iter) or scale the data as shown in:
-        https://scikit-learn.org/stable/modules/preprocessing.html
-    Please also refer to the documentation for alternative solver options:
-        https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-      extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
-    
-
-
-
-
-    Pipeline(memory=None,
-             steps=[('vect',
-                     CountVectorizer(analyzer='word', binary=False,
-                                     decode_error='strict',
-                                     dtype=<class 'numpy.int64'>, encoding='utf-8',
-                                     input='content', lowercase=True, max_df=1.0,
-                                     max_features=2000, min_df=1,
-                                     ngram_range=(1, 2), preprocessor=None,
-                                     stop_words=['de', 'la', 'que', 'el', 'en', 'y',
-                                                 'a', 'los', 'del', 'se', 'las',
-                                                 'por', 'un', 'para', 'con', 'no',...
-                                     token_pattern='(?u)\\b\\w\\w+\\b',
-                                     tokenizer=<function tokenize at 0x000001D02871FB70>,
-                                     vocabulary=None)),
-                    ('reglog',
-                     LogisticRegression(C=1.0, class_weight=None, dual=False,
-                                        fit_intercept=True, intercept_scaling=1,
-                                        l1_ratio=None, max_iter=100,
-                                        multi_class='auto', n_jobs=None,
-                                        penalty='l2', random_state=None,
-                                        solver='lbfgs', tol=0.0001, verbose=0,
-                                        warm_start=False))],
-             verbose=False)
-
-
-
+Y hacemos predicciones sobre nuestra muestra de test:
 
 ```python
 predicciones_test = mejor_modelo.predict(DF_test['comentario'])
 DF_test['predicciones'] = predicciones_test
 
 ```
-
-    C:\Users\rdelval\Anaconda3\lib\site-packages\ipykernel_launcher.py:2: SettingWithCopyWarning: 
-    A value is trying to be set on a copy of a slice from a DataFrame.
-    Try using .loc[row_indexer,col_indexer] = value instead
-    
-    See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
       
-    
+Para terminar, evaluamos los resultados:    
 
+
+    
+**Matriz de confusión:**
 
 ```python
-from sklearn.metrics import roc_auc_score
-
-AUC = roc_auc_score(DF_test['puntuacion'], DF_test['predicciones'])
-print(AUC)
-
-```
-
-    0.8067914315098941
-    
-
-
-```python
-
 
 cnf_matrix  = confusion_matrix(DF_test['predicciones'], DF_test['puntuacion'])#.ravel()
 
@@ -867,6 +543,17 @@ accuracy_score(DF_test['puntuacion'], DF_test['predicciones'])
 
 ```
 
-    0.80715
+0.80715
+
+**AUC:**
+```python
+from sklearn.metrics import roc_auc_score
+
+AUC = roc_auc_score(DF_test['puntuacion'], DF_test['predicciones'])
+print(AUC)
+
+```
+
+0.8067914315098941
 
 
