@@ -118,7 +118,7 @@ lista = soup.find_all(attrs={'href': re.compile("www.futbolfantasy.com/partidos/
 print(lista[0])
 ```
 
-   " <a class="partido terminado" data-tooltip="Valencia 1-0 Las Palmas" href="https://www.futbolfantasy.com/partidos/3944-valencia-las-palmas">
+<a class="partido terminado" data-tooltip="Valencia 1-0 Las Palmas" href="https://www.futbolfantasy.com/partidos/3944-valencia-las-palmas">
     <div class="equipo local">
     <img alt="Valencia" src="https://static.futbolfantasy.com/uploads/images/equipos/escudom/18.png"/>
     </div>
@@ -134,7 +134,7 @@ print(lista[0])
     <img alt="Las Palmas" src="https://static.futbolfantasy.com/uploads/images/equipos/escudom/27.png"/>
     </div>
     <div class="clearfix"></div>
-    </a> "
+    </a> 
 
 Y luego crear una función para limpiar el resultado y quedarnos solo con los urls:
 
