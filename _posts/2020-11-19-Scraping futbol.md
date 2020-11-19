@@ -103,9 +103,9 @@ for link in soup.find_all('div', {'class': 'jornada'}):
     links = link.find('a')
     lista_links_informacion.append(links.get('href'))
     
-len(lista_links_informacion)
+print(len(lista_links_informacion))
 ```
-[89]
+89
 
 Pero de los 380 partidos que tiene una temporada completa únicamente detectó 89.
 
