@@ -37,19 +37,19 @@ Podemos ver como hay un scroll en la parte de arriba que nos servirá para ir mo
 <li> dia	</li>
 <li> mes </li>
 <li>metricas para el equipo  local y el visitante: </li> <lu>
-<li> equipo </li>
-<li> goles </li>
-<li> Balones_robados </li>
-<li> Centros_local	</li>
-<li> Centros_precisos	</li>
-<li> Córners </li>
-<li> Faltas </li>
-<li> Pases_interceptados	</li>
-<li> Penaltis	</li>
-<li> Tarjetas_amarillas </li>
-<li> Tarjetas_rojas	</li>
-<li> Tiros_a_puerta </li>
-<li> Tiros </li> </lu>
+  <li> equipo </li>
+  <li> goles </li>
+  <li> Balones_robados </li>
+  <li> Centros_local	</li>
+  <li> Centros_precisos	</li>
+  <li> Córners </li>
+  <li> Faltas </li>
+  <li> Pases_interceptados	</li>
+  <li> Penaltis	</li>
+  <li> Tarjetas_amarillas </li>
+  <li> Tarjetas_rojas	</li>
+  <li> Tiros_a_puerta </li>
+  <li> Tiros </li> </lu>
 </lu>
 *No todas las métricas están disponibles para todas las jornadas*
 
