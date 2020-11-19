@@ -119,7 +119,7 @@ lista = soup.find_all(attrs={'href': re.compile("www.futbolfantasy.com/partidos/
 print(lista[0])
 ```
 
-    <a class="partido terminado" data-tooltip="Valencia 1-0 Las Palmas" href="https://www.futbolfantasy.com/partidos/3944-valencia-las-palmas">
+   " <a class="partido terminado" data-tooltip="Valencia 1-0 Las Palmas" href="https://www.futbolfantasy.com/partidos/3944-valencia-las-palmas">
     <div class="equipo local">
     <img alt="Valencia" src="https://static.futbolfantasy.com/uploads/images/equipos/escudom/18.png"/>
     </div>
@@ -135,7 +135,7 @@ print(lista[0])
     <img alt="Las Palmas" src="https://static.futbolfantasy.com/uploads/images/equipos/escudom/27.png"/>
     </div>
     <div class="clearfix"></div>
-    </a>
+    </a> "
 
 Y luego crear una función para limpiar el resultado y quedarnos solo con los urls:
 
@@ -630,411 +630,20 @@ for i in links_ok[0:jornadas_ok]:
         df_metricas = df_metricas.append(diccionario[0], ignore_index=True)
 ```
 
-    https://www.futbolfantasy.com/partidos/1019-real-sociedad-getafe
-    https://www.futbolfantasy.com/partidos/1020-valladolid-athletic
-    https://www.futbolfantasy.com/partidos/1016-valencia-malaga
-    https://www.futbolfantasy.com/partidos/1015-barcelona-levante
-    https://www.futbolfantasy.com/partidos/1017-real-madrid-betis
-    https://www.futbolfantasy.com/partidos/1021-osasuna-granada
-    https://www.futbolfantasy.com/partidos/1018-sevilla-atletico
-    https://www.futbolfantasy.com/partidos/1024-rayo-elche
-    https://www.futbolfantasy.com/partidos/1022-celta-espanyol
-    https://www.futbolfantasy.com/partidos/1023-almeria-villarreal
-    https://www.futbolfantasy.com/partidos/1030-getafe-almeria
-    https://www.futbolfantasy.com/partidos/1028-athletic-osasuna
-    https://www.futbolfantasy.com/partidos/1031-elche-real-sociedad
-    https://www.futbolfantasy.com/partidos/1025-espanyol-valencia
-    https://www.futbolfantasy.com/partidos/1029-villarreal-valladolid
-    https://www.futbolfantasy.com/partidos/1032-atletico-rayo
-    https://www.futbolfantasy.com/partidos/1033-levante-sevilla
-    https://www.futbolfantasy.com/partidos/1034-malaga-barcelona
-    https://www.futbolfantasy.com/partidos/1026-betis-celta
-    https://www.futbolfantasy.com/partidos/1027-granada-real-madrid
-    https://www.futbolfantasy.com/partidos/1037-almeria-elche
-    https://www.futbolfantasy.com/partidos/1039-rayo-levante
-    https://www.futbolfantasy.com/partidos/1043-celta-granada
-    https://www.futbolfantasy.com/partidos/1036-valladolid-getafe
-    https://www.futbolfantasy.com/partidos/1044-osasuna-villarreal
-    https://www.futbolfantasy.com/partidos/1035-real-madrid-athletic
-    https://www.futbolfantasy.com/partidos/1042-espanyol-betis
-    https://www.futbolfantasy.com/partidos/1038-real-sociedad-atletico
-    https://www.futbolfantasy.com/partidos/1040-sevilla-malaga
-    https://www.futbolfantasy.com/partidos/1041-valencia-barcelona
-    https://www.futbolfantasy.com/partidos/1051-atletico-almeria
-    https://www.futbolfantasy.com/partidos/1052-levante-real-sociedad
-    https://www.futbolfantasy.com/partidos/1053-barcelona-sevilla
-    https://www.futbolfantasy.com/partidos/1048-villarreal-real-madrid
-    https://www.futbolfantasy.com/partidos/1046-granada-espanyol
-    https://www.futbolfantasy.com/partidos/1049-getafe-osasuna
-    https://www.futbolfantasy.com/partidos/1054-malaga-rayo
-    https://www.futbolfantasy.com/partidos/1045-betis-valencia
-    https://www.futbolfantasy.com/partidos/1050-elche-valladolid
-    https://www.futbolfantasy.com/partidos/1047-athletic-celta
-    https://www.futbolfantasy.com/partidos/1058-osasuna-elche
-    https://www.futbolfantasy.com/partidos/1062-real-sociedad-malaga
-    https://www.futbolfantasy.com/partidos/1061-almeria-levante
-    https://www.futbolfantasy.com/partidos/1063-rayo-barcelona
-    https://www.futbolfantasy.com/partidos/1060-valladolid-atletico
-    https://www.futbolfantasy.com/partidos/1059-betis-granada
-    https://www.futbolfantasy.com/partidos/1056-celta-villarreal
-    https://www.futbolfantasy.com/partidos/1057-real-madrid-getafe
-    https://www.futbolfantasy.com/partidos/1064-valencia-sevilla
-    https://www.futbolfantasy.com/partidos/1055-espanyol-athletic
-    https://www.futbolfantasy.com/partidos/1077-barcelona-real-sociedad
-    https://www.futbolfantasy.com/partidos/1083-levante-valladolid
-    https://www.futbolfantasy.com/partidos/1076-malaga-almeria
-    https://www.futbolfantasy.com/partidos/1078-atletico-osasuna
-    https://www.futbolfantasy.com/partidos/1079-granada-valencia
-    https://www.futbolfantasy.com/partidos/1084-sevilla-rayo
-    https://www.futbolfantasy.com/partidos/1082-elche-real-madrid
-    https://www.futbolfantasy.com/partidos/1080-athletic-betis
-    https://www.futbolfantasy.com/partidos/1075-getafe-celta
-    https://www.futbolfantasy.com/partidos/1081-villarreal-espanyol
-    https://www.futbolfantasy.com/partidos/1092-valladolid-malaga
-    https://www.futbolfantasy.com/partidos/1094-valencia-rayo
-    https://www.futbolfantasy.com/partidos/1087-almeria-barcelona
-    https://www.futbolfantasy.com/partidos/1093-real-sociedad-sevilla
-    https://www.futbolfantasy.com/partidos/1090-real-madrid-atletico
-    https://www.futbolfantasy.com/partidos/1091-osasuna-levante
-    https://www.futbolfantasy.com/partidos/1085-celta-elche
-    https://www.futbolfantasy.com/partidos/1089-espanyol-getafe
-    https://www.futbolfantasy.com/partidos/1088-betis-villarreal
-    https://www.futbolfantasy.com/partidos/1086-granada-athletic
-    https://www.futbolfantasy.com/partidos/1100-villarreal-granada
-    https://www.futbolfantasy.com/partidos/1097-malaga-osasuna
-    https://www.futbolfantasy.com/partidos/1101-elche-espanyol
-    https://www.futbolfantasy.com/partidos/1104-rayo-real-sociedad
-    https://www.futbolfantasy.com/partidos/1098-levante-real-madrid
-    https://www.futbolfantasy.com/partidos/1102-barcelona-valladolid
-    https://www.futbolfantasy.com/partidos/1096-atletico-celta
-    https://www.futbolfantasy.com/partidos/1103-sevilla-almeria
-    https://www.futbolfantasy.com/partidos/1095-getafe-betis
-    https://www.futbolfantasy.com/partidos/1099-athletic-valencia
-    https://www.futbolfantasy.com/partidos/1153-real-madrid-malaga
-    https://www.futbolfantasy.com/partidos/1156-valencia-real-sociedad
-    https://www.futbolfantasy.com/partidos/1154-osasuna-barcelona
-    https://www.futbolfantasy.com/partidos/1150-espanyol-atletico
-    https://www.futbolfantasy.com/partidos/1148-granada-getafe
-    https://www.futbolfantasy.com/partidos/1151-almeria-rayo
-    https://www.futbolfantasy.com/partidos/1149-betis-elche
-    https://www.futbolfantasy.com/partidos/1155-valladolid-sevilla
-    https://www.futbolfantasy.com/partidos/1152-celta-levante
-    https://www.futbolfantasy.com/partidos/1147-athletic-villarreal
-    https://www.futbolfantasy.com/partidos/1165-sevilla-osasuna
-    https://www.futbolfantasy.com/partidos/1164-malaga-celta
-    https://www.futbolfantasy.com/partidos/1157-villarreal-valencia
-    https://www.futbolfantasy.com/partidos/1161-barcelona-real-madrid
-    https://www.futbolfantasy.com/partidos/1160-real-sociedad-almeria
-    https://www.futbolfantasy.com/partidos/1159-elche-granada
-    https://www.futbolfantasy.com/partidos/1162-atletico-betis
-    https://www.futbolfantasy.com/partidos/1166-rayo-valladolid
-    https://www.futbolfantasy.com/partidos/1158-getafe-athletic
-    https://www.futbolfantasy.com/partidos/1163-levante-espanyol
-    https://www.futbolfantasy.com/partidos/1169-espanyol-malaga
-    https://www.futbolfantasy.com/partidos/1170-valladolid-real-sociedad
-    https://www.futbolfantasy.com/partidos/1171-villarreal-getafe
-    https://www.futbolfantasy.com/partidos/1172-granada-atletico
-    https://www.futbolfantasy.com/partidos/1176-valencia-almeria
-    https://www.futbolfantasy.com/partidos/1167-athletic-elche
-    https://www.futbolfantasy.com/partidos/1168-betis-levante
-    https://www.futbolfantasy.com/partidos/1173-celta-barcelona
-    https://www.futbolfantasy.com/partidos/1174-real-madrid-sevilla
-    https://www.futbolfantasy.com/partidos/1175-osasuna-rayo
-    https://www.futbolfantasy.com/partidos/1177-getafe-valencia
-    https://www.futbolfantasy.com/partidos/1179-real-sociedad-osasuna
-    https://www.futbolfantasy.com/partidos/1182-atletico-athletic
-    https://www.futbolfantasy.com/partidos/1180-almeria-valladolid
-    https://www.futbolfantasy.com/partidos/1183-levante-granada
-    https://www.futbolfantasy.com/partidos/1186-rayo-real-madrid
-    https://www.futbolfantasy.com/partidos/1178-malaga-betis
-    https://www.futbolfantasy.com/partidos/1184-barcelona-espanyol
-    https://www.futbolfantasy.com/partidos/1181-elche-villarreal
-    https://www.futbolfantasy.com/partidos/1185-sevilla-celta
-    https://www.futbolfantasy.com/partidos/1196-espanyol-sevilla
-    https://www.futbolfantasy.com/partidos/1188-real-madrid-real-sociedad
-    https://www.futbolfantasy.com/partidos/1190-valencia-valladolid
-    https://www.futbolfantasy.com/partidos/1191-getafe-elche
-    https://www.futbolfantasy.com/partidos/1192-villarreal-atletico
-    https://www.futbolfantasy.com/partidos/1189-osasuna-almeria
-    https://www.futbolfantasy.com/partidos/1193-athletic-levante
-    https://www.futbolfantasy.com/partidos/1194-betis-barcelona
-    https://www.futbolfantasy.com/partidos/1187-granada-malaga
-    https://www.futbolfantasy.com/partidos/1195-celta-rayo
-    https://www.futbolfantasy.com/partidos/1202-levante-villarreal
-    https://www.futbolfantasy.com/partidos/1199-barcelona-granada
-    https://www.futbolfantasy.com/partidos/1204-rayo-espanyol
-    https://www.futbolfantasy.com/partidos/1205-real-sociedad-celta
-    https://www.futbolfantasy.com/partidos/1197-elche-valencia
-    https://www.futbolfantasy.com/partidos/1200-almeria-real-madrid
-    https://www.futbolfantasy.com/partidos/1203-sevilla-betis
-    https://www.futbolfantasy.com/partidos/1206-valladolid-osasuna
-    https://www.futbolfantasy.com/partidos/1198-malaga-athletic
-    https://www.futbolfantasy.com/partidos/1201-atletico-getafe
-    https://www.futbolfantasy.com/partidos/1215-betis-rayo
-    https://www.futbolfantasy.com/partidos/1207-elche-atletico
-    https://www.futbolfantasy.com/partidos/1208-granada-sevilla
-    https://www.futbolfantasy.com/partidos/1216-celta-almeria
-    https://www.futbolfantasy.com/partidos/1211-valencia-osasuna
-    https://www.futbolfantasy.com/partidos/1210-real-madrid-valladolid
-    https://www.futbolfantasy.com/partidos/1212-getafe-levante
-    https://www.futbolfantasy.com/partidos/1213-villarreal-malaga
-    https://www.futbolfantasy.com/partidos/1214-athletic-barcelona
-    https://www.futbolfantasy.com/partidos/1209-espanyol-real-sociedad
-    https://www.futbolfantasy.com/partidos/1232-almeria-espanyol
-    https://www.futbolfantasy.com/partidos/1228-osasuna-real-madrid
-    https://www.futbolfantasy.com/partidos/1233-real-sociedad-betis
-    https://www.futbolfantasy.com/partidos/1229-rayo-granada
-    https://www.futbolfantasy.com/partidos/1234-sevilla-athletic
-    https://www.futbolfantasy.com/partidos/1230-barcelona-villarreal
-    https://www.futbolfantasy.com/partidos/1227-levante-elche
-    https://www.futbolfantasy.com/partidos/1235-atletico-valencia
-    https://www.futbolfantasy.com/partidos/1231-malaga-getafe
-    https://www.futbolfantasy.com/partidos/1236-valladolid-celta
-    https://www.futbolfantasy.com/partidos/1242-espanyol-valladolid
-    https://www.futbolfantasy.com/partidos/1238-villarreal-sevilla
-    https://www.futbolfantasy.com/partidos/1243-getafe-barcelona
-    https://www.futbolfantasy.com/partidos/1239-betis-almeria
-    https://www.futbolfantasy.com/partidos/1244-athletic-rayo
-    https://www.futbolfantasy.com/partidos/1240-atletico-levante
-    https://www.futbolfantasy.com/partidos/1237-elche-malaga
-    https://www.futbolfantasy.com/partidos/1245-valencia-real-madrid
-    https://www.futbolfantasy.com/partidos/1246-celta-osasuna
-    https://www.futbolfantasy.com/partidos/1241-granada-real-sociedad
-    https://www.futbolfantasy.com/partidos/1267-malaga-atletico
-    https://www.futbolfantasy.com/partidos/1268-valladolid-betis
-    https://www.futbolfantasy.com/partidos/1269-valencia-levante
-    https://www.futbolfantasy.com/partidos/1270-almeria-granada
-    https://www.futbolfantasy.com/partidos/1271-sevilla-getafe
-    https://www.futbolfantasy.com/partidos/1272-barcelona-elche
-    https://www.futbolfantasy.com/partidos/1273-osasuna-espanyol
-    https://www.futbolfantasy.com/partidos/1274-real-sociedad-athletic
-    https://www.futbolfantasy.com/partidos/1275-real-madrid-celta
-    https://www.futbolfantasy.com/partidos/1276-rayo-villarreal
-    https://www.futbolfantasy.com/partidos/1277-granada-valladolid
-    https://www.futbolfantasy.com/partidos/1278-athletic-almeria
-    https://www.futbolfantasy.com/partidos/1279-celta-valencia
-    https://www.futbolfantasy.com/partidos/1280-atletico-barcelona
-    https://www.futbolfantasy.com/partidos/1281-elche-sevilla
-    https://www.futbolfantasy.com/partidos/1282-getafe-rayo
-    https://www.futbolfantasy.com/partidos/1283-betis-osasuna
-    https://www.futbolfantasy.com/partidos/1284-espanyol-real-madrid
-    https://www.futbolfantasy.com/partidos/1285-levante-malaga
-    https://www.futbolfantasy.com/partidos/1286-villarreal-real-sociedad
-    https://www.futbolfantasy.com/partidos/1287-malaga-valencia
-    https://www.futbolfantasy.com/partidos/1288-betis-real-madrid
-    https://www.futbolfantasy.com/partidos/1289-elche-rayo
-    https://www.futbolfantasy.com/partidos/1290-granada-osasuna
-    https://www.futbolfantasy.com/partidos/1291-espanyol-celta
-    https://www.futbolfantasy.com/partidos/1292-getafe-real-sociedad
-    https://www.futbolfantasy.com/partidos/1293-villarreal-almeria
-    https://www.futbolfantasy.com/partidos/1294-levante-barcelona
-    https://www.futbolfantasy.com/partidos/1295-atletico-sevilla
-    https://www.futbolfantasy.com/partidos/1296-athletic-valladolid
-    https://www.futbolfantasy.com/partidos/1218-celta-betis
-    https://www.futbolfantasy.com/partidos/1219-real-madrid-granada
-    https://www.futbolfantasy.com/partidos/1221-valladolid-villarreal
-    https://www.futbolfantasy.com/partidos/1217-valencia-espanyol
-    https://www.futbolfantasy.com/partidos/1225-sevilla-levante
-    https://www.futbolfantasy.com/partidos/1222-almeria-getafe
-    https://www.futbolfantasy.com/partidos/1220-osasuna-athletic
-    https://www.futbolfantasy.com/partidos/1224-rayo-atletico
-    https://www.futbolfantasy.com/partidos/1226-barcelona-malaga
-    https://www.futbolfantasy.com/partidos/1223-real-sociedad-elche
-    https://www.futbolfantasy.com/partidos/1305-granada-celta
-    https://www.futbolfantasy.com/partidos/1303-barcelona-valencia
-    https://www.futbolfantasy.com/partidos/1301-levante-rayo
-    https://www.futbolfantasy.com/partidos/1298-getafe-valladolid
-    https://www.futbolfantasy.com/partidos/1302-malaga-sevilla
-    https://www.futbolfantasy.com/partidos/1299-elche-almeria
-    https://www.futbolfantasy.com/partidos/1304-betis-espanyol
-    https://www.futbolfantasy.com/partidos/1300-atletico-real-sociedad
-    https://www.futbolfantasy.com/partidos/1297-athletic-real-madrid
-    https://www.futbolfantasy.com/partidos/1306-villarreal-osasuna
-    https://www.futbolfantasy.com/partidos/1308-espanyol-granada
-    https://www.futbolfantasy.com/partidos/1307-valencia-betis
-    https://www.futbolfantasy.com/partidos/1316-rayo-malaga
-    https://www.futbolfantasy.com/partidos/1310-real-madrid-villarreal
-    https://www.futbolfantasy.com/partidos/1313-almeria-atletico
-    https://www.futbolfantasy.com/partidos/1311-osasuna-getafe
-    https://www.futbolfantasy.com/partidos/1312-valladolid-elche
-    https://www.futbolfantasy.com/partidos/1314-real-sociedad-levante
-    https://www.futbolfantasy.com/partidos/1315-sevilla-barcelona
-    https://www.futbolfantasy.com/partidos/1309-celta-athletic
-    https://www.futbolfantasy.com/partidos/1320-elche-osasuna
-    https://www.futbolfantasy.com/partidos/1322-atletico-valladolid
-    https://www.futbolfantasy.com/partidos/1323-levante-almeria
-    https://www.futbolfantasy.com/partidos/1325-barcelona-rayo
-    https://www.futbolfantasy.com/partidos/1318-villarreal-celta
-    https://www.futbolfantasy.com/partidos/1321-granada-betis
-    https://www.futbolfantasy.com/partidos/1319-getafe-real-madrid
-    https://www.futbolfantasy.com/partidos/1317-athletic-espanyol
-    https://www.futbolfantasy.com/partidos/1326-sevilla-valencia
-    https://www.futbolfantasy.com/partidos/1324-malaga-real-sociedad
-    https://www.futbolfantasy.com/partidos/1335-valladolid-levante
-    https://www.futbolfantasy.com/partidos/1334-real-madrid-elche
-    https://www.futbolfantasy.com/partidos/1327-celta-getafe
-    https://www.futbolfantasy.com/partidos/1329-real-sociedad-barcelona
-    https://www.futbolfantasy.com/partidos/1328-almeria-malaga
-    https://www.futbolfantasy.com/partidos/1336-rayo-sevilla
-    https://www.futbolfantasy.com/partidos/1332-betis-athletic
-    https://www.futbolfantasy.com/partidos/1331-valencia-granada
-    https://www.futbolfantasy.com/partidos/1330-osasuna-atletico
-    https://www.futbolfantasy.com/partidos/1333-espanyol-villarreal
-    https://www.futbolfantasy.com/partidos/1338-athletic-granada
-    https://www.futbolfantasy.com/partidos/1344-malaga-valladolid
-    https://www.futbolfantasy.com/partidos/1343-levante-osasuna
-    https://www.futbolfantasy.com/partidos/1341-getafe-espanyol
-    https://www.futbolfantasy.com/partidos/1337-elche-celta
-    https://www.futbolfantasy.com/partidos/1340-villarreal-betis
-    https://www.futbolfantasy.com/partidos/1342-atletico-real-madrid
-    https://www.futbolfantasy.com/partidos/1345-sevilla-real-sociedad
-    https://www.futbolfantasy.com/partidos/1339-barcelona-almeria
-    https://www.futbolfantasy.com/partidos/1346-rayo-valencia
-    https://www.futbolfantasy.com/partidos/1354-valladolid-barcelona
-    https://www.futbolfantasy.com/partidos/1347-betis-getafe
-    https://www.futbolfantasy.com/partidos/1348-celta-atletico
-    https://www.futbolfantasy.com/partidos/1352-granada-villarreal
-    https://www.futbolfantasy.com/partidos/1353-espanyol-elche
-    https://www.futbolfantasy.com/partidos/1355-almeria-sevilla
-    https://www.futbolfantasy.com/partidos/1350-real-madrid-levante
-    https://www.futbolfantasy.com/partidos/1351-valencia-athletic
-    https://www.futbolfantasy.com/partidos/1349-osasuna-malaga
-    https://www.futbolfantasy.com/partidos/1356-real-sociedad-rayo
-    https://www.futbolfantasy.com/partidos/1358-getafe-granada
-    https://www.futbolfantasy.com/partidos/1362-levante-celta
-    https://www.futbolfantasy.com/partidos/1361-rayo-almeria
-    https://www.futbolfantasy.com/partidos/1363-malaga-real-madrid
-    https://www.futbolfantasy.com/partidos/1360-atletico-espanyol
-    https://www.futbolfantasy.com/partidos/1359-elche-betis
-    https://www.futbolfantasy.com/partidos/1364-barcelona-osasuna
-    https://www.futbolfantasy.com/partidos/1365-sevilla-valladolid
-    https://www.futbolfantasy.com/partidos/1366-real-sociedad-valencia
-    https://www.futbolfantasy.com/partidos/1357-villarreal-athletic
-    https://www.futbolfantasy.com/partidos/1374-celta-malaga
-    https://www.futbolfantasy.com/partidos/1369-granada-elche
-    https://www.futbolfantasy.com/partidos/1373-espanyol-levante
-    https://www.futbolfantasy.com/partidos/1376-valladolid-rayo
-    https://www.futbolfantasy.com/partidos/1368-athletic-getafe
-    https://www.futbolfantasy.com/partidos/1375-osasuna-sevilla
-    https://www.futbolfantasy.com/partidos/1372-betis-atletico
-    https://www.futbolfantasy.com/partidos/1367-valencia-villarreal
-    https://www.futbolfantasy.com/partidos/1371-real-madrid-barcelona
-    https://www.futbolfantasy.com/partidos/1370-almeria-real-sociedad
-    https://www.futbolfantasy.com/partidos/1379-malaga-espanyol
-    https://www.futbolfantasy.com/partidos/1377-elche-athletic
-    https://www.futbolfantasy.com/partidos/1383-barcelona-celta
-    https://www.futbolfantasy.com/partidos/1385-rayo-osasuna
-    https://www.futbolfantasy.com/partidos/1382-atletico-granada
-    https://www.futbolfantasy.com/partidos/1384-sevilla-real-madrid
-    https://www.futbolfantasy.com/partidos/1380-real-sociedad-valladolid
-    https://www.futbolfantasy.com/partidos/1381-getafe-villarreal
-    https://www.futbolfantasy.com/partidos/1378-levante-betis
-    https://www.futbolfantasy.com/partidos/1386-almeria-valencia
-    https://www.futbolfantasy.com/partidos/1394-espanyol-barcelona
-    https://www.futbolfantasy.com/partidos/1395-celta-sevilla
-    https://www.futbolfantasy.com/partidos/1392-athletic-atletico
-    https://www.futbolfantasy.com/partidos/1396-real-madrid-rayo
-    https://www.futbolfantasy.com/partidos/1390-valladolid-almeria
-    https://www.futbolfantasy.com/partidos/1389-osasuna-real-sociedad
-    https://www.futbolfantasy.com/partidos/1391-villarreal-elche
-    https://www.futbolfantasy.com/partidos/1387-valencia-getafe
-    https://www.futbolfantasy.com/partidos/1393-granada-levante
-    https://www.futbolfantasy.com/partidos/1388-betis-malaga
-    https://www.futbolfantasy.com/partidos/1399-almeria-osasuna
-    https://www.futbolfantasy.com/partidos/1402-atletico-villarreal
-    https://www.futbolfantasy.com/partidos/1404-barcelona-betis
-    https://www.futbolfantasy.com/partidos/1398-real-sociedad-real-madrid
-    https://www.futbolfantasy.com/partidos/1405-rayo-celta
-    https://www.futbolfantasy.com/partidos/1397-malaga-granada
-    https://www.futbolfantasy.com/partidos/1401-elche-getafe
-    https://www.futbolfantasy.com/partidos/1406-sevilla-espanyol
-    https://www.futbolfantasy.com/partidos/1400-valladolid-valencia
-    https://www.futbolfantasy.com/partidos/1403-levante-athletic
-    https://www.futbolfantasy.com/partidos/1416-osasuna-valladolid
-    https://www.futbolfantasy.com/partidos/1415-celta-real-sociedad
-    https://www.futbolfantasy.com/partidos/1412-villarreal-levante
-    https://www.futbolfantasy.com/partidos/1409-granada-barcelona
-    https://www.futbolfantasy.com/partidos/1410-real-madrid-almeria
-    https://www.futbolfantasy.com/partidos/1413-betis-sevilla
-    https://www.futbolfantasy.com/partidos/1407-valencia-elche
-    https://www.futbolfantasy.com/partidos/1411-getafe-atletico
-    https://www.futbolfantasy.com/partidos/1414-espanyol-rayo
-    https://www.futbolfantasy.com/partidos/1408-athletic-malaga
-    https://www.futbolfantasy.com/partidos/1417-atletico-elche
-    https://www.futbolfantasy.com/partidos/1421-osasuna-valencia
-    https://www.futbolfantasy.com/partidos/1422-levante-getafe
-    https://www.futbolfantasy.com/partidos/1419-real-sociedad-espanyol
-    https://www.futbolfantasy.com/partidos/1426-almeria-celta
-    https://www.futbolfantasy.com/partidos/1425-rayo-betis
-    https://www.futbolfantasy.com/partidos/1418-sevilla-granada
-    https://www.futbolfantasy.com/partidos/1424-barcelona-athletic
-    https://www.futbolfantasy.com/partidos/1423-malaga-villarreal
-    https://www.futbolfantasy.com/partidos/1420-valladolid-real-madrid
-    https://www.futbolfantasy.com/partidos/1427-elche-levante
-    https://www.futbolfantasy.com/partidos/1432-granada-rayo
-    https://www.futbolfantasy.com/partidos/1429-getafe-malaga
-    https://www.futbolfantasy.com/partidos/1436-real-madrid-osasuna
-    https://www.futbolfantasy.com/partidos/1433-betis-real-sociedad
-    https://www.futbolfantasy.com/partidos/1434-espanyol-almeria
-    https://www.futbolfantasy.com/partidos/1428-valencia-atletico
-    https://www.futbolfantasy.com/partidos/1431-athletic-sevilla
-    https://www.futbolfantasy.com/partidos/1430-villarreal-barcelona
-    https://www.futbolfantasy.com/partidos/1435-celta-valladolid
-    https://www.futbolfantasy.com/partidos/1441-rayo-athletic
-    https://www.futbolfantasy.com/partidos/1439-barcelona-getafe
-    https://www.futbolfantasy.com/partidos/1438-malaga-elche
-    https://www.futbolfantasy.com/partidos/1445-osasuna-celta
-    https://www.futbolfantasy.com/partidos/1444-valladolid-espanyol
-    https://www.futbolfantasy.com/partidos/1443-almeria-betis
-    https://www.futbolfantasy.com/partidos/1437-levante-atletico
-    https://www.futbolfantasy.com/partidos/1440-sevilla-villarreal
-    https://www.futbolfantasy.com/partidos/1446-real-madrid-valencia
-    https://www.futbolfantasy.com/partidos/1442-real-sociedad-granada
-    https://www.futbolfantasy.com/partidos/1451-villarreal-rayo
-    https://www.futbolfantasy.com/partidos/1447-levante-valencia
-    https://www.futbolfantasy.com/partidos/1452-athletic-real-sociedad
-    https://www.futbolfantasy.com/partidos/1448-atletico-malaga
-    https://www.futbolfantasy.com/partidos/1449-elche-barcelona
-    https://www.futbolfantasy.com/partidos/1450-getafe-sevilla
-    https://www.futbolfantasy.com/partidos/1453-granada-almeria
-    https://www.futbolfantasy.com/partidos/1454-betis-valladolid
-    https://www.futbolfantasy.com/partidos/1455-espanyol-osasuna
-    https://www.futbolfantasy.com/partidos/1456-celta-real-madrid
-    https://www.futbolfantasy.com/partidos/1465-malaga-levante
-    https://www.futbolfantasy.com/partidos/1458-real-madrid-espanyol
-    https://www.futbolfantasy.com/partidos/1457-barcelona-atletico
-    https://www.futbolfantasy.com/partidos/1464-valencia-celta
-    https://www.futbolfantasy.com/partidos/1463-real-sociedad-villarreal
-    https://www.futbolfantasy.com/partidos/1459-rayo-getafe
-    https://www.futbolfantasy.com/partidos/1460-osasuna-betis
-    https://www.futbolfantasy.com/partidos/1461-almeria-athletic
-    https://www.futbolfantasy.com/partidos/1466-valladolid-granada
-    https://www.futbolfantasy.com/partidos/1462-sevilla-elche
-    
-
 
 ```python
 print(len(links_ok))
 print(len(links_no_ok))
 ```
 
-    431
+    380
     0
     
-
-
 ```python
-len(df_metricas)
+print(len(df_metricas))
 
 ```
-
-
-
-
     380
-
-
-
 
 ```python
 #df_metricas = df_metricas.dropna()
@@ -1137,9 +746,6 @@ df_metricas.to_excel('C:/Users/Raquel/Documents/Futbol/datos_futbol.xlsx',
 ```
 
 
-```python
-
-```
 
 
 ```python
@@ -1154,8 +760,3 @@ len(lista_links_informacion_df)
 
 
 
-
-```python
-lista_links_informacion_df.to_excel('C:/Users/Raquel/Documents/Futbol/links.xlsx',
-                    index = False)
-```
