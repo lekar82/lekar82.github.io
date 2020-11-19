@@ -27,7 +27,7 @@ Visualmente, la página de la que queremos extraer los datos es la siguiten:
 
 Podemos ver como hay un scroll en la parte de arriba que nos servirá para ir moviendonos de una temporada a otra, y luego podemos ver diferentes cajas con enlaces a cada uno de los partidos. La idea es generar un código que sea capaz de, para una temporada dada, recorrer cada uno de los partidos e ir sacando la siguiente información:
 
-<lu>
+<ul>
 <li> arbitro	</li>
 <li> fecha_jornada	</li>
 <li> Jornada	</li>
@@ -36,7 +36,7 @@ Podemos ver como hay un scroll en la parte de arriba que nos servirá para ir mo
 <li> anno	</li>
 <li> dia	</li>
 <li> mes </li>
-<li>metricas para el equipo  local y el visitante: </li> <lu>
+<li>metricas para el equipo  local y el visitante: </li> <ul>
   <li> equipo </li>
   <li> goles </li>
   <li> Balones_robados </li>
@@ -49,8 +49,8 @@ Podemos ver como hay un scroll en la parte de arriba que nos servirá para ir mo
   <li> Tarjetas_amarillas </li>
   <li> Tarjetas_rojas	</li>
   <li> Tiros_a_puerta </li>
-  <li> Tiros </li> </lu>
-</lu>
+  <li> Tiros </li> </ul>
+</ul>
 *No todas las métricas están disponibles para todas las jornadas*
 
 ## Librerías necesarias
