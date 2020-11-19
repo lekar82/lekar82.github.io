@@ -38,11 +38,13 @@ Para facilitar el análisis, supondremos que el comentario es positivo si la val
 
 ## Librerías necesarias:
 ```python
+
 import datetime
 import zipfile
 import re
 import pandas as pd
 import numpy as np
+import operator
 
 import nltk
 from nltk.corpus import stopwords 
@@ -54,25 +56,18 @@ from string import punctuation
 
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+import seaborn as sn
 
 from textblob import TextBlob
 
 from sklearn.feature_extraction.text import CountVectorizer
-
-from sklearn.model_selection import train_test_split
-
-from sklearn.pipeline import Pipeline
-from sklearn.svm import LinearSVC
-from sklearn.model_selection import GridSearchCV
-
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score, roc_auc_score
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics  import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
 ```
 
 ## Lectura y preparación de los datos
@@ -105,7 +100,6 @@ Una vez tenemos nuestros datos disponibles, el siguiente paso será crear la var
 # recodificamos valoraciones
 DF['puntuacion']  = np.where((DF['estrellas'] >=4.0), 1, 0)
 ```
-
 
 ```python
 DF.head()
@@ -290,10 +284,6 @@ Una vez tenemos clasificadas nuestras reviews, comparamos los resultados con las
 ```python
 cnf_matrix_textblob  = confusion_matrix(DF['polarity_buena_mala'], DF['puntuacion'])
 
-import seaborn as sn
-import pandas as pd
-import matplotlib.pyplot as plt
-
 df_cm = pd.DataFrame(cnf_matrix_textblob)
 # plt.figure(figsize=(10,7))
 sn.set(font_scale=1.4) # for label size
@@ -304,7 +294,6 @@ sn.heatmap(df_cm,annot=True,
 
 plt.show()
 ```
-
 
 ![png](/images/output_22_0.png)
 
@@ -325,8 +314,6 @@ Estamos ante un problema de clasificación finalmente. Realizaremos un pipeline 
 Por limitaciones del ordenador solamente evaluaremos si es mejor incluir unigrams o bigrams (n-gram o subsecuencias de 1 o 2 palabras) y el número máximas features a tener en cuenta.
 
 Por esta misma limitación, nos limitaremos a testear modelos que "consuman menos recursos" de nuestro ordenador: Regresión Logística, KNN y Árbol de decisión.
-
-
 
 ### Bag-of-words (BOW) method
 
@@ -406,6 +393,7 @@ Mejor_modelo['RegresionLogistica'] = gs_reglog.best_score_
 El siguiente algoritmo que vamos a probar es  k-nearest neighbors (KNN)
 
 **Algoritmo:**
+
 ```python
 pipeline_KNN = Pipeline([
     ('vect', vectorizer),  
@@ -429,8 +417,8 @@ gs_KNN = GridSearchCV(pipeline_KNN,
 gs_KNN.fit(DF_train['comentario'], DF_train['puntuacion'])
 ```
 
-
 **Resultados:**
+
 ```python
 print("Los mejores parámetros son %s con un score de %0.3f"
       % (gs_KNN.best_params_,gs_KNN.best_score_))
@@ -445,7 +433,6 @@ Mejor_modelo['KNN'] = gs_KNN.best_score_
 ```
 
 ### Árbol de decisión
-
 
 ```python
 pipeline_ArbolDecison = Pipeline([
@@ -470,6 +457,7 @@ gs_ArbolDecison = GridSearchCV(pipeline_ArbolDecison,
 
 gs_ArbolDecison.fit(DF_train['comentario'], DF_train['puntuacion'])
 ```
+
 **Resultado:**
 
 ```python
@@ -481,7 +469,7 @@ Mejor_modelo['ArbolDecison'] = gs_ArbolDecison.best_score_
 Dados los datos, el modelo que nos ha dado mejor resultado has sido la regresión logistica con un AUC igual a 0.88:
 
 ```python
-import operator
+
 Modelos_orden = sorted(Mejor_modelo.items(), key=operator.itemgetter(1), reverse=True)
 for modelo in enumerate(Modelos_orden):
     print(modelo[1][0], ' tiene un AUC igual a ', round(Mejor_modelo[modelo[1][0]], 4))
@@ -511,8 +499,6 @@ DF_test['predicciones'] = predicciones_test
 ```
       
 Para terminar, evaluamos los resultados:    
-
-
     
 **Matriz de confusión:**
 
@@ -520,9 +506,7 @@ Para terminar, evaluamos los resultados:
 
 cnf_matrix  = confusion_matrix(DF_test['predicciones'], DF_test['puntuacion'])#.ravel()
 
-import seaborn as sn
-import pandas as pd
-import matplotlib.pyplot as plt
+
 
 df_cm = pd.DataFrame(cnf_matrix)
 # plt.figure(figsize=(10,7))
@@ -547,11 +531,8 @@ accuracy_score(DF_test['puntuacion'], DF_test['predicciones'])
 
 **AUC:**
 ```python
-from sklearn.metrics import roc_auc_score
-
 AUC = roc_auc_score(DF_test['puntuacion'], DF_test['predicciones'])
 print(AUC)
-
 ```
 
 0.8067914315098941
