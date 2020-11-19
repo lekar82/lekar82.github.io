@@ -27,35 +27,30 @@ Visualmente, la página de la que queremos extraer los datos es la siguiten:
 
 Podemos ver como hay un scroll en la parte de arriba que nos servirá para ir moviendonos de una temporada a otra, y luego podemos ver diferentes cajas con enlaces a cada uno de los partidos. La idea es generar un código que sea capaz de, para una temporada dada, recorrer cada uno de los partidos e ir sacando la siguiente información:
 
-* Balones_robados_local
-* Balones_robados_visitante	Centros_local	
-* Centros_precisos_local	
-* Centros_precisos_visitante	
-* Centros_visitante	Córners_local	
-* Córners_visitante	Faltas_local	
-* Faltas_visitante	
-* Pases_interceptados_local	
-* Pases_interceptados_visitante	
-* Penaltis_local	
-* Penaltis_visitante	
-* Tarjetas_amarillas_local	* Tarjetas_amarillas_visitante	
-* Tarjetas_rojas_local	
-* Tarjetas_rojas_visitante	
-* Tiros_a_puerta_local	* Tiros_a_puerta_visitante	
-* Tiros_local	
-* Tiros_visitante	
-* arbitro	
-* equipo_local	
-* equipo_visitante	
-* fecha_jornada	
-* goles_local	
-* goles_visitante	
-* Jornada	
-* dia_semana	
-* hora	
-* anno	
-* dia	
-* mes
+<lu>
+  
+<li> arbitro	</li>
+<li> fecha_jornada	</li>
+<li> Jornada	</li>
+<li> dia_semana	</li>
+<li> hora	</li>
+<li> anno	</li>
+<li> dia	</li>
+<li> mes </li><lu>
+<li>metricas para el equipo  local y el visitante: </li> <lu>
+<li> equipo </li>
+<li> goles </li>
+<li> Balones_robados </li>
+<li> Centros_local	</li>
+<li> Centros_precisos	</li>
+<li> Córners </li>
+<li> Faltas </li>
+<li> Pases_interceptados	</li>
+<li> Penaltis	</li>
+<li> Tarjetas_amarillas </li>
+<li> Tarjetas_rojas	</li>
+<li> Tiros_a_puerta </li>
+<li> Tiros </li> <lu>
 
 *No todas las métricas están disponibles para todas las jornadas*
 
