@@ -1,5 +1,31 @@
+## Objetivo
+
 El proposito de este post es extraer información de los resultados de la liga nacional de futbol española (Liga Santander) de la página http://www.futbolfantasy.com.
 
+Visualmente, la página de la que queremos extraer los datos es la siguiten:
+
+![png](/images/futbol/Captura_futbol.PNG)
+
+Podemos ver como hay un scroll en la parte de arriba que nos servirá para ir moviendonos de una temporada a otra, y luego podemos ver diferentes cajas con enlaces a cada uno de los partidos. La idea es generar un código que sea capaz de, para una temporada dada, recorrer cada uno de los partidos e ir sacando la siguiente información:
+
+* Tiros_local  
+* Tiros_visitante  
+* arbitro  
+* equipo_local  
+* equipo_visitante  
+* fecha_jornada  
+* goles_local  
+* goles_visitante
+* link: esta variable la usaremos para un futuro post en el que sacaremos métricas a cerca de los jugadores que intervinieron en cada partido.
+* Jornada:  
+* dia_semana:
+* hora:  
+* año:
+* dia:
+* mes: 
+
+
+## Librerias
 
 ```python
 from bs4 import BeautifulSoup
