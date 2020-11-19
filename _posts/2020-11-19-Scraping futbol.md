@@ -1,3 +1,6 @@
+El proposito de este post es extraer información de los resultados de la liga nacional de futbol española (Liga Santander) de la página http://www.futbolfantasy.com.
+
+
 ```python
 from bs4 import BeautifulSoup
 import urllib.request
