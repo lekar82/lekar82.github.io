@@ -66,12 +66,12 @@ import re
 
 ## Extracción URLs de cada partido
 
-Lo primero que tenemos que indicar es de que temporada queremos extraer los datos. Para este post hemos elegido 2014.
+Lo primero que tenemos que indicar es de que temporada queremos extraer los datos. Para este post hemos elegido 2019.
 
 Como hemos comentado, no todas las temporadas tienen disponible el mismo número de métricas, por lo que incluiremos un loop en el que indicaremos al programa el número de métricas disponibles según la temporada que estemos analizando.
 
 ```python
-temporada = 2014
+temporada = 2019
 
 numero_metricas = 0
 if temporada > 2017:
@@ -91,7 +91,7 @@ soup = BeautifulSoup(ourUrl, 'html.parser')
 
 La información de cada una de las jornadas está recogida en un url diferente, por lo que crearemos una lista en la que iremos guardando las urls de cada una de las jornadas. 
 
-Si miramos el código fuente de la página, las urls que buscamos están en bajo la etiquita <a> con el atributo 'href'. A su vez, esta etiqueta está bajo  la tiqueta de agrupación div con atributo class iguala 'jornada:
+Si miramos el código fuente de la página, las urls que buscamos están en bajo la etiqueta <a> con el atributo 'href'. A su vez, esta etiqueta está bajo  la etiqueta de agrupación div con atributo class iguala 'jornada:
 
 ![png](/images/futbol/Captura_link_a_jornada.PNG)
 
@@ -202,7 +202,9 @@ soup2 = BeautifulSoup(ourUrl2, 'html.parser')
 ```
 ¡Ahora ya podemos empezar a extraer información!
 
-Igual que hicimos para sacar las url, vamos mirando en el código funte de la página las étiquetas y atributos que nos ayudan a encontrar nuestros datos.
+En la siguiente imagen podemos ver la información que podemos sacar del partido: árbitro, fecha y diferentes métricas de cada uno de los dos equipos. Igual que hicimos para sacar las url, vamos mirando en el código funte de la página las étiquetas y atributos que nos ayudan a encontrar nuestros datos.
+
+![png](/images/futbol/Captura_metricas.PNG)
 
 **Información del árbitro:**
 
@@ -218,7 +220,13 @@ print(arbitro)
 
     [<span class="link">Juan Martínez Munuera</span>]
     
------------------------------------------ PENDIENTE DESDE ESTE PUNTO ---------------------------------------------
+**Metricas del pártido:**
+
+![png](/images/futbol/Captura_metricas2.PNG)
+
+Todas las métricas están bajo la misma etiqueta, por lo que haremos un loop para ir extrayendo cada una de las métricas. Dentro de la etiqueta tenemos a su vez otra etiqueta div con el atributo class que tomará diferentes valores para el nombre de la métrica, si se refiere al equipo local o al visitante
+
+
 
 ```python
 local = []
@@ -243,7 +251,7 @@ for j in soup2.find_all('div', attrs={'class':'stat'}):
         nombre_metrica = str(nombre_metrica).replace('<div class="name">', '').replace('</div>', '')
         metricas.append(nombre_metrica)
 ```
-
+----------------------------------------- PENDIENTE DESDE ESTE PUNTO ---------------------------------------------
 
 ```python
 df = pd.DataFrame(list(zip(metricas, local, visitante)), 
