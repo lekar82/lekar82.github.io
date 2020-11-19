@@ -153,8 +153,7 @@ lista_links_informacion = []
 for link in lista:
     text = str(link)
     #print(text)
-    lista_links_informacion.append(extraer_links(text))
-    
+    lista_links_informacion.append(extraer_links(text))  
 ```
 Con este código extraeremos, además de los links de los partidos de la liga, links a otros partidos que se jugaban en la misma semana (amistosos, champions league...)
 
@@ -168,7 +167,6 @@ Si analizamos las urls que nos redireccionan a los partidos, tienen una estructu
 Crearemos una lista con los ids, buscaremos el más bajo y luego filtraremos todas las urls cuyo id esté contenido entre en el id del primer partido y el id del primer partido + 379 (38jornadas x 10 partidos por jornada) 
  
 ```python 
- 
 lista_ids = []
 for id in lista_links_informacion:
     codigo = int(re.sub("[^0-9]", "", id))
@@ -176,7 +174,6 @@ for id in lista_links_informacion:
 
 primer_partido = min(lista_ids)
 ultimo_partido = min(lista_ids) + 379
-
 ```
 
 ```python 
@@ -203,18 +200,17 @@ url2 = lista_links_informacion_liga[0]
 ourUrl2 = urllib.request.urlopen(url2)
 soup2 = BeautifulSoup(ourUrl2, 'html.parser')
 ```
---------------------------------------------------------------------------------------
+¡Ahora ya podemos empezar a extraer información!
 
-```python
-for j in soup2.find_all('div', {'class':'arbitro'}):
-    arbitro = j.find('span', {'class':'link'})
-```
+Igual que hicimos para sacar las url, vamos mirando en el código funte de la página las étiquetas y atributos que nos ayudan a encontrar nuestros datos.
 
+**Información del árbitro:**
+
+![png](/images/futbol/Captura_arbitro.PNG)
 
 ```python
 arbitro = soup2.find_all('span', {'class':'link'})
 ```
-
 
 ```python
 print(arbitro)
@@ -222,7 +218,7 @@ print(arbitro)
 
     [<span class="link">Juan Martínez Munuera</span>]
     
-
+----------------------------------------- PENDIENTE DESDE ESTE PUNTO ---------------------------------------------
 
 ```python
 local = []
