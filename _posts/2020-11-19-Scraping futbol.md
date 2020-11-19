@@ -61,7 +61,6 @@ from bs4 import BeautifulSoup
 import urllib.request
 import pandas as pd
 import re
-
 ```
 
 ## Extracción URLs de cada partido
@@ -224,9 +223,7 @@ print(arbitro)
 
 ![png](/images/futbol/Captura_metricas2.PNG)
 
-Todas las métricas están bajo la misma etiqueta, por lo que haremos un loop para ir extrayendo cada una de las métricas. Dentro de la etiqueta tenemos a su vez otra etiqueta div con el atributo class que tomará diferentes valores para el nombre de la métrica, si se refiere al equipo local o al visitante
-
-
+Todas las métricas están bajo la misma etiqueta, por lo que haremos un loop para ir extrayendo cada una de las métricas. Crearemos 3 listas, una con los nombres de las métricas y cada una de las otras dos con los valores de las métricas para el equipo local y el equipo visitante. Una vez el loop haya recorido todos los enlaces, nos valdremos de esas listas para crear un dataframe.
 
 ```python
 local = []
@@ -251,19 +248,20 @@ for j in soup2.find_all('div', attrs={'class':'stat'}):
         nombre_metrica = str(nombre_metrica).replace('<div class="name">', '').replace('</div>', '')
         metricas.append(nombre_metrica)
 ```
------------------------------------------ PENDIENTE DESDE ESTE PUNTO ---------------------------------------------
+Creamos el datadrame:
+
+
 
 ```python
 df = pd.DataFrame(list(zip(metricas, local, visitante)), 
                columns =['nombre_metrica', 'val_local', 'val_visitante']) 
 
 ```
-
+El resultado, como podemos ver, es una tabla con 3 columnas y tantas filas como métricas haya encontrado el programa.
 
 ```python
 display(df)
 ```
-
 
 <div>
 <style scoped>
@@ -359,7 +357,9 @@ display(df)
 </table>
 </div>
 
+Vamos a dar formato a la tabla. Cuando ejecutemos el código para todos los partidos, el resultado que buscaremos será una fila por cada partido, por lo que lo que tendremos que creear una variable por cada métrica para el equipo local y otra para el equipo visitante
 
+----------------------------------------- PENDIENTE DESDE ESTE PUNTO ---------------------------------------------
 
 ```python
 variables = []
