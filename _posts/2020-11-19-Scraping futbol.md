@@ -6,7 +6,14 @@ div {
 </style>
 
 
-# Web scraping datos de futbol con BeautifulSoup ######
+# Web scraping datos de futbol con BeautifulSoup 
+
+<span class="nt">&lt;table&gt;</span>
+        <span class="nt">&lt;tr&gt;</span>
+            <span class="nt">&lt;td&gt;</span>texto de celda<span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+
 
 ## Indice:
 
