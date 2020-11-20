@@ -5,7 +5,7 @@ div {
   }
 </style>
 
-# <span style = "color:MediumSeaGreen"> Web scraping datos de futbol con BeautifulSoup </span>
+# <span style = "color:637281"> Web scraping datos de futbol con BeautifulSoup </span>
 
 ## Indice:
 
