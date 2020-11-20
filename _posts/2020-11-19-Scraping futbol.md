@@ -5,6 +5,7 @@ div {
   }
 </style>
 
+<p>Some Markdown text with <span style="color:blue">some <em>blue</em> text</span>.</p>
 
 # Web scraping datos de futbol con BeautifulSoup
 
@@ -19,7 +20,7 @@ div {
 
 ## Objetivo
 
-El proposito de este post es extraer información de los resultados de la liga nacional de futbol española (Liga Santander) de la página [futbolfanrasy](http://www.futbolfantasy.com).
+El proposito de este post es extraer información de los resultados de la liga nacional de futbol española (Liga Santander) de la página [futbolfantasy](http://www.futbolfantasy.com).
 
 Visualmente, la página de la que queremos extraer los datos es la siguiten:
 
