@@ -6,7 +6,7 @@ div {
 </style>
 
 
-<title> Web scraping datos de futbol con BeautifulSoup </title>
+# Web scraping datos de futbol con BeautifulSoup 
 
 ## Indice:
 <ul >
