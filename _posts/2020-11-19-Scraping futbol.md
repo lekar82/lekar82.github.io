@@ -9,8 +9,10 @@ div {
 # Web scraping datos de futbol con BeautifulSoup 
 
 ## Indice:
+
+[Objetivo](#Objetivo)
 <ul >
-<li>  [Objetivo](#Objetivo).  </li>
+<li>  Objetivo.  </li>
 <li>  Librerías necesarias. </li>  
 <li>  Código fuente de la página. </li>  
 <li>  Extracción URLs de cada partido </li>
