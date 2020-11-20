@@ -5,7 +5,7 @@ div {
   }
 </styl<e>
 
-<h1 style="color:MediumSeaGreen;">Web scraping datos de futbol con BeautifulSoup </h1>
+# Web scraping datos de futbol con BeautifulSoup
 
 ## Indice:
 
