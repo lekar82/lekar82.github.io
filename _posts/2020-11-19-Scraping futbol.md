@@ -3,10 +3,11 @@ div {
   font-family:"Arial";
   font-size: 18px;
   }
-</style>
+</styl<e>
 
-<h1 style="background-color:MediumSeaGreen;">Web scraping datos de futbol con BeautifulSoup </h1>
+<h1 style="color:MediumSeaGreen;">Web scraping datos de futbol con BeautifulSoup </h1>
 
+<h2 > Indice: </h2>
 ## Indice:
 
 * [Objetivo](#Objetivo)
