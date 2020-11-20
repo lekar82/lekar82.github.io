@@ -10,15 +10,11 @@ div {
 
 ## Indice:
 
-[Objetivo](#Objetivo)
-<ul >
-<li>  Objetivo.  </li>
-<li>  Librerías necesarias. </li>  
-<li>  Código fuente de la página. </li>  
-<li>  Extracción URLs de cada partido </li>
-<li> Información de una jornada </li>
-<li> Información de la temporada completa </li>
-</ul>
+* [Objetivo](#Objetivo)
+* [Librerías necesarias](#Librerías necesarias)
+* [Extracción URLs de cada partido](#Extracción URLs de cada partido)
+* [Información de una jornada](#Información de una jornada)
+* [Información de la temporada completa](#Información de la temporada completa)
 
 
 ## Objetivo
