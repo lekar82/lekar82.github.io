@@ -11,7 +11,7 @@ div {
 ## Indice:
 
 * [Objetivo](#Objetivo)
-* [Librerías necesarias](#Librerías necesarias)
+* [Librerías necesarias](#Librerías_necesarias)
 * [Extracción URLs de cada partido](#Extracción URLs de cada partido)
 * [Información de una jornada](#Información de una jornada)
 * [Información de la temporada completa](#Información de la temporada completa)
