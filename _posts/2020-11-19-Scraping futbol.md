@@ -12,9 +12,9 @@ div {
 
 * [Objetivo](#Objetivo)
 * [Librerías necesarias](#Librerías-necesarias)
-* [Extracción URLs de cada partido](#Extracción URLs de cada partido)
-* [Información de una jornada](#Información de una jornada)
-* [Información de la temporada completa](#Información de la temporada completa)
+* [Extracción URLs de cada partido](#Extracción-URLs-de-cada-partido)
+* [Información de una jornada](#Información-de-una-jornada)
+* [Información de la temporada completa](#Información-de-la-temporada-completa)
 
 
 ## Objetivo
