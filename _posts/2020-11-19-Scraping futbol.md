@@ -10,7 +10,7 @@ div {
 
 ## Indice:
 <ul >
-<li>  Objetivo.  </li>
+<li>  [Objetivo](#Objetivo).  </li>
 <li>  Librerías necesarias. </li>  
 <li>  Código fuente de la página. </li>  
 <li>  Extracción URLs de cada partido </li>
