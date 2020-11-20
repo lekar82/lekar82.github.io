@@ -15,6 +15,7 @@ div {
 <li>  Código fuente de la página. </li>  
 <li>  Extracción URLs de cada partido </li>
 <li> Información de una jornada </li>
+<li> Información de la temporada completa </li>
 </ul>
 
 
@@ -653,7 +654,6 @@ Vemos que para esta jornada en cuestión todas las URLs funcionan correctamente.
 print(len(links_ok), len(links_no_ok))
 ```
     380, 0
----------------------------------------   
 
 Aplicamos las funciones creadas a nuestras URLs
 
