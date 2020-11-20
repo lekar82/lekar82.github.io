@@ -11,7 +11,6 @@ div {
 ## Indice:
 
 * [Objetivo](#Objetivo)
-* [Librerías necesarias](#página-web)
 * [Librerías necesarias](#Librerías-necesarias)
 * [Extracción URLs de cada partido](#Extracción URLs de cada partido)
 * [Información de una jornada](#Información de una jornada)
@@ -54,7 +53,7 @@ Podemos ver como hay un scroll en la parte de arriba que nos servirá para ir mo
 </ul>
 *No todas las métricas están disponibles para todas las jornadas*
 
-## Librerías-necesarias
+## Librerías necesarias
 
 ```python
 from bs4 import BeautifulSoup
