@@ -5,9 +5,7 @@ div {
   }
 </style>
 
-<p>Some Markdown text with <span style="color:blue">some <em>blue</em> text</span>.</p>
-
-# Web scraping datos de futbol con BeautifulSoup
+# <span style = "color:MediumSeaGreen"> Web scraping datos de futbol con BeautifulSoup </span>
 
 ## Indice:
 
