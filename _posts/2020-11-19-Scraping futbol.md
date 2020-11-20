@@ -75,7 +75,7 @@ temporada = 2019
 numero_metricas = 0
 if temporada > 2017:
     numero_metricas = 16
-if temporada <= 2017 and temporada > 2015:
+elif temporada <= 2017 and temporada > 2015:
     numero_metricas = 15
 else:
     numero_metricas = 11
@@ -250,8 +250,6 @@ for j in soup2.find_all('div', attrs={'class':'stat'}):
 ```
 Creamos el datadrame:
 
-
-
 ```python
 df = pd.DataFrame(list(zip(metricas, local, visitante)), 
                columns =['nombre_metrica', 'val_local', 'val_visitante']) 
@@ -357,16 +355,15 @@ display(df)
 </table>
 </div>
 
-Vamos a dar formato a la tabla. Cuando ejecutemos el código para todos los partidos, el resultado que buscaremos será una fila por cada partido, por lo que lo que tendremos que creear una variable por cada métrica para el equipo local y otra para el equipo visitante
+Vamos a dar formato a la tabla. Cuando ejecutemos el código para todos los partidos, el resultado que buscaremos será una fila por cada partido, por lo que lo que tendremos que creear una variable por cada métrica para el equipo local y otra para el equipo visitante.
 
------------------------------------------ PENDIENTE DESDE ESTE PUNTO ---------------------------------------------
+Crearemos dos listas, una con los nombres de las variables y otra con los valores.
 
 ```python
 variables = []
 valores = []
 
-for i in range(len(df)):
-    
+for i in range(len(df)):    
     nombre_local = df.iloc[i]['nombre_metrica'].replace(' ', '_') + str('_local')
     variables.append(nombre_local)
     nombre_visitante = df.iloc[i]['nombre_metrica'].replace(' ', '_') + str('_visitante')
@@ -375,20 +372,19 @@ for i in range(len(df)):
     valor_local = df.iloc[i]['val_local']
     valores.append(valor_local)
     valor_visitante = df.iloc[i]['val_visitante']
-    valores.append(valor_visitante)
-       
-    
+    valores.append(valor_visitante)    
 ```
-
+ Haciendo uso de estás dos listas, crearemos un diccionario en el que las claves serán igual a las diferntes variables.
 
 ```python
 #diccionario para añadir los datos a la tabla
-
 d = {}
 for i in range(len(variables)):
     d[variables[i]] = valores[i]
-
 ```
+Continuamos añadiendo las variables restantes (resultado, equipo, goles) a este diccionario antes de crear nuetro dataframe. 
+
+![png](/images/futbol/Captura_goles.PNG)
 
 
 ```python
@@ -409,18 +405,14 @@ for j in soup2.find_all('div', {'class':'resultado'}):
     
     goles_visitante = j.find('div', {'class': 'visitante score'})#.replace('<div class="visitante score">', '').replace('</div>', '')
     d['goles_visitante'] = goles_visitante
- 
-
 ```
-
+Ya tenemos todas las métricas recogidas en nuestro diccionario. Ahora procedemos a crear el dataframe. Pimero crearemos un dataframe vacío que tenga por variables (columnas) los nombres de las métricas que hemos ido recogiendo 
 
 ```python
 # creamos un nuevo df con los nombres de esas variables:
 df_metricas = pd.DataFrame(columns = variables)
 display(df_metricas)
-
 ```
-
 
 <div>
 <style scoped>
@@ -469,18 +461,87 @@ display(df_metricas)
 <p>0 rows × 22 columns</p>
 </div>
 
-
-
-```python
-#df_metricas = df_metricas.append(d, ignore_index=True)
-```
-
+Usamos el diccionario que hemos creado previamente para insertar nuestros valores en el dataframe
 
 ```python
-### ahora tenemos que popularizar esto para todas las jornadas.
-### pendiente añadir la jornada también
+df_metricas = df_metricas.append(d, ignore_index=True)
+print(df_metricas)
 ```
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Tiros_local</th>
+      <th>Tiros_visitante</th>
+      <th>Tiros_a_puerta_local</th>
+      <th>Tiros_a_puerta_visitante</th>
+      <th>Centros_local</th>
+      <th>Centros_visitante</th>
+      <th>Centros_precisos_local</th>
+      <th>Centros_precisos_visitante</th>
+      <th>Córners_local</th>
+      <th>Córners_visitante</th>
+      <th>...</th>
+      <th>Puntos_Futmondo_Prensa_local</th>
+      <th>Puntos_Futmondo_Prensa_visitante</th>
+      <th>Puntos_Comunio_local</th>
+      <th>Puntos_Comunio_visitante</th>
+      <th>Puntos_Futmondo_Mixto_local</th>
+      <th>Puntos_Futmondo_Mixto_visitante</th>
+      <th>equipo_local</th>
+      <th>equipo_visitante</th>
+      <th>goles_local</th>
+      <th>goles_visitante</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>13</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>27</td>
+      <td>16</td>
+      <td>7</td>
+      <td>2</td>
+      <td>3</td>
+      <td>2</td>
+      <td>...</td>
+      <td>55</td>
+      <td>60</td>
+      <td>68</td>
+      <td>52</td>
+      <td>86.5</td>
+      <td>60.8</td>
+      <td>[Girona]</td>
+      <td>[Valladolid]</td>
+      <td>[0]</td>
+      <td>[0]</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 36 columns</p>
+</div>
+
+## Información de la temporada completa
+
+Ahora que ya hemos visto como se extraería la información para una jornada, vamos a crear una función que nos sirva para recolectar la información de todas las jornadas
 
 ```python
 def extraccion_metricas_jonada(x):
@@ -533,7 +594,7 @@ def extraccion_metricas_jonada(x):
         return(df,equipo_local.text, equipo_visitante.text, goles_local.text, goles_visitante.text, fecha.text, arbitro)
          
 ```
-
+Creamos una segunda función para generar el diccionario de valores:
 
 ```python
 def diccionario_valores(data):
@@ -571,7 +632,7 @@ def diccionario_valores(data):
     return(d, variables)
     
 ```
-
+Por último, para evitar errores en la ejecución si alguna url está corrupta, creamos una lista con los links que están correctos:
 
 ```python
 links_ok = []
@@ -586,38 +647,20 @@ for i in lista_links_informacion:
         links_no_ok.append(i)
         print(i)
 ```
-
-
-```python
-#print(links_ok)
-```
-
+Vemos que para esta jornada en cuestión todas las URLs funcionan correctamente.
 
 ```python
-#print(links_no_ok)
+print(len(links_ok), len(links_no_ok))
 ```
+    380, 0
+---------------------------------------   
 
-
-```python
-jornadas_ok = 380 - len(links_no_ok)
-len(links_ok[0:jornadas_ok])
-
-```
-
-
-
-
-    380
-
-
-
+Aplicamos las funciones creadas a nuestras URLs
 
 ```python
 df_metricas = pd.DataFrame()
 
-for i in links_ok[0:jornadas_ok]:
-    print(i)
-    #print(metricas)
+for i in links_ok:
     
     metricas = extraccion_metricas_jonada(i)
     diccionario = diccionario_valores(metricas[0])
@@ -630,20 +673,8 @@ for i in links_ok[0:jornadas_ok]:
         df_metricas = df_metricas.append(diccionario[0], ignore_index=True)
 ```
 
-
-```python
-print(len(links_ok))
-print(len(links_no_ok))
-```
-
-    380
-    0
-    
-```python
-print(len(df_metricas))
-
-```
-    380
+Vamos a echar un ojo al dataframe que hemos creado. Se nos ha creado un dataframe con 380 filas (38 Jornadas x 10 partidos) y 38 columnas. 
+Observamos que nuestro script no ha conseguidod obtener el nombre del árbitro en 1 de los 380 partidos.
 
 ```python
 #df_metricas = df_metricas.dropna()
@@ -652,47 +683,230 @@ df_metricas.info()
 
     <class 'pandas.core.frame.DataFrame'>
     RangeIndex: 380 entries, 0 to 379
-    Data columns (total 28 columns):
-     #   Column                         Non-Null Count  Dtype 
-    ---  ------                         --------------  ----- 
-     0   Balones_robados_local          380 non-null    object
-     1   Balones_robados_visitante      380 non-null    object
-     2   Centros_local                  380 non-null    object
-     3   Centros_precisos_local         380 non-null    object
-     4   Centros_precisos_visitante     380 non-null    object
-     5   Centros_visitante              380 non-null    object
-     6   Córners_local                  380 non-null    object
-     7   Córners_visitante              380 non-null    object
-     8   Faltas_local                   380 non-null    object
-     9   Faltas_visitante               380 non-null    object
-     10  Pases_interceptados_local      380 non-null    object
-     11  Pases_interceptados_visitante  380 non-null    object
-     12  Penaltis_local                 380 non-null    object
-     13  Penaltis_visitante             380 non-null    object
-     14  Tarjetas_amarillas_local       380 non-null    object
-     15  Tarjetas_amarillas_visitante   380 non-null    object
-     16  Tarjetas_rojas_local           380 non-null    object
-     17  Tarjetas_rojas_visitante       380 non-null    object
-     18  Tiros_a_puerta_local           380 non-null    object
-     19  Tiros_a_puerta_visitante       380 non-null    object
-     20  Tiros_local                    380 non-null    object
-     21  Tiros_visitante                380 non-null    object
-     22  arbitro                        378 non-null    object
-     23  equipo_local                   380 non-null    object
-     24  equipo_visitante               380 non-null    object
-     25  fecha_jornada                  380 non-null    object
-     26  goles_local                    380 non-null    object
-     27  goles_visitante                380 non-null    object
-    dtypes: object(28)
-    memory usage: 83.2+ KB
+    Data columns (total 38 columns):
+     #   Column                            Non-Null Count  Dtype 
+    ---  ------                            --------------  ----- 
+     0   Balones_robados_local             380 non-null    object
+     1   Balones_robados_visitante         380 non-null    object
+     2   Centros_local                     380 non-null    object
+     3   Centros_precisos_local            380 non-null    object
+     4   Centros_precisos_visitante        380 non-null    object
+     5   Centros_visitante                 380 non-null    object
+     6   Córners_local                     380 non-null    object
+     7   Córners_visitante                 380 non-null    object
+     8   Faltas_local                      380 non-null    object
+     9   Faltas_visitante                  380 non-null    object
+     10  Pases_interceptados_local         380 non-null    object
+     11  Pases_interceptados_visitante     380 non-null    object
+     12  Penaltis_local                    380 non-null    object
+     13  Penaltis_visitante                380 non-null    object
+     14  Puntos_Comunio_local              380 non-null    object
+     15  Puntos_Comunio_visitante          380 non-null    object
+     16  Puntos_Futmondo_Mixto_local       380 non-null    object
+     17  Puntos_Futmondo_Mixto_visitante   380 non-null    object
+     18  Puntos_Futmondo_Prensa_local      380 non-null    object
+     19  Puntos_Futmondo_Prensa_visitante  380 non-null    object
+     20  Puntos_Futmondo_Stats_local       380 non-null    object
+     21  Puntos_Futmondo_Stats_visitante   380 non-null    object
+     22  Puntos_Picas_local                380 non-null    object
+     23  Puntos_Picas_visitante            380 non-null    object
+     24  Tarjetas_amarillas_local          380 non-null    object
+     25  Tarjetas_amarillas_visitante      380 non-null    object
+     26  Tarjetas_rojas_local              380 non-null    object
+     27  Tarjetas_rojas_visitante          380 non-null    object
+     28  Tiros_a_puerta_local              380 non-null    object
+     29  Tiros_a_puerta_visitante          380 non-null    object
+     30  Tiros_local                       380 non-null    object
+     31  Tiros_visitante                   380 non-null    object
+     32  arbitro                           379 non-null    object
+     33  equipo_local                      380 non-null    object
+     34  equipo_visitante                  380 non-null    object
+     35  fecha_jornada                     380 non-null    object
+     36  goles_local                       380 non-null    object
+     37  goles_visitante                   380 non-null    object
+    dtypes: object(38)
+    memory usage: 112.9+ KB
     
+Echamos un vistazo a la tabla que hemos obtenido. Como podemos comprobar, el texto no ha quedado del todo limpio en las variables árbitro y fecha_jornada. 
 
+```python
+df_metricas.head()
+```
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Balones_robados_local</th>
+      <th>Balones_robados_visitante</th>
+      <th>Centros_local</th>
+      <th>Centros_precisos_local</th>
+      <th>Centros_precisos_visitante</th>
+      <th>Centros_visitante</th>
+      <th>Córners_local</th>
+      <th>Córners_visitante</th>
+      <th>Faltas_local</th>
+      <th>Faltas_visitante</th>
+      <th>...</th>
+      <th>Tiros_a_puerta_local</th>
+      <th>Tiros_a_puerta_visitante</th>
+      <th>Tiros_local</th>
+      <th>Tiros_visitante</th>
+      <th>arbitro</th>
+      <th>equipo_local</th>
+      <th>equipo_visitante</th>
+      <th>fecha_jornada</th>
+      <th>goles_local</th>
+      <th>goles_visitante</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8</td>
+      <td>17</td>
+      <td>27</td>
+      <td>7</td>
+      <td>2</td>
+      <td>16</td>
+      <td>3</td>
+      <td>2</td>
+      <td>21</td>
+      <td>20</td>
+      <td>...</td>
+      <td>1</td>
+      <td>1</td>
+      <td>13</td>
+      <td>2</td>
+      <td>[Cuadra Fernández]</td>
+      <td>Girona</td>
+      <td>Valladolid</td>
+      <td>\n\t\t\tJornada 1. Viernes, 17 de agosto del 2...</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>13</td>
+      <td>7</td>
+      <td>24</td>
+      <td>4</td>
+      <td>1</td>
+      <td>10</td>
+      <td>5</td>
+      <td>3</td>
+      <td>10</td>
+      <td>10</td>
+      <td>...</td>
+      <td>8</td>
+      <td>4</td>
+      <td>22</td>
+      <td>6</td>
+      <td>[Ignacio Iglesias Villanueva]</td>
+      <td>Betis</td>
+      <td>Levante</td>
+      <td>\n\t\t\tJornada 1. Viernes, 17 de agosto del 2...</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+      <td>11</td>
+      <td>25</td>
+      <td>4</td>
+      <td>4</td>
+      <td>20</td>
+      <td>8</td>
+      <td>7</td>
+      <td>13</td>
+      <td>14</td>
+      <td>...</td>
+      <td>2</td>
+      <td>5</td>
+      <td>12</td>
+      <td>14</td>
+      <td>[Santiago Jaime Latre]</td>
+      <td>Celta</td>
+      <td>Espanyol</td>
+      <td>\n\t\t\tJornada 1. Sábado, 18 de agosto del 20...</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9</td>
+      <td>4</td>
+      <td>17</td>
+      <td>3</td>
+      <td>5</td>
+      <td>13</td>
+      <td>4</td>
+      <td>6</td>
+      <td>16</td>
+      <td>10</td>
+      <td>...</td>
+      <td>7</td>
+      <td>4</td>
+      <td>16</td>
+      <td>8</td>
+      <td>[Mario Melero López]</td>
+      <td>Villarreal</td>
+      <td>Real Sociedad</td>
+      <td>\n\t\t\tJornada 1. Sábado, 18 de agosto del 20...</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>10</td>
+      <td>10</td>
+      <td>2</td>
+      <td>1</td>
+      <td>7</td>
+      <td>7</td>
+      <td>1</td>
+      <td>6</td>
+      <td>13</td>
+      <td>...</td>
+      <td>9</td>
+      <td>0</td>
+      <td>25</td>
+      <td>3</td>
+      <td>[José María Sánchez Martínez]</td>
+      <td>Barcelona</td>
+      <td>Alavés</td>
+      <td>\n\t\t\tJornada 1. Sábado, 18 de agosto del 20...</td>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 38 columns</p>
+</div>
+
+Limpiamos la variable árbitro:
 
 ```python
 #df_metricas['arbitro'] =  df_metricas['arbitro'].apply(lambda x: re.escape(str(x)))
 df_metricas['arbitro'] = df_metricas['arbitro'].apply(lambda x: str(x).replace('<span class="link">', '').replace('</span>', ''))
 ```
-
+Dividimos la variable fecha_jornada en dos variables: fecha y jornada
 
 ```python
 # separamos jornada de fecha
@@ -704,14 +918,12 @@ df_metricas['Jornada'] =  df_metricas['Jornada'].apply(lambda x: re.sub('Jornada
 
 df_metricas["fecha"]= fecha[1] 
 ```
-
-
+y a partir de la fecha generamos las variables hora, mes, año y día de la semana:
 ```python
 dia_semana = df_metricas['fecha'].str.split(",", n = 1, expand = True) 
 df_metricas["dia_semana"]= dia_semana[0] 
 df_metricas["fecha"]= dia_semana[1] 
 ```
-
 
 ```python
 fecha_time = df_metricas['fecha'].str.split("a las", n = 1, expand = True) 
@@ -719,13 +931,11 @@ df_metricas["fecha"]= fecha_time[0]
 df_metricas["hora"]= fecha_time[1].apply(lambda x: re.sub('h','', str(x)))
 ```
 
-
 ```python
 anno = df_metricas['fecha'].str.split("del ", n = 1, expand = True) 
 df_metricas["fecha"]= anno[0] 
 df_metricas["anno"]= anno[1]
 ```
-
 
 ```python
 dia_mes = df_metricas['fecha'].str.split(" de ", n = 1, expand = True) 
@@ -733,30 +943,178 @@ df_metricas["dia"]= dia_mes[0]
 df_metricas["mes"]= dia_mes[1]
 ```
 
+La tabla final nos queda de la siguiente manera:
 
 ```python
 df_metricas = df_metricas.dropna().drop(['fecha'], axis = 1)
-#display(df_metricas)
+df_metricas.head()
 ```
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-```python
-df_metricas.to_excel('C:/Users/Raquel/Documents/Futbol/datos_futbol.xlsx',
-                    index = False)
-```
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-
-
-
-```python
-lista_links_informacion_df = pd.DataFrame( links_ok[0:jornadas_ok], columns = ['links'])
-len(lista_links_informacion_df)
-```
-
-
-
-
-    380
-
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Balones_robados_local</th>
+      <th>Balones_robados_visitante</th>
+      <th>Centros_local</th>
+      <th>Centros_precisos_local</th>
+      <th>Centros_precisos_visitante</th>
+      <th>Centros_visitante</th>
+      <th>Córners_local</th>
+      <th>Córners_visitante</th>
+      <th>Faltas_local</th>
+      <th>Faltas_visitante</th>
+      <th>...</th>
+      <th>equipo_visitante</th>
+      <th>fecha_jornada</th>
+      <th>goles_local</th>
+      <th>goles_visitante</th>
+      <th>Jornada</th>
+      <th>dia_semana</th>
+      <th>hora</th>
+      <th>anno</th>
+      <th>dia</th>
+      <th>mes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8</td>
+      <td>17</td>
+      <td>27</td>
+      <td>7</td>
+      <td>2</td>
+      <td>16</td>
+      <td>3</td>
+      <td>2</td>
+      <td>21</td>
+      <td>20</td>
+      <td>...</td>
+      <td>Valladolid</td>
+      <td>Jornada 1. Viernes, 17 de agosto del 2018 a la...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Viernes</td>
+      <td>20:15</td>
+      <td>2018</td>
+      <td>17</td>
+      <td>agosto</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>13</td>
+      <td>7</td>
+      <td>24</td>
+      <td>4</td>
+      <td>1</td>
+      <td>10</td>
+      <td>5</td>
+      <td>3</td>
+      <td>10</td>
+      <td>10</td>
+      <td>...</td>
+      <td>Levante</td>
+      <td>Jornada 1. Viernes, 17 de agosto del 2018 a la...</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>Viernes</td>
+      <td>22:15</td>
+      <td>2018</td>
+      <td>17</td>
+      <td>agosto</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+      <td>11</td>
+      <td>25</td>
+      <td>4</td>
+      <td>4</td>
+      <td>20</td>
+      <td>8</td>
+      <td>7</td>
+      <td>13</td>
+      <td>14</td>
+      <td>...</td>
+      <td>Espanyol</td>
+      <td>Jornada 1. Sábado, 18 de agosto del 2018 a las...</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Sábado</td>
+      <td>18:15</td>
+      <td>2018</td>
+      <td>18</td>
+      <td>agosto</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9</td>
+      <td>4</td>
+      <td>17</td>
+      <td>3</td>
+      <td>5</td>
+      <td>13</td>
+      <td>4</td>
+      <td>6</td>
+      <td>16</td>
+      <td>10</td>
+      <td>...</td>
+      <td>Real Sociedad</td>
+      <td>Jornada 1. Sábado, 18 de agosto del 2018 a las...</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>Sábado</td>
+      <td>20:15</td>
+      <td>2018</td>
+      <td>18</td>
+      <td>agosto</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>10</td>
+      <td>10</td>
+      <td>2</td>
+      <td>1</td>
+      <td>7</td>
+      <td>7</td>
+      <td>1</td>
+      <td>6</td>
+      <td>13</td>
+      <td>...</td>
+      <td>Alavés</td>
+      <td>Jornada 1. Sábado, 18 de agosto del 2018 a las...</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Sábado</td>
+      <td>22:15</td>
+      <td>2018</td>
+      <td>18</td>
+      <td>agosto</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 44 columns</p>
+</div>
 
 
