@@ -1,10 +1,3 @@
-<style>
-div { 
-  font-family:"Arial";
-  font-size: 18px;
-  }
-</styl<e>
-
 # Web scraping datos de futbol con BeautifulSoup
 
 ## Indice:
