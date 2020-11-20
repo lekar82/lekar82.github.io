@@ -7,7 +7,6 @@ div {
 
 <h1 style="color:MediumSeaGreen;">Web scraping datos de futbol con BeautifulSoup </h1>
 
-<h2 > Indice: </h2>
 ## Indice:
 
 * [Objetivo](#Objetivo)
