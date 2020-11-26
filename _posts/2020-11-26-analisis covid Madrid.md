@@ -15,7 +15,10 @@ Se pretende analizar la evolución del Covid-en la Comunidad Autónoma de Madrid
 
 Las fuentes que vamos a usar para realizar el estudio son:
 
-* [página oficial de la comunidad de Madrid](https://www.comunidad.madrid/servicios/salud/2019-nuevo-coronavirus#situacion-epidemiologica-actual): en esta página podemos 
+* [Página oficial de la comunidad de Madrid](https://www.comunidad.madrid/servicios/salud/2019-nuevo-coronavirus#situacion-epidemiologica-actual): en esta página podemos 
+
+
+## Librerías necesarias
 
 Importamos librerías necesarias
 
@@ -43,7 +46,6 @@ import matplotlib.pyplot as plt
 
 ### Guardamos todos los informes de contagios de la comunidad de Madrid
 
-
 ```python
 url = 'https://www.comunidad.madrid/servicios/salud/2019-nuevo-coronavirus#situacion-epidemiologica-actual'
 ourUrl = urllib.request.urlopen(url)
@@ -62,21 +64,13 @@ for link in soup.find_all('li'):
     
 len(links_pdfs)
 ```
-
-
-
-
     182
 
-
-
 A excepcción del informe del 14 de agosto que tiene un id raro mayor que el resto, el resto de los ficheros son consecutivos. Por lo que el segundo fichero por la cola será el último fichero disponible
-
 
 ```python
 links_pdfs.sort()
 ```
-
 
 ```python
 links_pdfs[-2]
@@ -118,38 +112,7 @@ for i in range(len(links_pdfs)):
     outputStream.close()
 ```
 
-    PdfReadWarning: Superfluous whitespace found in object header b'1' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'2' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'3' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'29' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'30' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'11' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'4' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'5' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'6' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'8' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'7' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'9' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'10' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'20' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'13' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'14' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'15' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'17' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'16' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'18' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'19' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'28' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'21' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'22' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'23' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'25' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'24' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'26' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'27' b'0' [pdf.py:1665]
-    PdfReadWarning: Superfluous whitespace found in object header b'12' b'0' [pdf.py:1665]
-    PdfReadWarning: Xref table not zero-indexed. ID numbers for objects will be corrected. [pdf.py:1736]
-    
+   
 
 
 ```python
