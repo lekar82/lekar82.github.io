@@ -126,9 +126,7 @@ data_final_ultimo.info()
     dtypes: object(4)
     memory usage: 10.7+ KB
     
-
 Cambiamos los tipos de nuestras variables:
-
 
 ```python
 data_final_ultimo["dato_diario"] = pd.to_numeric(data_final_ultimo["dato_diario"])
@@ -136,7 +134,6 @@ data_final_ultimo["acumulado"] = pd.to_numeric(data_final_ultimo["acumulado"])
 data_final_ultimo["Fecha"] = data_final_ultimo["Fecha"].str.replace(' ', '')
 data_final_ultimo["Fecha"] = pd.to_datetime(data_final_ultimo["Fecha"], format="%d/%m/%Y")
 ```
-
 
 ```python
 data_final_ultimo.info()
@@ -154,14 +151,9 @@ data_final_ultimo.info()
     dtypes: datetime64[ns](1), float64(2), object(1)
     memory usage: 10.7+ KB
     
-
-
 ```python
 data_final_ultimo.head()
 ```
-
-
-
 
 <div>
 <style scoped>
@@ -226,3 +218,25 @@ data_final_ultimo.head()
   </tbody>
 </table>
 </div>
+
+```python
+datos_df = data_final_ultimo.sort_values(by='Fecha')
+
+plt.figure(figsize=(60,20))
+plt.bar(data_final_ultimo['Fecha'], data_final_ultimo['dato_diario'],color = 'darkblue',)
+
+plt.title('Evolución número contagios Covid-19 en la CCAA de Madrid', fontsize = 60)
+
+
+plt.xticks(rotation= 45 )
+plt.xticks(fontsize=30)
+plt.yticks(fontsize=30)
+
+plt.xlabel('Fecha', fontsize=50)
+plt.ylabel('Numero de contagios', fontsize=50)
+```
+
+    Text(0, 0.5, 'Numero de contagios')
+
+![png](images/covid_madrid/output_18_1.png)
+
