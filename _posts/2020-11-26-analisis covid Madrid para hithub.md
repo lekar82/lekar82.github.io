@@ -1,6 +1,21 @@
-BBDD que vamos a utlizar:
+<style> div { font-family:"Arial"; font-size: 18px; } </style>
 
-https://www.comunidad.madrid/servicios/salud/2019-nuevo-coronavirus#situacion-epidemiologica-actual
+# Evolución del Covid-19 en la CCAA de Madrid
+
+## Indice:
+
+* [Objetivo](#Objetivo)
+* [Librerías necesarias](#Librerías-necesarias)
+
+## Objetivo
+
+Se pretende analizar la evolución del Covid-en la Comunidad Autónoma de Madrid. Tendremos en cuenta:  
+* Número de contagios reportados.  
+* Número de pruebas diagnosticas reportadas.  
+
+Las fuentes que vamos a usar para realizar el estudio son:
+
+* [página oficial de la comunidad de Madrid](https://www.comunidad.madrid/servicios/salud/2019-nuevo-coronavirus#situacion-epidemiologica-actual): en esta página podemos 
 
 Importamos librerías necesarias
 
