@@ -238,5 +238,5 @@ plt.ylabel('Numero de contagios', fontsize=50)
 
     Text(0, 0.5, 'Numero de contagios')
 
-![png](images/covid_madrid/output_18_1.png)
+![png](/images/covid_madrid/output_18_1.png)
 
