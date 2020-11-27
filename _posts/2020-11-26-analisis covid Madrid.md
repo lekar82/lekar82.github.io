@@ -6,6 +6,8 @@
 
 * [Objetivo](#Objetivo)
 * [Librerías necesarias](#Librerías-necesarias)
+* [Datos de contagios](#Datos-de-contagios)
+
 
 ## Objetivo
 
@@ -15,13 +17,12 @@ Se pretende analizar la evolución del Covid-en la Comunidad Autónoma de Madrid
 
 Las fuentes que vamos a usar para realizar el estudio son:
 
-* [Página oficial de la comunidad de Madrid](https://www.comunidad.madrid/servicios/salud/2019-nuevo-coronavirus#situacion-epidemiologica-actual): en esta página podemos 
-
+* [Página oficial de la comunidad de Madrid](https://www.comunidad.madrid/servicios/salud/2019-nuevo-coronavirus#situacion-epidemiologica-actual): donde tenemos datos diarios del número de contagios.
+* [Página oficial del Ministerio de Salud del Gobierno de España](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/): semanalmente publican en sus notas de presa los datos de pruebas realizadas.
 
 ## Librerías necesarias
 
 Importamos librerías necesarias
-
 
 ```python
 import pandas as pd
@@ -41,7 +42,7 @@ import tabula
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import io
 ```
-## Datos contagios
+## Datos de contagios
 
 Como hemos comentado, la Comunidad de Madrid en su página oficial publica los datos diaríos de contagios oficiales. Los informes están en formato pdf, por lo que haremos uso de la librería *Tabula* para extraer la información.
 
@@ -109,6 +110,11 @@ file = 'datos/Informe de situación 24 de noviembre 2020.pdf'
 
 data_final_ultimo = extr_date(file)
 ```
+Analizamos las variables de nuestro dataframe.
+* Fecha: 
+* dato_diario: número de contagios del día en cuestión. Hay que resaltar que la CCAA de Madrid considera que el día de contagio es el día en el que se realizó la prueba, por ejemplo, si una persona se hizo la prueba el 3 de Abril y el resultado se lo dieron el 8 de Abril, el caso positivo se sumará a los datos del 3 de Abril, no el día 8. Esto hay que tenerlo en cuenta a la hora de hacer los análisis porque los datos de contagios de los últimos días no son definitivos, en posteriores informes podría cambiar.
+* acumulado: Contagios confirmados acumulados hasta la fecha
+* fecha_informe: fecha en la que la CCAA generó el informe. 
 
 ```python
 data_final_ultimo.info()
@@ -126,7 +132,7 @@ data_final_ultimo.info()
     dtypes: object(4)
     memory usage: 10.7+ KB
     
-Cambiamos los tipos de nuestras variables:
+Como podemos observar, todas las variables son de tipo string ahora mismo. Cambiamos los tipos:
 
 ```python
 data_final_ultimo["dato_diario"] = pd.to_numeric(data_final_ultimo["dato_diario"])
@@ -227,8 +233,7 @@ plt.bar(data_final_ultimo['Fecha'], data_final_ultimo['dato_diario'],color = 'da
 
 plt.title('Evolución número contagios Covid-19 en la CCAA de Madrid', fontsize = 60)
 
-
-plt.xticks(rotation= 45 )
+plt.xticks(rotation= 45)
 plt.xticks(fontsize=30)
 plt.yticks(fontsize=30)
 
@@ -256,12 +261,10 @@ plt.bar(data_final_ultimo['Fecha'], data_final_ultimo['dato_diario'],
         color = 'darkblue',
        label='casos diarios')
 
-
 plt.plot(data_final_ultimo['Fecha'], data_final_ultimo['MovingAgerage'], 
          color='red', 
          linewidth=8, 
          label='media movil 7 días')
-
 
 plt.title('Evolución número contagios Covid-19 en la CCAA de Madrid', fontsize = 60)
 
