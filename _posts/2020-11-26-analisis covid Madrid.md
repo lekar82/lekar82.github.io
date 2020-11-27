@@ -1,6 +1,6 @@
 <style> div { font-family:"Arial"; font-size: 18px; } </style>
 
-# Evolución del Covid-19 en la CCAA de Madrid
+# Evolución del Covid-19 en la CCAA de Madrid con Matplotlib
 
 ## Indice:
 
@@ -107,11 +107,10 @@ Extraemos los datos
 
 ```python
 file = 'datos/Informe de situación 24 de noviembre 2020.pdf'
-
 data_final_ultimo = extr_date(file)
 ```
 Analizamos las variables de nuestro dataframe.
-* Fecha: 
+* Fecha: Fecha de contagio
 * dato_diario: número de contagios del día en cuestión. Hay que resaltar que la CCAA de Madrid considera que el día de contagio es el día en el que se realizó la prueba, por ejemplo, si una persona se hizo la prueba el 3 de Abril y el resultado se lo dieron el 8 de Abril, el caso positivo se sumará a los datos del 3 de Abril, no el día 8. Esto hay que tenerlo en cuenta a la hora de hacer los análisis porque los datos de contagios de los últimos días no son definitivos, en posteriores informes podría cambiar.
 * acumulado: Contagios confirmados acumulados hasta la fecha
 * fecha_informe: fecha en la que la CCAA generó el informe. 
@@ -139,9 +138,6 @@ data_final_ultimo["dato_diario"] = pd.to_numeric(data_final_ultimo["dato_diario"
 data_final_ultimo["acumulado"] = pd.to_numeric(data_final_ultimo["acumulado"])
 data_final_ultimo["Fecha"] = data_final_ultimo["Fecha"].str.replace(' ', '')
 data_final_ultimo["Fecha"] = pd.to_datetime(data_final_ultimo["Fecha"], format="%d/%m/%Y")
-```
-
-```python
 data_final_ultimo.info()
 ```
 
@@ -277,6 +273,7 @@ plt.ylabel('Numero de contagios', fontsize=50)
 
 plt.legend(fontsize=40)
 ```
+En el gráfico se observa perfectamente las dos olas reflejadas y como la incidencia en cuanto a número de contagios detectados en la segunda ola ha sido muy superior a la de la primera. ¿Eso significa que la situación en la segunda ola ha sido mucho peor? no necesariamente, simplemente nos indica que se han detectado más casos.
 
 ![png](/images/covid_madrid/output_21_1.png)
 
@@ -750,12 +747,9 @@ plt.show()
 
 ![png](/images/covid_madrid/output_34_1.png)
 
-
-Dada la diferencia en los números, vamos a probar a hacer un gráfico situando cada una de las series un un eje y distinto:
+Dada la diferencia en los números, vamos a probar a hacer un gráfico situando cada una de las series un un eje y distinto.
 
 ```python
-plt.clf()
-
 plt.style.use(['classic'])
 
 DF_Pruebas_casos = DF_Pruebas_casos.sort_values(by='Fecha')
@@ -764,11 +758,9 @@ fig=plt.figure(figsize=(20,10))
 ax1=fig.add_subplot(111, label="1")
 ax2=fig.add_subplot(111, label="1", frame_on=False)
 
-
 ax1.set_title('Total pruebas diagnosticas y casos detectados semalmente', fontsize=24)
 ax1.set_xlabel('fecha');  ax2.set_xlabel('fecha')
 ax1.set_ylabel('pruebas');  ax2.set_ylabel('casos')
-
 
 g1, = ax1.plot(DF_Pruebas_casos['desde'], DF_Pruebas_casos['TOTAL'], color='red', 
          linewidth=3, 
@@ -799,14 +791,32 @@ plt.figlegend((g1,g2),
 plt.show()
 ```
 
-
-
 ![png](/images/covid_madrid/output_35_1.png)
 
+El problema de este gráfico es que, a simple vista, puede llevarnos a conclusiones erronéas ya que si no nos fijamos bien en los ejes, da la impresión de que al final de la serie el número de contagios es mayor que el número de pruebas diagnósticas realizadas. Cosa que ni es cierta ni tendría sentido.
 
+Para evitar problemas con la interpretación, siempre podemos representar las dos series en dos gráficos distintos. 
 
 ```python
+plt.style.use(['classic'])
 
+DF_Pruebas_casos = DF_Pruebas_casos.sort_values(by='Fecha')
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize = (20,15))
+
+ax1.set_title('Pruebas realizadas (acumulado 7 días)', fontsize=15)
+ax2.set_title('Casos diagnosticados (acumulado 7 días)', fontsize=15)
+
+g1, = ax1.plot(DF_Pruebas_casos['desde'], DF_Pruebas_casos['TOTAL'], color='red', 
+         linewidth=3, 
+         label='pruebas realizadas')
+g2, = ax2.plot(DF_Pruebas_casos['desde'], DF_Pruebas_casos['acumulado semanal'], color='darkblue', 
+         linewidth=3, 
+         label='media movil 7 días')
+
+plt.show()
 ```
+
+
+![png](/images/covid_madrid/output_37_1.png)
 
        
