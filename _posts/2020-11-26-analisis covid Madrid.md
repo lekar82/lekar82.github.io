@@ -7,7 +7,7 @@
 * [Objetivo](#Objetivo)
 * [Librerías necesarias](#Librerías-necesarias)
 * [Datos de contagios](#Datos-de-contagios)
-
+* [Pruebas diagnosticas realizadas](#Pruebas-diagnosticas-realizadas)
 
 ## Objetivo
 
@@ -326,7 +326,12 @@ for i in range(len(lista_links_pruebas)):
     except  urllib.request.HTTPError:
         next
 ```
- Manualmente creamos el excel con la información que necesitamos y a continuación importamos los datos y echamos un ojo a ver que pinta tienen nuestros datos
+ Manualmente creamos el excel con la información que necesitamos y a continuación importamos los datos y echamos un ojo a ver que pinta tienen nuestros datos. 
+ 
+ Las variables de este dataframe son:
+ * desde y hasta: intervalo de tiempo al que se refieren los datos.
+ * PCR, TEST_RAPIDO_AC,OTRAS_PRUEBAS_AC : numero de cada tipo de pruebas realizadas       
+ * TOTAL: numero total de pruebas realizadas            
 
 ```python
 import pandas as pd
