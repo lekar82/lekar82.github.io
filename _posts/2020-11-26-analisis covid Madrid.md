@@ -8,6 +8,8 @@
 * [Librerías necesarias](#Librerías-necesarias)
 * [Datos de contagios](#Datos-de-contagios)
 * [Pruebas diagnosticas realizadas](#Pruebas-diagnosticas-realizadas)
+* [Análisis conjunto del número de contagios y las pruebas realizadas](Análisis-conjunto-del-número-de-contagios-y-las-pruebas-realizadas)
+* [UCI y defunciones](UCI-y-defunciones)
 
 ## Objetivo
 
@@ -19,6 +21,7 @@ Las fuentes que vamos a usar para realizar el estudio son:
 
 * [Página oficial de la comunidad de Madrid](https://www.comunidad.madrid/servicios/salud/2019-nuevo-coronavirus#situacion-epidemiologica-actual): donde tenemos datos diarios del número de contagios.
 * [Página oficial del Ministerio de Salud del Gobierno de España](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/): semanalmente publican en sus notas de presa los datos de pruebas realizadas.
+* [Epdata](https://www.epdata.es/datos/evolucion-coronavirus-cada-comunidad/518/madrid/304): página que nos ofrece datos de los ingresos diarios en UCI, falleciomientos...
 
 ## Librerías necesarias
 
@@ -29,6 +32,7 @@ import pandas as pd
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import string
 
 from bs4 import BeautifulSoup
 import urllib.request
@@ -846,7 +850,236 @@ g2, = ax2.plot(DF_Pruebas_casos['desde'], DF_Pruebas_casos['acumulado semanal'],
 plt.show()
 ```
 
-
 ![png](/images/covid_madrid/output_50_1.png)
 
-       
+## UCI y defunciones  
+
+Uno de los principales problemas que tiene la pandemia es lo agresivo que ha demostrado ser el virus. Analizamos a continuación la evolución del número de ingresados diariamente en UCI y el número de fallecimientos.
+
+Los datos se han obtenido de la página de datos [epdata](www.epdata.es) 
+
+Importamos la información relativa a las defunciones.
+
+```python
+df_muertos = pd.read_csv('datos/muertos_diarios_por_coron.csv', sep = ";")
+df_muertos.head(5)
+```
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Año</th>
+      <th>Periodo</th>
+      <th>Número de fallecidos por fecha de defunción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020</td>
+      <td>Día 1 de marzo</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020</td>
+      <td>Día 2 de marzo</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020</td>
+      <td>Día 3 de marzo</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020</td>
+      <td>Día 4 de marzo</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020</td>
+      <td>Día 5 de marzo</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+Vemos que la fecha viene como un string dificilmente convertible en datatime de una manera directa. Por ello, nos vamos a crear una nueva columna fecha a la que simplemente asginaremos valores tipo datetime de una manera secuencial:
+
+```python
+date_rng = pd.date_range(start='2020/03/01', end='2020/12/31', freq='D')
+date_rng
+```
+
+
+    DatetimeIndex(['2020-03-01', '2020-03-02', '2020-03-03', '2020-03-04',
+                   '2020-03-05', '2020-03-06', '2020-03-07', '2020-03-08',
+                   '2020-03-09', '2020-03-10',
+                   ...
+                   '2020-12-22', '2020-12-23', '2020-12-24', '2020-12-25',
+                   '2020-12-26', '2020-12-27', '2020-12-28', '2020-12-29',
+                   '2020-12-30', '2020-12-31'],
+                  dtype='datetime64[ns]', length=306, freq='D')
+
+
+```python
+df_muertos['fecha'] = date_rng[0:len(df_muertos)]
+df_muertos.head(5)
+```
+Vemos las 5 primeras lineas para comprobar que ha salido correctamente:
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Año</th>
+      <th>Periodo</th>
+      <th>Número de fallecidos por fecha de defunción</th>
+      <th>fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020</td>
+      <td>Día 1 de marzo</td>
+      <td>0</td>
+      <td>2020-03-01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020</td>
+      <td>Día 2 de marzo</td>
+      <td>0</td>
+      <td>2020-03-02</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020</td>
+      <td>Día 3 de marzo</td>
+      <td>1</td>
+      <td>2020-03-03</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020</td>
+      <td>Día 4 de marzo</td>
+      <td>0</td>
+      <td>2020-03-04</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020</td>
+      <td>Día 5 de marzo</td>
+      <td>1</td>
+      <td>2020-03-05</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+Y hacemos un info de la tabla de dato para comprobar que el tipo asociado a nuestras variables es el deseado:
+
+```python
+df_muertos.info()
+```
+
+    <class 'pandas.core.frame.DataFrame'>
+    RangeIndex: 274 entries, 0 to 273
+    Data columns (total 4 columns):
+     #   Column                                       Non-Null Count  Dtype         
+    ---  ------                                       --------------  -----         
+     0   Año                                          274 non-null    int64         
+     1   Periodo                                      274 non-null    object        
+     2   Número de fallecidos por fecha de defunción  274 non-null    int64         
+     3   fecha                                        274 non-null    datetime64[ns]
+    dtypes: datetime64[ns](1), int64(2), object(1)
+    memory usage: 8.7+ KB
+    
+Ahora repetimos el proceso con la información de los ingresos UCI
+
+
+
+```python
+df_UCI = pd.read_csv('datos/casos_que_han_requerido_uci.csv', sep = ";")
+df_UCI['fecha'] = date_rng[0:len(df_UCI)]
+df_UCI.info()
+```
+
+
+```
+
+    <class 'pandas.core.frame.DataFrame'>
+    RangeIndex: 275 entries, 0 to 274
+    Data columns (total 4 columns):
+     #   Column                                                Non-Null Count  Dtype         
+    ---  ------                                                --------------  -----         
+     0   Año                                                   275 non-null    int64         
+     1   Periodo                                               275 non-null    object        
+     2   Ingresos en UCI por coronavirus por fecha de ingreso  275 non-null    int64         
+     3   fecha                                                 275 non-null    datetime64[ns]
+    dtypes: datetime64[ns](1), int64(2), object(1)
+    memory usage: 8.7+ KB
+    
+Unimos las dos tablas y visualizamos los resultados
+
+```python
+df_uci_defunciones = df_UCI.merge(df_muertos,on = ['fecha'])
+```
+
+```python
+plt.clf()
+
+plt.style.use(['classic'])
+
+df_uci_defunciones = df_uci_defunciones.sort_values(by='fecha')
+fig, ax = plt.subplots(1, figsize=(24, 10))
+
+ax.plot(df_uci_defunciones['fecha'], df_uci_defunciones['Ingresos en UCI por coronavirus por fecha de ingreso'], color='red', 
+         linewidth=3, 
+         label='Ingresos diarios UCI')
+ax.plot(df_uci_defunciones['fecha'], df_uci_defunciones['Número de fallecidos por fecha de defunción'], color='darkblue', 
+         linewidth=3, 
+         label='Fallecimientos en hospitales')
+plt.title('Ingresos en UCI y fallecimientos en hospitales', fontsize = 24)
+plt.legend(fontsize=12)
+plt.show()
+```
+Al igual que vimos con las otras series analizadas, se puede ver perfectamente reflejadas las dos olas, sobre todo en el número de defunciones. Afortunadamente se observa que la segunda ola ha tenido efectos menos nefastos que la primera sobre nuestra población.
+
+![png](/images/covid_madrid/output_50_1.png)
