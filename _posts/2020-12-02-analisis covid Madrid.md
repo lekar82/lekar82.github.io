@@ -120,12 +120,10 @@ def extr_date(x):
     # nos coloque nuestros datos en una tabla de n_días * 3 columnas
     #return(datos_final)
     datos_np = np.array(datos_final).reshape(-1, 3)
-    
     datos_df = pd.DataFrame(datos_np,columns=['Fecha', 'dato_diario', 'acumulado'])
     datos_df['fecha_informe'] = file
     datos_df = datos_df[(datos_df['Fecha'] != 'Notificación') & (datos_df['Fecha'] != 'Fecha')] 
-        
-    
+           
     return(datos_df)
    ```
 Extraemos los datos 
@@ -361,8 +359,6 @@ for i in range(len(lista_links_pruebas)):
  * TOTAL: numero total de pruebas realizadas            
 
 ```python
-import pandas as pd
-
 df_diagnosticas = pd.read_excel('datos/PRUEBAS.xls')
 df_diagnosticas = df_diagnosticas.fillna(0) # los na suponemos que son semanas sin pruebas 
 df_diagnosticas.info()
@@ -386,8 +382,6 @@ df_diagnosticas.info()
 Y finalmente realizamos un gráfico para ver visualmente la evolución de los datos:
 
 ```python
-import matplotlib.pyplot as plt
-
 plt.style.use(['classic'])
 
 width = 3      # the width of the bars: can also be len(x) sequence
@@ -423,7 +417,6 @@ Antes de unir los dos dataframe tenemos que tener en cuenta que tenemos datos de
 
 ```python
 data_final_ultimo = data_final_ultimo.sort_values(by='Fecha')
-
 data_final_ultimo['acumulado semanal'] = data_final_ultimo['dato_diario'].rolling(min_periods=7, window=7).sum()
 ```
 Como podemos ver, en la fecha = '2020-03-02' hemos acumulado la incidencia observada en los 7 días. Ahora ya es comparable con el dato de pruebas realizadas entre el 2020-02-05 (desde) y el 2020-03-02 (hasta)
