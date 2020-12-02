@@ -46,7 +46,7 @@ import io
 
 Como hemos comentado, la Comunidad de Madrid en su página oficial publica los datos diaríos de contagios oficiales. Los informes están en formato pdf, por lo que haremos uso de la librería *Tabula* para extraer la información.
 
-A la fecha de realización de este análisis, el último pdf disponible es el correspondiente al 23 de Noviembre de 2020. Mediante el uso de la librería urllib accederemos a la página donde está contenido dicho pdf, y luego con las librerías io y pyPdf2 guardaremos el pdf en nuestro ordenador.
+A la fecha de realización de este análisis, el último pdf disponible es el correspondiente al 30 de Noviembre de 2020. Mediante el uso de la librería urllib accederemos a la página donde está contenido dicho pdf, y luego con las librerías io y pyPdf2 guardaremos el pdf en nuestro ordenador.
 
 ```python
 url = "https://www.comunidad.madrid/sites/default/files/doc/sanidad/201124_cam_covid19.pdf"
@@ -71,17 +71,21 @@ A continuación, haciendo uso de la librería Tabula, extraeremos la informació
 ```python
 def extr_date(x):
     datos = []
+    datos_final = []
+
     df = tabula.read_pdf(x, pages = "all", multiple_tables = True)
     for num_col in range(9):
-        df2 = df[num_col].dropna(axis=1, how='all')   
+        df2 = df[num_col].dropna(axis=0, how='all')   
         try:
             # la primera celda de nuestro dataframe es una fecha.
             # la primera celda puede ser dato, 'Fecha' o 'Notificación', según la hoja en la que estemos
             # queremos únicamente los datos por lo que empezaremos a guardar a partir de la primera celda que tenga datos.
             a = str(df2.columns[0])
             df2 = df2.loc[(df2[a] != 'Fecha') & (df2[a] != 'Notificación')].dropna(axis=1, how='all') 
-            #print(num_col, len(df2.columns))
-            #los df con 9 o más columnas son las que contienen nuestros datos:
+            print(num_col, len(df2.columns))
+            #las hojas con 9 o más columnas son las que contienen nuestros datos:
+            
+                
             if(len(df2.columns) >= 9): 
                 columnas = list(df2)
                 # entre los datos se ha observado que se han exportado NaN, posiblemente debido a espacios en blanco
@@ -90,23 +94,40 @@ def extr_date(x):
                     for i in columnas:
                         if str(df2[i].iloc[j]) != 'nan':
                             datos.append(df2[i].iloc[j])
-            
+            #en algunos casos, se ha observado que el pdf no separa bien los datos de la primera tabla, 
+            #úniendo dos valores en un record separado por espacio. Solucionamos eso tambíen                
+            elif (len(df2.columns) == 8):
+                if df2.columns[0] == 'Fecha Total':
+                    columnas_1_2 = df2['Fecha Total'].str.split(" ", n = 1, expand = True) 
+                    df2["col1"]= columnas_1_2[0]
+                    df2["col2"]= columnas_1_2[1]
+                    columnas = list(df2)
+                    for j in range(len(df2)):
+                        for i in columnas:
+                            datos.append(df2[i].iloc[j])
+
         except IndexError:
             next
-        
-    # por último, sabemos que nuestros tenemos 3 datos para cada row, hacemos un resaphe de la lista de manera que 
+    # eliminamos todo el texto  
+    for item in datos:
+        if item not in ['Fecha', 'Total', 'Notificación','Diario', 'Acumulado' ]:
+            datos_final.append(item)
+     # por último, sabemos que nuestros tenemos 3 datos para cada row, hacemos un resaphe de la lista de manera que 
     # nos coloque nuestros datos en una tabla de n_días * 3 columnas
-    datos_np = np.array(datos).reshape(-1, 3)
+    #return(datos_final)
+    datos_np = np.array(datos_final).reshape(-1, 3)
+    
     datos_df = pd.DataFrame(datos_np,columns=['Fecha', 'dato_diario', 'acumulado'])
     datos_df['fecha_informe'] = file
     datos_df = datos_df[(datos_df['Fecha'] != 'Notificación') & (datos_df['Fecha'] != 'Fecha')] 
         
-   return(datos_df)
+    
+    return(datos_df)
    ```
 Extraemos los datos 
 
 ```python
-file = 'datos/Informe de situación 24 de noviembre 2020.pdf'
+file = 'datos/Informe de situación 30 de noviembre 2020.pdf'
 data_final_ultimo = extr_date(file)
 ```
 Analizamos las variables de nuestro dataframe.
@@ -124,12 +145,12 @@ data_final_ultimo.info()
     Data columns (total 4 columns):
      #   Column         Non-Null Count  Dtype 
     ---  ------         --------------  ----- 
-     0   Fecha          273 non-null    object
-     1   dato_diario    273 non-null    object
-     2   acumulado      273 non-null    object
-     3   fecha_informe  273 non-null    object
+     0   Fecha          279 non-null    object
+     1   dato_diario    279 non-null    object
+     2   acumulado      279 non-null    object
+     3   fecha_informe  279 non-null    object
     dtypes: object(4)
-    memory usage: 10.7+ KB
+    memory usage: 10.9+ KB
     
 Como podemos observar, todas las variables son de tipo string ahora mismo. Cambiamos los tipos:
 
@@ -140,18 +161,17 @@ data_final_ultimo["Fecha"] = data_final_ultimo["Fecha"].str.replace(' ', '')
 data_final_ultimo["Fecha"] = pd.to_datetime(data_final_ultimo["Fecha"], format="%d/%m/%Y")
 data_final_ultimo.info()
 ```
-
     <class 'pandas.core.frame.DataFrame'>
-    Int64Index: 273 entries, 0 to 272
+    Int64Index: 279 entries, 0 to 278
     Data columns (total 4 columns):
      #   Column         Non-Null Count  Dtype         
     ---  ------         --------------  -----         
-     0   Fecha          273 non-null    datetime64[ns]
-     1   dato_diario    273 non-null    float64       
-     2   acumulado      273 non-null    float64       
-     3   fecha_informe  273 non-null    object        
+     0   Fecha          279 non-null    datetime64[ns]
+     1   dato_diario    279 non-null    float64       
+     2   acumulado      279 non-null    float64       
+     3   fecha_informe  279 non-null    object        
     dtypes: datetime64[ns](1), float64(2), object(1)
-    memory usage: 10.7+ KB
+    memory usage: 10.9+ KB
     
 ```python
 data_final_ultimo.head()
@@ -187,39 +207,42 @@ data_final_ultimo.head()
       <td>2020-02-25</td>
       <td>2.0</td>
       <td>2.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
     </tr>
     <tr>
       <th>1</th>
       <td>2020-04-12</td>
       <td>408.0</td>
-      <td>56564.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>56595.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2020-05-29</td>
-      <td>522.0</td>
-      <td>84376.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>525.0</td>
+      <td>84628.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
     </tr>
     <tr>
       <th>3</th>
       <td>2020-02-26</td>
       <td>5.0</td>
       <td>7.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
     </tr>
     <tr>
       <th>4</th>
       <td>2020-04-13</td>
-      <td>1209.0</td>
-      <td>57773.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>1208.0</td>
+      <td>57803.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
     </tr>
   </tbody>
 </table>
 </div>
+
+
+Haciendo uso de la librería matplotlib, vamos a graficar nuestros datos
 
 ```python
 datos_df = data_final_ultimo.sort_values(by='Fecha')
@@ -239,7 +262,7 @@ plt.ylabel('Numero de contagios', fontsize=50)
 
 ![png](/images/covid_madrid/output_18_1.png)
 
-Vamos a añadir al gráfici una linea suavizada que nos permita ver mejor la tendencia de nuestros datos. Para ello usamos la función rolling. Hay que acordarse de ordenar previamente los datos para que el resultado sea el deseado
+Vamos a añadir al gráfico una linea suavizada que nos permita ver mejor la tendencia de nuestros datos. Para ello usamos la función rolling. Hay que acordarse de ordenar previamente los datos para que el resultado sea el deseado
 
 ```python
 data_final_ultimo = data_final_ultimo.sort_values(by='Fecha')
@@ -273,13 +296,13 @@ plt.ylabel('Numero de contagios', fontsize=50)
 
 plt.legend(fontsize=40)
 ```
-En el gráfico se observa perfectamente las dos olas reflejadas y como la incidencia en cuanto a número de contagios detectados en la segunda ola ha sido muy superior a la de la primera. ¿Eso significa que la situación en la segunda ola ha sido mucho peor? no necesariamente, simplemente nos indica que se han detectado más casos.
+En el gráfico se observa perfectamente las dos olas reflejadas y como la incidencia en cuanto a número de contagios detectados en la segunda ola ha sido muy superior a la de la primera. ¿Eso significa que la situación en la segunda ola ha sido mucho peor? no necesariamente, simplemente nos indica que se han detectado más casos. 
 
 ![png](/images/covid_madrid/output_21_1.png)
 
 ## Pruebas diagnosticas realizadas.
 
-La información de las pruebas diagnósticas la podemos encontraer el la página del Ministerio de Sanidad del Gobierno de España. En este caso, el último informe no diene los informes anteriores, por lo que tendremos que consultar todos y cada uno de los informes. Tampoco en este caso disponemos de datos diarios, los datos que nos ofrece el ministerio son agregaciones semanales.
+La información de las pruebas diagnósticas la podemos encontrar en la página del Ministerio de Sanidad del Gobierno de España. En este caso, no tenemos un informa diario que acumule los datos de los informes anteriores como nos pasaba con el número de contagios, por lo que tendremos que consultar todos y cada uno de los informes. Tampoco en este caso disponemos de datos diarios, los datos que nos ofrece el ministerio son agregaciones semanales.
 
 Los pdfs no son fáciles de localizar en la página web, afortunadamente todos los enlaces a los pdfs tienen una misma estructura, por lo que hemos podido realizar un script que nos permita descargar todos. Desafortunadamente, no todos los pdfs tienen la misma estructura por lo que no ha sido posible crear una función para extraer toda la información, de hecho, en algunos de los pdf los datos están en formato imagen en vez de tabla. Por ello, y dado que no son muchos pdfs, se ha creado a mano un excel con la información.
 
@@ -342,19 +365,19 @@ df_diagnosticas.info()
 ```
 
     <class 'pandas.core.frame.DataFrame'>
-    RangeIndex: 29 entries, 0 to 28
+    RangeIndex: 30 entries, 0 to 29
     Data columns (total 7 columns):
      #   Column            Non-Null Count  Dtype         
     ---  ------            --------------  -----         
-     0   desde             29 non-null     datetime64[ns]
-     1   hasta             29 non-null     datetime64[ns]
-     2   PCR               29 non-null     int64         
-     3   TEST_RAPIDO_AC    29 non-null     int64         
-     4   PRAg              29 non-null     int64         
-     5   OTRAS_PRUEBAS_AC  29 non-null     int64         
-     6   TOTAL             29 non-null     int64         
+     0   desde             30 non-null     datetime64[ns]
+     1   hasta             30 non-null     datetime64[ns]
+     2   PCR               30 non-null     int64         
+     3   TEST_RAPIDO_AC    30 non-null     int64         
+     4   PRAg              30 non-null     int64         
+     5   OTRAS_PRUEBAS_AC  30 non-null     int64         
+     6   TOTAL             30 non-null     int64         
     dtypes: datetime64[ns](2), int64(5)
-    memory usage: 1.7 KB
+    memory usage: 1.8 KB
     
 Y finalmente realizamos un gráfico para ver visualmente la evolución de los datos:
 
@@ -388,6 +411,7 @@ plt.show()
 
 ![png](/images/covid_madrid/output_30_0.png)
 
+Viendo el gráfico, da la impresión de que en las últimas semanas la tendencia en el número de pruebas es cecreciente. 
 
 ## Análisis conjunto del número de contagios y las pruebas realizadas
 
@@ -436,7 +460,7 @@ data_final_ultimo.head(7)
       <td>2020-02-25</td>
       <td>2.0</td>
       <td>2.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
@@ -445,16 +469,16 @@ data_final_ultimo.head(7)
       <td>2020-02-26</td>
       <td>5.0</td>
       <td>7.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
     <tr>
       <th>6</th>
       <td>2020-02-27</td>
-      <td>4.0</td>
-      <td>11.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>5.0</td>
+      <td>12.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
@@ -462,8 +486,8 @@ data_final_ultimo.head(7)
       <th>9</th>
       <td>2020-02-28</td>
       <td>13.0</td>
-      <td>24.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>25.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
@@ -471,8 +495,8 @@ data_final_ultimo.head(7)
       <th>12</th>
       <td>2020-02-29</td>
       <td>11.0</td>
-      <td>35.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>36.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
@@ -480,8 +504,8 @@ data_final_ultimo.head(7)
       <th>15</th>
       <td>2020-03-01</td>
       <td>26.0</td>
-      <td>61.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
+      <td>62.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
@@ -489,14 +513,15 @@ data_final_ultimo.head(7)
       <th>18</th>
       <td>2020-03-02</td>
       <td>47.0</td>
-      <td>108.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>15.428571</td>
-      <td>108.0</td>
+      <td>109.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
+      <td>15.571429</td>
+      <td>109.0</td>
     </tr>
   </tbody>
 </table>
 </div>
+
 
 Ahora, unimos las dos tablas por la fecha hasta, quedandonos únicamente con las fechas que encontramos en la tabla de pruebas diagnósticas
 
@@ -750,7 +775,7 @@ ax1.set_ylim(0, 200000), ax2.set_ylim(0,  200000)  # y axis limits
 plt.show()
 ```
 
-![png](/images/covid_madrid/output_34_1.png)
+![png](/images/covid_madrid/output_49_1.png)
 
 Dada la diferencia en los números, vamos a probar a hacer un gráfico situando cada una de las series un un eje y distinto.
 
@@ -796,7 +821,7 @@ plt.figlegend((g1,g2),
 plt.show()
 ```
 
-![png](/images/covid_madrid/output_35_1.png)
+![png](/images/covid_madrid/output_51_1.png)
 
 El problema de este gráfico es que, a simple vista, puede llevarnos a conclusiones erronéas ya que si no nos fijamos bien en los ejes, da la impresión de que al final de la serie el número de contagios es mayor que el número de pruebas diagnósticas realizadas. Cosa que ni es cierta ni tendría sentido.
 
@@ -822,6 +847,6 @@ plt.show()
 ```
 
 
-![png](/images/covid_madrid/output_37_1.png)
+![png](/images/covid_madrid/output_50_1.png)
 
        
