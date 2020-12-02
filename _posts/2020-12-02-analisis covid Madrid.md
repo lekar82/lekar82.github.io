@@ -531,7 +531,7 @@ Ahora, unimos las dos tablas por la fecha hasta, quedandonos únicamente con las
 
 ```python
 DF_Pruebas_casos = data_final_ultimo.merge(df_diagnosticas, how='right', right_on = ['hasta'], left_on = ['Fecha'])
-DF_Pruebas_casos.sort_values(by='Fecha').head(10)
+DF_Pruebas_casos.sort_values(by='Fecha').head(3)
 ```
 
 <div>
@@ -571,11 +571,11 @@ DF_Pruebas_casos.sort_values(by='Fecha').head(10)
     <tr>
       <th>0</th>
       <td>2020-05-07</td>
-      <td>588.0</td>
-      <td>75069.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>494.285714</td>
-      <td>3460.0</td>
+      <td>599.0</td>
+      <td>75214.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
+      <td>499.857143</td>
+      <td>3499.0</td>
       <td>2020-05-01</td>
       <td>2020-05-07</td>
       <td>61000</td>
@@ -587,11 +587,11 @@ DF_Pruebas_casos.sort_values(by='Fecha').head(10)
     <tr>
       <th>1</th>
       <td>2020-05-14</td>
-      <td>667.0</td>
-      <td>78476.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>486.714286</td>
-      <td>3407.0</td>
+      <td>677.0</td>
+      <td>78657.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
+      <td>491.857143</td>
+      <td>3443.0</td>
       <td>2020-05-08</td>
       <td>2020-05-14</td>
       <td>63915</td>
@@ -603,11 +603,11 @@ DF_Pruebas_casos.sort_values(by='Fecha').head(10)
     <tr>
       <th>2</th>
       <td>2020-05-21</td>
-      <td>407.0</td>
-      <td>81080.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>372.000000</td>
-      <td>2604.0</td>
+      <td>414.0</td>
+      <td>81303.0</td>
+      <td>datos/Informe de situación 30 de noviembre 202...</td>
+      <td>378.000000</td>
+      <td>2646.0</td>
       <td>2020-05-15</td>
       <td>2020-05-21</td>
       <td>60579</td>
@@ -616,124 +616,9 @@ DF_Pruebas_casos.sort_values(by='Fecha').head(10)
       <td>0</td>
       <td>72680</td>
     </tr>
-    <tr>
-      <th>3</th>
-      <td>2020-05-28</td>
-      <td>542.0</td>
-      <td>83854.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>396.285714</td>
-      <td>2774.0</td>
-      <td>2020-05-22</td>
-      <td>2020-05-28</td>
-      <td>74070</td>
-      <td>10835</td>
-      <td>0</td>
-      <td>0</td>
-      <td>84905</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2020-06-04</td>
-      <td>467.0</td>
-      <td>86730.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>410.857143</td>
-      <td>2876.0</td>
-      <td>2020-05-29</td>
-      <td>2020-06-04</td>
-      <td>76314</td>
-      <td>7636</td>
-      <td>0</td>
-      <td>0</td>
-      <td>83950</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>2020-06-11</td>
-      <td>433.0</td>
-      <td>89137.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>343.857143</td>
-      <td>2407.0</td>
-      <td>2020-06-05</td>
-      <td>2020-06-11</td>
-      <td>38372</td>
-      <td>4383</td>
-      <td>0</td>
-      <td>0</td>
-      <td>42755</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>2020-06-18</td>
-      <td>424.0</td>
-      <td>91408.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>324.428571</td>
-      <td>2271.0</td>
-      <td>2020-06-12</td>
-      <td>2020-06-18</td>
-      <td>35823</td>
-      <td>4242</td>
-      <td>0</td>
-      <td>0</td>
-      <td>40065</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>2020-06-25</td>
-      <td>358.0</td>
-      <td>93433.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>289.285714</td>
-      <td>2025.0</td>
-      <td>2020-06-19</td>
-      <td>2020-06-25</td>
-      <td>37667</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>37667</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>2020-07-02</td>
-      <td>290.0</td>
-      <td>95205.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>253.142857</td>
-      <td>1772.0</td>
-      <td>2020-06-26</td>
-      <td>2020-07-02</td>
-      <td>25833</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>25833</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>2020-07-09</td>
-      <td>277.0</td>
-      <td>96820.0</td>
-      <td>datos/Informe de situación 24 de noviembre 202...</td>
-      <td>230.714286</td>
-      <td>1615.0</td>
-      <td>2020-07-03</td>
-      <td>2020-07-09</td>
-      <td>32520</td>
-      <td>123</td>
-      <td>0</td>
-      <td>3925</td>
-      <td>36568</td>
-    </tr>
   </tbody>
 </table>
 </div>
-
-
-
 
 ```python
 plt.style.use(['classic'])
@@ -744,11 +629,8 @@ fig=plt.figure(figsize=(20,10))
 ax1=fig.add_subplot(111, label="1")
 ax2=fig.add_subplot(111, label="1", frame_on=False)
 
-
 ax1.set_title('Total pruebas diagnosticas y casos detectados semalmente', fontsize=24)
 ax1.set_xlabel('fecha');  ax2.set_xlabel('fecha')
-#ax1.set_ylabel('pruebas');  ax2.set_ylabel('casos')
-
 
 g1, = ax1.plot(DF_Pruebas_casos['desde'], DF_Pruebas_casos['TOTAL'], color='red', 
          linewidth=3, 
@@ -758,17 +640,6 @@ g2, = ax2.plot(DF_Pruebas_casos['desde'], DF_Pruebas_casos['acumulado semanal'],
          label='media movil 7 días')
 
 ax1.set_xlabel("Fecha")
-#ax1.set_ylabel("miles de pruebas" ,fontsize=15)
-#ax1.tick_params(axis='x')
-#ax1.tick_params(axis='y')
-
-#ax2.yaxis.tick_right()
-#ax2.set_ylabel('Casos diagnosticados',fontsize=15)       
-#ax2.yaxis.set_label_position('right') 
-#ax2.tick_params(axis='y')
-
-#ax1.yaxis.set_label_position('left') 
-#ax2.yaxis.set_label_position('right') 
 
 plt.figlegend((g1,g2), 
               (r'pruebas realizadas (acumulado 7 días)',r'casos diagnosticados (acumulado 7 días)'), 
@@ -779,7 +650,7 @@ ax1.set_ylim(0, 200000), ax2.set_ylim(0,  200000)  # y axis limits
 plt.show()
 ```
 
-![png](/images/covid_madrid/output_49_1.png)
+![png](/images/covid_madrid/output_57_1.png)
 
 Dada la diferencia en los números, vamos a probar a hacer un gráfico situando cada una de las series un un eje y distinto.
 
@@ -820,12 +691,10 @@ plt.figlegend((g1,g2),
               (r'pruebas realizadas (acumulado 7 días)',r'casos diagnosticados (acumulado 7 días)'), 
               loc=(0.095, 0.8))
 
-#ax1.set_ylim(0, 200000), ax2.set_ylim(0,  200000)  # y axis limits
-#plt.tight_layout()
 plt.show()
 ```
 
-![png](/images/covid_madrid/output_51_1.png)
+![png](/images/covid_madrid/output_59_1.png)
 
 El problema de este gráfico es que, a simple vista, puede llevarnos a conclusiones erronéas ya que si no nos fijamos bien en los ejes, da la impresión de que al final de la serie el número de contagios es mayor que el número de pruebas diagnósticas realizadas. Cosa que ni es cierta ni tendría sentido.
 
@@ -850,7 +719,7 @@ g2, = ax2.plot(DF_Pruebas_casos['desde'], DF_Pruebas_casos['acumulado semanal'],
 plt.show()
 ```
 
-![png](/images/covid_madrid/output_50_1.png)
+![png](/images/covid_madrid/output_58_1.png)
 
 ## UCI y defunciones  
 
@@ -864,8 +733,6 @@ Importamos la información relativa a las defunciones.
 df_muertos = pd.read_csv('datos/muertos_diarios_por_coron.csv', sep = ";")
 df_muertos.head(5)
 ```
-
-
 
 <div>
 <style scoped>
