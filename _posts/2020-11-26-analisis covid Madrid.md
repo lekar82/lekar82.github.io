@@ -1033,15 +1033,10 @@ df_muertos.info()
     
 Ahora repetimos el proceso con la información de los ingresos UCI
 
-
-
 ```python
 df_UCI = pd.read_csv('datos/casos_que_han_requerido_uci.csv', sep = ";")
 df_UCI['fecha'] = date_rng[0:len(df_UCI)]
 df_UCI.info()
-```
-
-
 ```
 
     <class 'pandas.core.frame.DataFrame'>
@@ -1082,4 +1077,4 @@ plt.show()
 ```
 Al igual que vimos con las otras series analizadas, se puede ver perfectamente reflejadas las dos olas, sobre todo en el número de defunciones. Afortunadamente se observa que la segunda ola ha tenido efectos menos nefastos que la primera sobre nuestra población.
 
-![png](/images/covid_madrid/output_50_1.png)
+![png](/images/covid_madrid/output_51_1.png)
