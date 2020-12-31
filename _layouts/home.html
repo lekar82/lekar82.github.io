@@ -2,7 +2,7 @@
 layout: archive
 ---
 
-<h3 class="archive__subtitle">Últimos proyectos</h3>
+<h3 class="archive__subtitle">Últimos proyectos Python</h3>
 
 {% for post in paginator.posts %}
   {% include archive-single.html %}
@@ -10,4 +10,10 @@ layout: archive
 
 {% include paginator.html %}
 
+<h3 class="archive__subtitle">Últimos proyectos HTML</h3>
 
+{% for post in paginator.postsHTML %}
+  {% include archive-single.html %}
+{% endfor %}
+
+{% include paginator.html %}
