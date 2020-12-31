@@ -1,6 +1,6 @@
 ---
 layout: posts
-permalink: /data-wrangling-python/
+permalink: /data-wrangling/
 title: "Proyectos Python"
 author_profile: true
 header:
