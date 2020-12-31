@@ -2,8 +2,10 @@
 main:
   - title: "Acerca de mi"
     url: /about/
-  - title: "Data Wrangling Projects"
-    url: /data-wrangling/
+  - title: "Proyectos Python"
+    url: /data-wrangling-python/
+  - title: "Proyectos HTML"
+    url: /data-wrangling-python/
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"
