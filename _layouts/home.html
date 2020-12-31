@@ -11,7 +11,7 @@ layout: archive
 {% include paginator.html %}
 
 
-<h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts HTML" }}</h3>
+<h3 class="archive__subtitle">HTML</h3>
 
 {% for post in paginator.posts/HTML/ %}
   {% include archive-single.html %}
