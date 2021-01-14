@@ -26,9 +26,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-import ruptures as rpt
-from tabula.io import read_pdf
-from PyPDF2 import PdfFileWriter, PdfFileReader
 import io
 
 import math
@@ -86,5 +83,28 @@ plt.ylabel('Nuestros valores', fontsize=50)
 
 ![png](/images/Chaingpoints_bayes/output_5_1.png)
 
-Como podemos observar, 
+Como podemos observar, aunque hemos definido nuetro paramentro num igual a 7, visualmente da la impresión de que tenemos 6 cambios.
+
+A continuación, vamos a detectar los puntos de cambio usando el método Bayesiano offline:
+
+
+
+```python
+Q, P, Pcp = offcd.offline_changepoint_detection(datos_ficticios, 
+                                                partial(offcd.const_prior, l=(len(datos_ficticios)+1)), 
+                                                offcd.gaussian_obs_log_likelihood, truncate=-40)
+```
+
+
+```python
+fig, ax = plt.subplots(figsize=[18, 16])
+ax = fig.add_subplot(2, 1, 1)
+ax.plot(datos_ficticios[:])
+ax = fig.add_subplot(2, 1, 2, sharex=ax)
+ax.plot(np.exp(Pcp).sum(0))
+```
+
+    
+![png](/images/Chaingpoints_bayes/output_7_1.png)
+
 
