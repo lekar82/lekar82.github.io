@@ -8,7 +8,7 @@
 
 * [Objetivo](#Objetivo)
 * [Librerías necesarias](#Librerías-necesarias)
-* [Datos](#Datos)
+* [Aplicación en datos simulados](#Aplicación-en-datos-simulados)
 
 ## Objetivo
 
@@ -26,8 +26,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-#! pip install PyPDF2
-
 import ruptures as rpt
 from tabula.io import read_pdf
 from PyPDF2 import PdfFileWriter, PdfFileReader
@@ -41,4 +39,52 @@ import bayesian_changepoint_detection.online_changepoint_detection as oncd
 from functools import partial
 
 ```
+
+## Aplicación en datos simulados  
+
+Vamos a empezar creando una serie aleatoria de datos de datos. En cada tramo o partición los datos serán generados por una distribución normal, en la que tanto el número de elementos de la muestra como los parámetros (media y varianza) se calcularán de una manera aleatoria.
+
+*Definimos nuestra función para generar series:*
+
+```python
+def generate_normal_time_series(num, minl=50, maxl=1000):
+    data = np.array([], dtype=np.float64)
+    partition = np.random.randint(minl, maxl, num)
+    print(partition)
+    for p in partition:
+        mean = np.random.randn()*10
+        var = np.random.randn()*1
+        if var < 0:
+            var = var * -1
+        tdata = np.random.normal(mean, var, p)
+        data = np.concatenate((data, tdata))
+    return data
+```
+Donde *num* es el número de particiones que queremos que tenga nuestra serie. y *minl* y *maxl* es el número múnimo y máximo de datos que tendremos en cada una de esas particiones.
+
+
+Generamos una serie con 7 puntos de cambio, cada una de las cuales con entre 50 y 200 valores
+
+```python
+datos_ficticios = generate_normal_time_series(7, 50, 200)
+```
+Nuestra función ha creado las particiones de la siguiente manera:
+
+    [ 70 182 113 162 161 161  88]
+    
+Graficamos nuestros datos para ver que pinta tienen:
+
+```python
+plt.figure(figsize=(60,20))
+plt.plot(datos_ficticios,color = 'darkblue',)
+
+plt.title('Serie datos ficticios', fontsize = 60)
+
+plt.xlabel('indice', fontsize=50)
+plt.ylabel('Nuestros valores', fontsize=50)
+```
+
+![png](/images/Chaingpoints_bayes/output_5_1.png)
+
+Como podemos observar, 
 
