@@ -20,17 +20,18 @@ Uno u otro método se usará dependiendo del objetivo del análisis. Los método
 
 ## Librerias
 
+```python
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
+#! pip install PyPDF2
+
 import ruptures as rpt
 from tabula.io import read_pdf
-#import tabula
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import io
-
 
 import math
 
@@ -38,4 +39,6 @@ import cProfile
 import bayesian_changepoint_detection.offline_changepoint_detection as offcd
 import bayesian_changepoint_detection.online_changepoint_detection as oncd
 from functools import partial
+
+```
 
