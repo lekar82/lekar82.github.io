@@ -85,9 +85,7 @@ plt.ylabel('Nuestros valores', fontsize=50)
 
 Como podemos observar, aunque hemos definido nuetro paramentro num igual a 7, visualmente da la impresión de que tenemos 6 cambios.
 
-A continuación, vamos a detectar los puntos de cambio usando el método Bayesiano offline:
-
-
+A continuación, vamos a detectar los puntos de cambio usando el método **Bayesiano offline**:
 
 ```python
 Q, P, Pcp = offcd.offline_changepoint_detection(datos_ficticios, 
@@ -95,6 +93,7 @@ Q, P, Pcp = offcd.offline_changepoint_detection(datos_ficticios,
                                                 offcd.gaussian_obs_log_likelihood, truncate=-40)
 ```
 
+Graficamos los resultados:
 
 ```python
 fig, ax = plt.subplots(figsize=[18, 16])
@@ -103,8 +102,48 @@ ax.plot(datos_ficticios[:])
 ax = fig.add_subplot(2, 1, 2, sharex=ax)
 ax.plot(np.exp(Pcp).sum(0))
 ```
-
     
 ![png](/images/Chaingpoints_bayes/output_7_1.png)
+
+Obsevamos en la parte de arriba la serie, y en la parte de abajo los cambios detectados y su intensidad. 
+
+Si, por ejemplo, definimos los cambios como aquellos con una intensidad mayor a 0.8, podemos obtener los puntos de cambio como sigue:
+
+```python
+test = pd.DataFrame(np.exp(Pcp).sum(0))
+test.columns = ['valores']
+breaks = test[test['valores'] >= 0.8].index
+breaks
+```
+    Int64Index([77, 78, 231, 372, 373, 490, 629, 630], dtype='int64')
+
+Aunque en este ejemplo no tiene sentido ya que disponemos ya de todos los datos, vamos a aplicar el método **Bayesiano online** para ver las diferencias:
+
+
+
+```python
+R, maxes = oncd.online_changepoint_detection(datos_ficticios, 
+                                             partial(oncd.constant_hazard, 250), 
+                                             oncd.StudentT(0.1, .01, 1, 0))
+```
+
+
+```python
+fig, ax = plt.subplots(figsize=[18, 16])
+ax = fig.add_subplot(3, 1, 1)
+ax.plot(datos_ficticios)
+ax = fig.add_subplot(3, 1, 2, sharex=ax)
+sparsity = 5  # only plot every fifth data for faster display
+ax.pcolor(np.array(range(0, len(R[:,0]), sparsity)), 
+          np.array(range(0, len(R[:,0]), sparsity)), 
+          -np.log(R[0:-1:sparsity, 0:-1:sparsity]), 
+          cmap=cm.Greys, vmin=0, vmax=30)
+ax = fig.add_subplot(3, 1, 3, sharex=ax)
+Nw=10;
+ax.plot(R[Nw,Nw:-1])
+```
+
+    
+![png](/images/Chaingpoints_bayes/output_38_2.png)
 
 
