@@ -1,6 +1,5 @@
 <style> div { font-family:"Arial"; font-size: 18px; } </style>
 
-# WORK IN PROGRESS....
 
 # Detección de changepoints 1: método bayesiano
 
@@ -217,6 +216,7 @@ data_final_ultimo = data_final_ultimo.sort_values(by='Fecha')
 data_covid = np.array(data_final_ultimo["dato_diario"])
 
 ```
+Graficamos nuestros datos. Podemos ver claramente representadas las 3 olas que, hasta la fecha, hemos tenido de Covid.
 
 
 ```python
@@ -230,12 +230,9 @@ plt.ylabel('Nuestros valores', fontsize=50)
 ```
 
 
-
-
-    Text(0, 0.5, 'Nuestros valores')
-
-
 ![png](/images/Chaingpoints_bayes/output_15_1.png)
+
+Aplicamos el **método Bayesiano offline** para definir nuestros puntos de ruptura. 
     
 ```python
 Q, P, Pcp = offcd.offline_changepoint_detection(data_covid, 
@@ -250,10 +247,16 @@ ax = fig.add_subplot(2, 1, 1)
 ax.plot(data_covid[:])
 ax = fig.add_subplot(2, 1, 2, sharex=ax)
 ax.plot(np.exp(Pcp).sum(0))
+
+plt.axhline(y=0.4, color='r', linestyle='-')
 ```
 
+Si elegimos como valor crítico 0.4, obtendríamos 4 puntos de rutura:
 
-![png](/images/Chaingpoints_bayes/output_18_1.png)
+
+![png](/images/Chaingpoints_bayes/output_18_1_2.png)
+
+Una vez hemos definido los puntos, aplicamos el aplicaríamos el **método bayesiano online** sobre nuestros datos futuros para detectar los nuevos cambios según se produzcan. En nuestro caso lo aplicaremos sobre la misma serie ya que no disponemos de datos en real time.
 
 
 ```python
@@ -277,7 +280,8 @@ ax = fig.add_subplot(3, 1, 3, sharex=ax)
 Nw=10;
 ax.plot(R[Nw,Nw:-1])
 ```
-
-
+Podemos observar como el algoritmo habría detectado el comienzo de las 3 olas:
 
 ![png](/images/Chaingpoints_bayes/output_23_2.png)
+
+
