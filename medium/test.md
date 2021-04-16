@@ -1,3 +1,4 @@
+```python
 local = []
 visitante = []
 metricas = []
@@ -19,3 +20,4 @@ for j in soup2.find_all('div', attrs={'class':'stat'}):
     if nombre_metrica != None:
         nombre_metrica = str(nombre_metrica).replace('<div class="name">', '').replace('</div>', '')
         metricas.append(nombre_metrica)
+```
